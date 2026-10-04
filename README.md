@@ -15,7 +15,7 @@ every LineageOS device tree builds nasgorOS without modification.
 |---|---|
 | `config/version.mk` | nasgorOS version and `ro.nasgoros.*` properties |
 | `config/common.mk` | Common nasgorOS product configuration |
-| `build/tasks/nasgoros.mk` | `mka nasgoros` target producing `nasgorOS-<version>.zip` |
+| `build/tasks/nasgoros.mk` | `mka nasgoros` target producing `NasgorOS-17.0-<date>-<type>-<device>.zip` and `NasgorOS-Recovery-17.0-<date>.img` |
 
 ## Building
 
@@ -28,4 +28,4 @@ breakfast merlinx
 mka nasgoros
 ```
 
-Set `NASGOROS_BUILDTYPE=OFFICIAL` (or `BETA`) for non-UNOFFICIAL builds.
+Set `NASGOROS_BUILDTYPE=OFFICIAL` for official builds (default `UNOFFICIAL`).
