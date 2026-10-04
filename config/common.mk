@@ -20,6 +20,10 @@ TARGET_BOOTANIMATION := vendor/nasgoros/bootanimation/bootanimation.zip
 PRODUCT_PACKAGE_OVERLAYS += vendor/nasgoros/overlay/branding
 PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/nasgoros/overlay/branding
 
+# Settings > NasgorOS (packages/apps/NasgorSettings)
+PRODUCT_PACKAGES += \
+    NasgorSettings
+
 # Apps removed from NasgorOS (see FEATURES.md)
 PRODUCT_PACKAGES += \
     NasgorRemovePackages

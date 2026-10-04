@@ -18,6 +18,7 @@ LineageOS rebases and Android upgrades (17.0 → 18.0) with little or no work.
 | Boot animation | 1 | `bootanimation/`, `TARGET_BOOTANIMATION` in `config/common.mk` | relies on LineageOS `TARGET_BOOTANIMATION`; regenerate with `bootanimation/generate.py` |
 | "LineageOS" → "NasgorOS" in all locales | 1 | `overlay/branding/` (generated), `tools/gen-branding-overlay.py` | **re-run the generator after every rebase** and commit |
 | Removed apps | 1 | `removed-packages/Android.mk` | check module names still exist |
+| Settings › NasgorOS hub | 2 | `packages/apps/NasgorSettings` (own repo) | relies on LineageParts part keys and alias names; unknown ones are skipped/hidden |
 
 ## Rebranded strings
 
@@ -52,3 +53,14 @@ Removed with `LOCAL_OVERRIDES_PACKAGES` in `removed-packages/Android.mk` (module
 | `Recorder` | Voice recorder | LineageOS | none |
 
 To bring an app back, delete its line from `LOCAL_OVERRIDES_PACKAGES`.
+
+## Settings › NasgorOS
+
+`packages/apps/NasgorSettings` adds a **NasgorOS** entry to the Settings home page and groups
+the LineageParts screens there. LineageParts' own entries in stock Settings (System › Status
+bar, Buttons, Profiles; Display › LiveDisplay; Gestures; Privacy › Trust) are disabled at
+runtime so every feature appears only under NasgorOS. LineageParts itself is unchanged.
+
+Planned (tier 3, SystemUI patches, one per feature): 4G icon instead of LTE, data-disabled
+indicator, Bluetooth battery level in the status bar, clock & date customisation.
+Reference implementation: crDroid `17.0` (Apache-2.0).
