@@ -12,3 +12,14 @@ include vendor/nasgoros/config/version.mk
 
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.nasgoros.base=LineageOS
+
+# Boot animation (regenerate with bootanimation/generate.py)
+TARGET_BOOTANIMATION := vendor/nasgoros/bootanimation/bootanimation.zip
+
+# Rebrand user-visible "LineageOS" strings in every locale (tools/gen-branding-overlay.py)
+PRODUCT_PACKAGE_OVERLAYS += vendor/nasgoros/overlay/branding
+PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/nasgoros/overlay/branding
+
+# Apps removed from NasgorOS (see FEATURES.md)
+PRODUCT_PACKAGES += \
+    NasgorRemovePackages

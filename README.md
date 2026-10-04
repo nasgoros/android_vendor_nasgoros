@@ -15,6 +15,11 @@ every LineageOS device tree builds nasgorOS without modification.
 |---|---|
 | `config/version.mk` | nasgorOS version and `ro.nasgoros.*` properties |
 | `config/common.mk` | Common nasgorOS product configuration |
+| `FEATURES.md` | Feature list, rebranded strings and **removed apps** |
+| `bootanimation/` | Boot animation (`generate.py` + `bootanimation.zip`) |
+| `overlay/branding/` | Generated overlays renaming LineageOS → NasgorOS |
+| `removed-packages/` | Apps not shipped in NasgorOS |
+| `tools/gen-branding-overlay.py` | Regenerates `overlay/branding` from the source tree |
 | `build/tasks/nasgoros.mk` | `mka nasgoros` target producing `NasgorOS-17.0-<date>-<type>-<device>.zip` and `NasgorOS-Recovery-17.0-<date>.img` |
 
 ## Building
