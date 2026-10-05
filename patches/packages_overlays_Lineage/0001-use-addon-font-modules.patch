@@ -1,0 +1,77 @@
+diff --git a/fonts/FontGoogleSansFlexOverlay/Android.bp b/fonts/FontGoogleSansFlexOverlay/Android.bp
+deleted file mode 100644
+index 2628c19..0000000
+--- a/fonts/FontGoogleSansFlexOverlay/Android.bp
++++ /dev/null
+@@ -1,14 +0,0 @@
+-//
+-// SPDX-FileCopyrightText: The LineageOS Project
+-// SPDX-License-Identifier: Apache-2.0
+-//
+-
+-package {
+-    default_applicable_licenses: ["Android-Apache-2.0"],
+-}
+-
+-runtime_resource_overlay {
+-    name: "FontGoogleSansFlexOverlay",
+-    theme: "FontGoogleSansFlex",
+-    product_specific: true,
+-}
+diff --git a/fonts/FontLatoOverlay/Android.bp b/fonts/FontLatoOverlay/Android.bp
+deleted file mode 100644
+index 62a2c8f..0000000
+--- a/fonts/FontLatoOverlay/Android.bp
++++ /dev/null
+@@ -1,14 +0,0 @@
+-//
+-// SPDX-FileCopyrightText: The LineageOS Project
+-// SPDX-License-Identifier: Apache-2.0
+-//
+-
+-package {
+-    default_applicable_licenses: ["Android-Apache-2.0"],
+-}
+-
+-runtime_resource_overlay {
+-    name: "FontLatoOverlay",
+-    theme: "FontLato",
+-    product_specific: true,
+-}
+diff --git a/fonts/FontRubikOverlay/Android.bp b/fonts/FontRubikOverlay/Android.bp
+deleted file mode 100644
+index 40faed8..0000000
+--- a/fonts/FontRubikOverlay/Android.bp
++++ /dev/null
+@@ -1,14 +0,0 @@
+-//
+-// SPDX-FileCopyrightText: The LineageOS Project
+-// SPDX-License-Identifier: Apache-2.0
+-//
+-
+-package {
+-    default_applicable_licenses: ["Android-Apache-2.0"],
+-}
+-
+-runtime_resource_overlay {
+-    name: "FontRubikOverlay",
+-    theme: "FontRubik",
+-    product_specific: true,
+-}
+diff --git a/fonts/etc/Android.bp b/fonts/etc/Android.bp
+deleted file mode 100644
+index 008fea6..0000000
+--- a/fonts/etc/Android.bp
++++ /dev/null
+@@ -1,11 +0,0 @@
+-//
+-// SPDX-FileCopyrightText: The LineageOS Project
+-// SPDX-License-Identifier: Apache-2.0
+-//
+-
+-prebuilt_etc {
+-    name: "fonts_customization.xml",
+-
+-    src: "fonts_customization.xml",
+-    product_specific: true,
+-}

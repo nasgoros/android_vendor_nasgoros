@@ -1,0 +1,22 @@
+[
+  {
+    "path": "frameworks/base",
+    "patch": "frameworks_base/0001-nasgor-performance-defaults.patch"
+  },
+  {
+    "path": "packages/apps/crDroidSettings",
+    "patch": "packages_apps_crDroidSettings/0001-nasgor-settings-and-performance.patch"
+  },
+  {
+    "path": "packages/apps/Settings",
+    "patch": "packages_apps_Settings/0001-nasgor-branding-and-version.patch"
+  },
+  {
+    "path": "vendor/addons",
+    "patch": "vendor_addons/0001-preserve-nasgor-bootanimation.patch"
+  },
+  {
+    "path": "packages/overlays/Lineage",
+    "patch": "packages_overlays_Lineage/0001-use-addon-font-modules.patch"
+  }
+]

@@ -1,0 +1,12 @@
+// SPDX-FileCopyrightText: 2026 The nasgorOS Project
+// SPDX-License-Identifier: Apache-2.0
+
+// Reuse AOSP's silent one-time provisioning, including its platform signing,
+// permissions and activity lifecycle. Do not ship another welcome wizard.
+// A distinct module name is necessary: LineageSetupWizard overrides "Provision"
+// during product selection even when LineageSetupWizard itself is overridden.
+override_android_app {
+    name: "NasgorProvision",
+    base: "Provision",
+    overrides: ["LineageSetupWizard"],
+}

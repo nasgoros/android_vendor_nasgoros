@@ -1,0 +1,465 @@
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index dedf1210c6..f3a25a6f65 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -6398,18 +6398,7 @@
+                 <category android:name="android.intent.category.DEFAULT" />
+             </intent-filter>
+         </activity>
+-        <receiver android:name="com.crdroid.settings.fragments.about.DonateReceiver"
+-            android:enabled="true"
+-            android:exported="false">
+-            <intent-filter android:priority="1000">
+-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+-                <action android:name="android.intent.action.USER_UNLOCKED" />
+-                <category android:name="android.intent.category.DEFAULT" />
+-            </intent-filter>
+-            <intent-filter>
+-                <action android:name="com.crdroid.settings.action.DONATE_NUDGE" />
+-            </intent-filter>
+-        </receiver>
++
+ 
+         <!-- Provide direct entry into Dev settings - Running Services -->
+         <activity android:name="Settings$DevRunningServicesActivity"
+diff --git a/res/drawable/nasgor_about_hero_background.xml b/res/drawable/nasgor_about_hero_background.xml
+new file mode 100644
+index 0000000000..805d268091
+--- /dev/null
++++ b/res/drawable/nasgor_about_hero_background.xml
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++    <corners android:radius="28dp" />
++    <gradient android:angle="315"
++        android:startColor="@color/nasgor_about_hero_start"
++        android:endColor="@color/nasgor_about_hero_end" />
++</shape>
+diff --git a/res/drawable/nasgor_about_mark.xml b/res/drawable/nasgor_about_mark.xml
+new file mode 100644
+index 0000000000..0641cc6cbb
+--- /dev/null
++++ b/res/drawable/nasgor_about_mark.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++     SPDX-FileCopyrightText: The nasgorOS Project
++     SPDX-License-Identifier: Apache-2.0
++
++     NasgorOS mark: chili rounded square with a lowercase "n".
++-->
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++    <path
++        android:fillColor="#E5482B"
++        android:pathData="M6,2h12a4,4 0,0 1,4 4v12a4,4 0,0 1,-4 4H6a4,4 0,0 1,-4 -4V6a4,4 0,0 1,4 -4z" />
++    <path
++        android:fillColor="#FFF7ED"
++        android:pathData="M8,17V8.2h2v1.1c0.6,-0.9 1.5,-1.4 2.7,-1.4c1.9,0 3.3,1.2 3.3,3.6V17h-2.1v-5.2c0,-1.3 -0.7,-2 -1.8,-2c-1.2,0 -2,0.8 -2,2.2V17z" />
++</vector>
+diff --git a/res/drawable/nasgor_about_tile_background.xml b/res/drawable/nasgor_about_tile_background.xml
+new file mode 100644
+index 0000000000..d936bc6e15
+--- /dev/null
++++ b/res/drawable/nasgor_about_tile_background.xml
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<shape xmlns:android="http://schemas.android.com/apk/res/android">
++    <corners android:radius="24dp" />
++    <solid android:color="@color/nasgor_about_tile" />
++</shape>
+diff --git a/res/layout/nasgor_about_header.xml b/res/layout/nasgor_about_header.xml
+new file mode 100644
+index 0000000000..5f90775e10
+--- /dev/null
++++ b/res/layout/nasgor_about_header.xml
+@@ -0,0 +1,126 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
++     SPDX-License-Identifier: Apache-2.0 -->
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:orientation="vertical"
++    android:paddingStart="16dp"
++    android:paddingEnd="16dp"
++    android:paddingTop="8dp"
++    android:paddingBottom="16dp">
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:background="@drawable/nasgor_about_hero_background"
++        android:orientation="vertical"
++        android:padding="24dp">
++
++        <ImageView
++            android:layout_width="56dp"
++            android:layout_height="56dp"
++            android:src="@drawable/nasgor_about_mark"
++            android:contentDescription="@null"
++            android:importantForAccessibility="no" />
++
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="20dp"
++            android:text="@string/nasgor_about_brand"
++            android:textSize="36sp"
++            android:fontFamily="sans-serif-medium"
++            android:textColor="@color/nasgor_about_text"
++            android:accessibilityHeading="true" />
++
++        <TextView
++            android:id="@+id/nasgor_about_version"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="4dp"
++            android:textSize="16sp"
++            android:textColor="@color/nasgor_about_secondary" />
++
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="28dp"
++            android:text="@string/nasgor_about_device_label"
++            android:textSize="12sp"
++            android:textColor="@color/nasgor_about_secondary" />
++
++        <TextView
++            android:id="@+id/nasgor_about_device"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="4dp"
++            android:textSize="22sp"
++            android:fontFamily="sans-serif-medium"
++            android:textColor="@color/nasgor_about_text" />
++
++        <TextView
++            android:id="@+id/nasgor_about_chipset"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="6dp"
++            android:textSize="14sp"
++            android:textColor="@color/nasgor_about_secondary" />
++    </LinearLayout>
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="12dp"
++        android:orientation="horizontal"
++        android:baselineAligned="false">
++
++        <LinearLayout
++            android:layout_width="0dp"
++            android:layout_height="match_parent"
++            android:layout_weight="1"
++            android:layout_marginEnd="6dp"
++            android:background="@drawable/nasgor_about_tile_background"
++            android:orientation="vertical"
++            android:padding="20dp">
++            <TextView
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:text="@string/nasgor_about_android_label"
++                android:textSize="13sp"
++                android:textColor="@color/nasgor_about_secondary" />
++            <TextView
++                android:id="@+id/nasgor_about_android"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:layout_marginTop="8dp"
++                android:textSize="24sp"
++                android:fontFamily="sans-serif-medium"
++                android:textColor="@color/nasgor_about_text" />
++        </LinearLayout>
++
++        <LinearLayout
++            android:layout_width="0dp"
++            android:layout_height="match_parent"
++            android:layout_weight="1"
++            android:layout_marginStart="6dp"
++            android:background="@drawable/nasgor_about_tile_background"
++            android:orientation="vertical"
++            android:padding="20dp">
++            <TextView
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:text="@string/nasgor_about_memory_label"
++                android:textSize="13sp"
++                android:textColor="@color/nasgor_about_secondary" />
++            <TextView
++                android:id="@+id/nasgor_about_memory"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:layout_marginTop="8dp"
++                android:textSize="24sp"
++                android:fontFamily="sans-serif-medium"
++                android:textColor="@color/nasgor_about_text" />
++        </LinearLayout>
++    </LinearLayout>
++</LinearLayout>
+diff --git a/res/values-in/nasgor_about.xml b/res/values-in/nasgor_about.xml
+new file mode 100644
+index 0000000000..1ddcaefea6
+--- /dev/null
++++ b/res/values-in/nasgor_about.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<resources>
++    <string name="nasgor_about_device_label">Perangkat Anda</string>
++    <string name="nasgor_about_chipset_value">Chipset · %1$s</string>
++    <string name="nasgor_about_memory_label">RAM</string>
++</resources>
+diff --git a/res/values-night/nasgor_about.xml b/res/values-night/nasgor_about.xml
+new file mode 100644
+index 0000000000..10b1ed61e8
+--- /dev/null
++++ b/res/values-night/nasgor_about.xml
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<resources>
++    <color name="nasgor_about_hero_start">#3A2D23</color>
++    <color name="nasgor_about_hero_end">#24272E</color>
++    <color name="nasgor_about_tile">#252B33</color>
++    <color name="nasgor_about_text">#FFF2E5</color>
++    <color name="nasgor_about_secondary">#D5C7B8</color>
++</resources>
+diff --git a/res/values/nasgor_about.xml b/res/values/nasgor_about.xml
+new file mode 100644
+index 0000000000..31ea9a7e67
+--- /dev/null
++++ b/res/values/nasgor_about.xml
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
++     SPDX-License-Identifier: Apache-2.0 -->
++<resources>
++    <color name="nasgor_about_hero_start">#FFE6C6</color>
++    <color name="nasgor_about_hero_end">#FFF5E9</color>
++    <color name="nasgor_about_tile">#F1F3F7</color>
++    <color name="nasgor_about_text">#28231E</color>
++    <color name="nasgor_about_secondary">#61564B</color>
++    <string name="nasgor_about_brand" translatable="false">nasgorOS</string>
++    <string name="nasgor_about_device_label">Your device</string>
++    <string name="nasgor_about_chipset_value">Chipset · %1$s</string>
++    <string name="nasgor_about_android_label" translatable="false">Android</string>
++    <string name="nasgor_about_memory_label">RAM</string>
++</resources>
+diff --git a/res/xml/firmware_version.xml b/res/xml/firmware_version.xml
+index 07a782b8db..f270186f4f 100644
+--- a/res/xml/firmware_version.xml
++++ b/res/xml/firmware_version.xml
+@@ -21,11 +21,11 @@
+     android:title="@string/firmware_version"
+     settings:keywords="@string/keywords_android_version">
+ 
+-    <!-- crDroid logo -->
+-    <com.android.settingslib.widget.LayoutPreference
+-        android:layout="@layout/crdroid_logo"
++    <!-- Shared NasgorOS overview, with live device/build values. -->
++    <com.android.settings.deviceinfo.aboutphone.NasgorAboutHeaderPreference
+         android:key="crdroid_logo"
+-        android:selectable="false" />
++        android:selectable="false"
++        settings:searchable="false" />
+ 
+     <!-- Device name -->
+     <Preference
+diff --git a/res/xml/my_device_info.xml b/res/xml/my_device_info.xml
+index 2387deb970..3e313e4340 100644
+--- a/res/xml/my_device_info.xml
++++ b/res/xml/my_device_info.xml
+@@ -21,6 +21,12 @@
+     android:key="my_device_info_pref_screen"
+     android:title="@string/about_settings">
+ 
++    <com.android.settings.deviceinfo.aboutphone.NasgorAboutHeaderPreference
++        android:key="nasgor_about_header"
++        android:order="-100"
++        android:selectable="false"
++        settings:searchable="false" />
++
+     <com.android.settingslib.widget.LayoutPreference
+         android:key="my_device_info_header"
+         android:layout="@layout/settings_entity_header"
+@@ -29,6 +35,7 @@
+ 
+     <PreferenceCategory
+         android:key="basic_info_category"
++        android:order="10"
+         android:selectable="false"
+         android:title="@string/my_device_info_basic_info_category_title">
+ 
+@@ -63,6 +70,7 @@
+ 
+     <PreferenceCategory
+         android:key="legal_category"
++        android:order="40"
+         android:title="@string/my_device_info_legal_category_title">
+ 
+         <!-- Legal information -->
+@@ -90,6 +98,7 @@
+ 
+     <PreferenceCategory
+         android:key="device_detail_category"
++        android:order="20"
+         android:selectable="false"
+         android:title="@string/my_device_info_device_details_category_title">
+ 
+@@ -168,6 +177,7 @@
+ 
+     <PreferenceCategory
+         android:key="device_identifiers_category"
++        android:order="30"
+         android:title="@string/my_device_info_device_identifiers_category_title">
+ 
+         <!--IP address -->
+diff --git a/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java b/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java
+new file mode 100644
+index 0000000000..d954e9a3db
+--- /dev/null
++++ b/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java
+@@ -0,0 +1,56 @@
++/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
++ * SPDX-License-Identifier: Apache-2.0 */
++package com.android.settings.deviceinfo.aboutphone;
++
++import android.app.ActivityManager;
++import android.content.Context;
++import android.os.Build;
++import android.os.SystemProperties;
++import android.text.format.Formatter;
++import android.util.AttributeSet;
++import android.widget.TextView;
++
++import androidx.preference.Preference;
++import androidx.preference.PreferenceViewHolder;
++
++import com.android.settings.R;
++
++/** Shared, lightweight overview for About phone, firmware and About NasgorOS. */
++public final class NasgorAboutHeaderPreference extends Preference {
++    public NasgorAboutHeaderPreference(Context context, AttributeSet attrs) {
++        super(context, attrs);
++        setLayoutResource(R.layout.nasgor_about_header);
++        setSelectable(false);
++        setPersistent(false);
++        setIconSpaceReserved(false);
++    }
++
++    @Override
++    public void onBindViewHolder(PreferenceViewHolder holder) {
++        super.onBindViewHolder(holder);
++        holder.setDividerAllowedAbove(false);
++        holder.setDividerAllowedBelow(false);
++        Context context = getContext();
++        String version = SystemProperties.get("ro.nasgoros.display.version", "");
++        if (version.startsWith("NasgorOS ")) {
++            version = version.substring("NasgorOS ".length());
++        }
++        if (version.isEmpty()) version = Build.VERSION.RELEASE;
++        setText(holder, R.id.nasgor_about_version, version);
++        setText(holder, R.id.nasgor_about_device, Build.MODEL);
++        String chipset = Build.UNKNOWN.equals(Build.SOC_MODEL) ? Build.HARDWARE : Build.SOC_MODEL;
++        setText(holder, R.id.nasgor_about_chipset,
++                context.getString(R.string.nasgor_about_chipset_value, chipset));
++        setText(holder, R.id.nasgor_about_android, Build.VERSION.RELEASE);
++        ActivityManager manager = context.getSystemService(ActivityManager.class);
++        ActivityManager.MemoryInfo memory = new ActivityManager.MemoryInfo();
++        if (manager != null) manager.getMemoryInfo(memory);
++        setText(holder, R.id.nasgor_about_memory, memory.totalMem > 0
++                ? Formatter.formatShortFileSize(context, memory.totalMem)
++                : context.getString(R.string.unknown));
++    }
++
++    private static void setText(PreferenceViewHolder holder, int id, CharSequence text) {
++        ((TextView) holder.findViewById(id)).setText(text);
++    }
++}
+diff --git a/src/com/android/settings/deviceinfo/firmwareversion/BuildMaintainerPreference.kt b/src/com/android/settings/deviceinfo/firmwareversion/BuildMaintainerPreference.kt
+index 84ae83928d..1dbf9f950f 100644
+--- a/src/com/android/settings/deviceinfo/firmwareversion/BuildMaintainerPreference.kt
++++ b/src/com/android/settings/deviceinfo/firmwareversion/BuildMaintainerPreference.kt
+@@ -69,7 +69,7 @@ class BuildMaintainerPreference :
+ 
+         applyState(preference)
+ 
+-        if (!fetchStarted) {
++        if (!fetchStarted && !SystemProperties.getBoolean("ro.nasgoros.crdroid_settings", false)) {
+             fetchStarted = true
+             fetchMaintainerFromOta(preference, overlayMaintainer, overlayDonateUrl)
+         }
+diff --git a/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreference.kt b/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreference.kt
+index b476e4fef1..1d40e9f924 100644
+--- a/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreference.kt
++++ b/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreference.kt
+@@ -105,10 +105,10 @@ class LineageVersionDetailPreference :
+         const val ACTIVITY_TRIGGER_COUNT = 3
+         const val DELAY_TIMER_MILLIS = 500L
+ 
+-        const val LINEAGE_VERSION_PROPERTY: String = "ro.crdroid.build.version"
++        const val LINEAGE_VERSION_PROPERTY: String = "ro.nasgoros.display.version"
+ 
+-        const val PLATLOGO_PACKAGE_NAME: String = "com.crdroid.settings"
+-        const val PLATLOGO_ACTIVITY_CLASS: String = PLATLOGO_PACKAGE_NAME + ".fragments.about.DonateActivity"
++        const val PLATLOGO_PACKAGE_NAME: String = "com.nasgoros.settings"
++        const val PLATLOGO_ACTIVITY_CLASS: String = PLATLOGO_PACKAGE_NAME + ".performance.PerformanceActivity"
+     }
+ }
+ // LINT.ThenChange(LineageVersionDetailPreferenceController.java)
+diff --git a/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreferenceController.java b/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreferenceController.java
+index d4e7e1bb62..c870324064 100644
+--- a/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreferenceController.java
++++ b/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreferenceController.java
+@@ -42,11 +42,11 @@ public class LineageVersionDetailPreferenceController extends BasePreferenceCont
+     private static final int DELAY_TIMER_MILLIS = 500;
+     private static final int ACTIVITY_TRIGGER_COUNT = 3;
+ 
+-    private static final String KEY_LINEAGE_VERSION_PROP = "ro.crdroid.build.version";
++    private static final String KEY_LINEAGE_VERSION_PROP = "ro.nasgoros.display.version";
+ 
+-    private static final String PLATLOGO_PACKAGE_NAME = "com.crdroid.settings";
++    private static final String PLATLOGO_PACKAGE_NAME = "com.nasgoros.settings";
+     private static final String PLATLOGO_ACTIVITY_CLASS =
+-            PLATLOGO_PACKAGE_NAME + ".fragments.about.DonateActivity";
++            PLATLOGO_PACKAGE_NAME + ".performance.PerformanceActivity";
+ 
+     private final UserManager mUserManager;
+     private final long[] mHits = new long[ACTIVITY_TRIGGER_COUNT];
+diff --git a/src/com/android/settings/deviceinfo/firmwareversion/LogoPreference.kt b/src/com/android/settings/deviceinfo/firmwareversion/LogoPreference.kt
+index c42ae4fe9d..df8e876d9b 100644
+--- a/src/com/android/settings/deviceinfo/firmwareversion/LogoPreference.kt
++++ b/src/com/android/settings/deviceinfo/firmwareversion/LogoPreference.kt
+@@ -8,6 +8,7 @@ package com.android.settings.deviceinfo.firmwareversion
+ import android.content.Context
+ import androidx.preference.Preference
+ import com.android.settings.R
++import com.android.settings.deviceinfo.aboutphone.NasgorAboutHeaderPreference
+ import com.android.settingslib.metadata.PreferenceMetadata
+ import com.android.settingslib.preference.PreferenceBinding
+ 
+@@ -25,9 +26,14 @@ class LogoPreference :
+     override val title: Int
+         get() = 0
+ 
++    override val indexable: Boolean
++        get() = false
++
++    override fun createWidget(context: Context): Preference =
++        NasgorAboutHeaderPreference(context, null)
++
+     override fun bind(preference: Preference, metadata: PreferenceMetadata) {
+         super.bind(preference, metadata)
+-        preference.layoutResource = R.layout.crdroid_logo
+         preference.isSelectable = false
+     }
+ }

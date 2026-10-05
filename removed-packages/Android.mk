@@ -13,14 +13,27 @@ LOCAL_MODULE := NasgorRemovePackages
 LOCAL_MODULE_CLASS := APPS
 LOCAL_MODULE_TAGS := optional
 LOCAL_OVERRIDES_PACKAGES := \
+    AudioFX \
+    BasicDreams \
+    BuiltInPrintService \
     DeskClock \
+    EasterEgg \
     Etar \
     ExactCalculator \
+    FMRadio \
+    FmRecordingsProvider \
     Gallery2 \
     Glimpse \
     Jelly \
+    LineageSetupWizard \
+    LocalContactsBackup \
     messaging \
+    MusicFX \
+    PhotoTable \
+    PrintRecommendationService \
     Recorder \
+    Seedvault \
+    Traceur \
     Twelve
 LOCAL_UNINSTALLABLE_MODULE := true
 LOCAL_CERTIFICATE := PRESIGNED

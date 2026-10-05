@@ -1,0 +1,300 @@
+diff --git a/res/values-in/nasgor_strings.xml b/res/values-in/nasgor_strings.xml
+new file mode 100644
+index 0000000..f810eeb
+--- /dev/null
++++ b/res/values-in/nasgor_strings.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
++     SPDX-License-Identifier: Apache-2.0 -->
++<resources>
++    <string name="nasgor_performance_title">Performa</string>
++    <string name="nasgor_performance_monitor_title">Info FPS, CPU &amp; GPU</string>
++    <string name="nasgor_performance_summary">FPS langsung, detail perangkat, dan overlay performa</string>
++    <string name="nasgor_about_title">Tentang NasgorOS</string>
++    <string name="nasgor_sources_title">Kode sumber</string>
++    <string name="nasgor_downloads_title">Unduhan</string>
++    <string name="nasgor_credits_title">Kredit sumber terbuka</string>
++    <string name="nasgor_credits_summary">Berbasis LineageOS dengan fitur kustomisasi dari crDroid. Hak cipta dan lisensi asli dipertahankan.</string>
++    <string name="nasgor_crdroid_source_title">Sumber fitur kustomisasi crDroid</string>
++    <string name="nasgor_system_settings_title">Pengaturan sistem tambahan</string>
++    <string name="nasgor_system_settings_summary">LiveDisplay, profil, kontrol pengisian daya, dan Trust</string>
++    <string name="nasgor_build_details">Detail perangkat lunak</string>
++    <string name="nasgor_build_type_title">Jenis build</string>
++    <string name="nasgor_project_title">Proyek</string>
++    <string name="nasgor_link_unavailable">Pasang browser untuk membuka tautan ini. Anda juga dapat menekan lama untuk menyalin alamat.</string>
++</resources>
+diff --git a/res/values/nasgor_strings.xml b/res/values/nasgor_strings.xml
+new file mode 100644
+index 0000000..4c2c24e
+--- /dev/null
++++ b/res/values/nasgor_strings.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
++     SPDX-License-Identifier: Apache-2.0 -->
++<resources>
++    <string name="nasgor_performance_title">Performance</string>
++    <string name="nasgor_performance_monitor_title">FPS, CPU &amp; GPU info</string>
++    <string name="nasgor_performance_summary">Live FPS, hardware details and performance overlay</string>
++    <string name="nasgor_about_title">About NasgorOS</string>
++    <string name="nasgor_sources_title">Source code</string>
++    <string name="nasgor_downloads_title">Downloads</string>
++    <string name="nasgor_credits_title">Open source credits</string>
++    <string name="nasgor_credits_summary">Based on LineageOS with customization features from crDroid. Original copyrights and licenses are preserved.</string>
++    <string name="nasgor_crdroid_source_title">crDroid customization sources</string>
++    <string name="nasgor_system_settings_title">Additional system settings</string>
++    <string name="nasgor_system_settings_summary">LiveDisplay, profiles, charging controls and Trust</string>
++    <string name="nasgor_build_details">Software details</string>
++    <string name="nasgor_build_type_title">Build type</string>
++    <string name="nasgor_project_title">The project</string>
++    <string name="nasgor_link_unavailable">Install a browser to open this link. You can also long-press to copy the address.</string>
++</resources>
+diff --git a/res/xml/crdroid_settings_misc.xml b/res/xml/crdroid_settings_misc.xml
+index 9fff29c..013a73f 100644
+--- a/res/xml/crdroid_settings_misc.xml
++++ b/res/xml/crdroid_settings_misc.xml
+@@ -110,4 +110,14 @@
+         android:summary="@string/floating_rotation_button_summary"
+         android:defaultValue="true" />
+ 
++    <!-- Preserve the existing nasgorOS system features alongside the imported options. -->
++    <Preference
++        android:key="nasgor_system_settings"
++        android:title="@string/nasgor_system_settings_title"
++        android:summary="@string/nasgor_system_settings_summary">
++        <intent android:targetPackage="com.nasgoros.settings"
++            android:targetClass="com.nasgoros.settings.NasgorSettingsActivity">
++            <extra android:name="com.nasgoros.settings.SYSTEM_SETTINGS" android:value="true" />
++        </intent>
++    </Preference>
+ </PreferenceScreen>
+diff --git a/res/xml/nasgor_about.xml b/res/xml/nasgor_about.xml
+new file mode 100644
+index 0000000..b0f0bb7
+--- /dev/null
++++ b/res/xml/nasgor_about.xml
+@@ -0,0 +1,34 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
++     SPDX-License-Identifier: Apache-2.0 -->
++<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:settings="http://schemas.android.com/apk/res-auto">
++    <com.android.settings.deviceinfo.aboutphone.NasgorAboutHeaderPreference
++        android:key="nasgor_about_header" android:selectable="false" />
++
++    <PreferenceCategory android:title="@string/nasgor_build_details">
++        <Preference android:key="nasgor_version" android:title="@string/build_number"
++            android:selectable="false" settings:enableCopying="true" />
++        <Preference android:key="nasgor_build_type" android:title="@string/nasgor_build_type_title"
++            android:selectable="false" />
++        <Preference android:key="nasgor_security_patch" android:title="@string/security_patch"
++            android:selectable="false" settings:enableCopying="true" />
++    </PreferenceCategory>
++
++    <PreferenceCategory android:title="@string/nasgor_project_title">
++        <Preference android:title="@string/nasgor_sources_title" android:summary="github.com/nasgoros"
++            settings:enableCopying="true">
++            <intent android:action="android.intent.action.VIEW" android:data="https://github.com/nasgoros" />
++        </Preference>
++        <Preference android:title="@string/nasgor_downloads_title" android:summary="sourceforge.net/projects/nasgoros"
++            settings:enableCopying="true">
++            <intent android:action="android.intent.action.VIEW" android:data="https://sourceforge.net/projects/nasgoros/files/" />
++        </Preference>
++        <Preference android:title="@string/nasgor_crdroid_source_title" android:summary="github.com/crdroidandroid"
++            settings:enableCopying="true">
++            <intent android:action="android.intent.action.VIEW" android:data="https://github.com/crdroidandroid" />
++        </Preference>
++        <Preference android:title="@string/nasgor_credits_title"
++            android:summary="@string/nasgor_credits_summary" android:selectable="false" />
++    </PreferenceCategory>
++</PreferenceScreen>
+diff --git a/res/xml/nasgor_performance_entry.xml b/res/xml/nasgor_performance_entry.xml
+new file mode 100644
+index 0000000..5f69bbf
+--- /dev/null
++++ b/res/xml/nasgor_performance_entry.xml
+@@ -0,0 +1,12 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
++     SPDX-License-Identifier: Apache-2.0 -->
++<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
++    <Preference android:key="nasgor_performance"
++        android:title="@string/nasgor_performance_monitor_title"
++        android:summary="@string/nasgor_performance_summary"
++        android:icon="@drawable/ic_gaming">
++        <intent android:targetPackage="com.nasgoros.settings"
++            android:targetClass="com.nasgoros.settings.performance.PerformanceActivity" />
++    </Preference>
++</PreferenceScreen>
+diff --git a/res/xml/pulse_settings.xml b/res/xml/pulse_settings.xml
+index f8d8424..34a7e14 100644
+--- a/res/xml/pulse_settings.xml
++++ b/res/xml/pulse_settings.xml
+@@ -28,7 +28,7 @@
+         android:key="ambient_pulse_enabled"
+         android:title="@string/ambient_pulse_enabled_title"
+         android:summary="@string/ambient_pulse_enabled_summary"
+-        android:defaultValue="true"
++        android:defaultValue="false"
+         android:dependency="lockscreen_pulse_enabled" />
+ 
+     <com.crdroid.settings.preferences.SecureSettingListPreference
+diff --git a/src/com/crdroid/settings/TopLevelSettingsPreferenceController.kt b/src/com/crdroid/settings/TopLevelSettingsPreferenceController.kt
+index 5b919ea..413d838 100644
+--- a/src/com/crdroid/settings/TopLevelSettingsPreferenceController.kt
++++ b/src/com/crdroid/settings/TopLevelSettingsPreferenceController.kt
+@@ -6,6 +6,7 @@
+ package com.crdroid.settings
+ 
+ import android.content.Context
++import android.os.SystemProperties
+ import com.android.settings.core.BasePreferenceController
+ 
+ class TopLevelSettingsPreferenceController(
+@@ -13,5 +14,8 @@ class TopLevelSettingsPreferenceController(
+     preferenceKey: String
+ ) : BasePreferenceController(context, preferenceKey) {
+ 
+-    override fun getAvailabilityStatus(): Int = AVAILABLE
++    override fun getAvailabilityStatus(): Int =
++        if (SystemProperties.getBoolean("ro.nasgoros.crdroid_settings", false)) {
++            UNSUPPORTED_ON_DEVICE // The NasgorOS homepage entry opens the same full settings screen.
++        } else AVAILABLE
+ }
+diff --git a/src/com/crdroid/settings/crDroidSettingsLayout.kt b/src/com/crdroid/settings/crDroidSettingsLayout.kt
+index c501cf4..649d7be 100644
+--- a/src/com/crdroid/settings/crDroidSettingsLayout.kt
++++ b/src/com/crdroid/settings/crDroidSettingsLayout.kt
+@@ -8,6 +8,7 @@ package com.crdroid.settings
+ import android.app.AlertDialog
+ import android.content.Context
+ import android.os.Bundle
++import android.os.SystemProperties
+ import android.view.LayoutInflater
+ import android.view.Menu
+ import android.view.MenuInflater
+@@ -35,6 +36,7 @@ import kotlinx.coroutines.withContext
+ 
+ class crDroidSettingsLayout : SettingsPreferenceFragment() {
+ 
++    private val nasgor = SystemProperties.getBoolean("ro.nasgoros.crdroid_settings", false)
+     private var pager: ViewPager2? = null
+     private var tabs: TabLayout? = null
+     private var mediator: TabLayoutMediator? = null
+@@ -56,7 +58,7 @@ class crDroidSettingsLayout : SettingsPreferenceFragment() {
+         pager = root.findViewById(R.id.pager)
+ 
+         val adapter = object : FragmentStateAdapter(this) {
+-            override fun getItemCount(): Int = TAB_TITLES.size
++            override fun getItemCount(): Int = TAB_TITLES.size + if (nasgor) 1 else 0
+ 
+             override fun createFragment(position: Int): Fragment = when (position) {
+                 0 -> StatusBar()
+@@ -67,7 +69,8 @@ class crDroidSettingsLayout : SettingsPreferenceFragment() {
+                 5 -> Notifications()
+                 6 -> Sound()
+                 7 -> Miscellaneous()
+-                8 -> About()
++                8 -> if (nasgor) NasgorPerformance() else About()
++                9 -> NasgorAbout()
+                 else -> StatusBar()
+             }
+         }
+@@ -76,7 +79,11 @@ class crDroidSettingsLayout : SettingsPreferenceFragment() {
+         pager!!.offscreenPageLimit = 1
+ 
+         mediator = TabLayoutMediator(tabs!!, pager!!) { tab, position ->
+-            tab.setText(TAB_TITLES[position])
++            tab.setText(when {
++                nasgor && position == 8 -> R.string.nasgor_performance_title
++                nasgor && position == 9 -> R.string.nasgor_about_title
++                else -> TAB_TITLES[position]
++            })
+         }.also { it.attach() }
+ 
+         return root
+diff --git a/src/com/crdroid/settings/fragments/NasgorAbout.java b/src/com/crdroid/settings/fragments/NasgorAbout.java
+new file mode 100644
+index 0000000..a85e142
+--- /dev/null
++++ b/src/com/crdroid/settings/fragments/NasgorAbout.java
+@@ -0,0 +1,42 @@
++/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
++ * SPDX-License-Identifier: Apache-2.0 */
++package com.crdroid.settings.fragments;
++
++import android.content.ActivityNotFoundException;
++import android.os.Bundle;
++import android.os.Build;
++import android.os.SystemProperties;
++import android.widget.Toast;
++import androidx.preference.Preference;
++import com.android.internal.logging.nano.MetricsProto;
++import com.android.settings.R;
++import com.android.settings.SettingsPreferenceFragment;
++
++public final class NasgorAbout extends SettingsPreferenceFragment {
++    @Override public void onCreate(Bundle state) {
++        super.onCreate(state);
++        addPreferencesFromResource(R.xml.nasgor_about);
++        findPreference("nasgor_version").setSummary(
++                SystemProperties.get("ro.nasgoros.version", Build.DISPLAY));
++        findPreference("nasgor_build_type").setSummary(
++                SystemProperties.get("ro.nasgoros.releasetype", Build.TYPE));
++        findPreference("nasgor_security_patch").setSummary(
++                Build.VERSION.SECURITY_PATCH.isEmpty() ? getString(R.string.unknown)
++                        : Build.VERSION.SECURITY_PATCH);
++    }
++
++    @Override public boolean onPreferenceTreeClick(Preference preference) {
++        if (preference.getIntent() != null) {
++            try {
++                startActivity(preference.getIntent());
++            } catch (ActivityNotFoundException e) {
++                Toast.makeText(requireContext(), R.string.nasgor_link_unavailable,
++                        Toast.LENGTH_LONG).show();
++            }
++            return true;
++        }
++        return super.onPreferenceTreeClick(preference);
++    }
++
++    @Override public int getMetricsCategory() { return MetricsProto.MetricsEvent.CRDROID_SETTINGS; }
++}
+diff --git a/src/com/crdroid/settings/fragments/NasgorPerformance.java b/src/com/crdroid/settings/fragments/NasgorPerformance.java
+new file mode 100644
+index 0000000..0371635
+--- /dev/null
++++ b/src/com/crdroid/settings/fragments/NasgorPerformance.java
+@@ -0,0 +1,17 @@
++/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
++ * SPDX-License-Identifier: Apache-2.0 */
++package com.crdroid.settings.fragments;
++
++import android.os.Bundle;
++import com.android.internal.logging.nano.MetricsProto;
++import com.android.settings.R;
++import com.android.settings.SettingsPreferenceFragment;
++
++/** Opens the separate, platform-signed hardware monitor owned by nasgorOS. */
++public final class NasgorPerformance extends SettingsPreferenceFragment {
++    @Override public void onCreate(Bundle state) {
++        super.onCreate(state);
++        addPreferencesFromResource(R.xml.nasgor_performance_entry);
++    }
++    @Override public int getMetricsCategory() { return MetricsProto.MetricsEvent.CRDROID_SETTINGS; }
++}
+diff --git a/src/com/crdroid/settings/fragments/lockscreen/PulseSettings.java b/src/com/crdroid/settings/fragments/lockscreen/PulseSettings.java
+index 62644dd..a71807a 100644
+--- a/src/com/crdroid/settings/fragments/lockscreen/PulseSettings.java
++++ b/src/com/crdroid/settings/fragments/lockscreen/PulseSettings.java
+@@ -55,7 +55,7 @@ public class PulseSettings extends SettingsPreferenceFragment {
+         Settings.Secure.putIntForUser(resolver,
+                 Settings.Secure.LOCKSCREEN_PULSE_ENABLED, 0, UserHandle.USER_CURRENT);
+         Settings.Secure.putIntForUser(resolver,
+-                Settings.Secure.AMBIENT_PULSE_ENABLED, 1, UserHandle.USER_CURRENT);
++                Settings.Secure.AMBIENT_PULSE_ENABLED, 0, UserHandle.USER_CURRENT);
+         Settings.Secure.putIntForUser(resolver,
+                 Settings.Secure.PULSE_BAR_COUNT, 32, UserHandle.USER_CURRENT);
+         Settings.Secure.putIntForUser(resolver,

@@ -1,0 +1,2698 @@
+[
+  {
+    "screen": "adaptive_playback_settings.xml",
+    "key": "adaptive_playback_header",
+    "title": "",
+    "type": "com.android.settingslib.widget.IllustrationPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "adaptive_playback_settings.xml",
+    "key": "adaptive_playback_enabled",
+    "title": "Enable",
+    "type": "lineageos.preference.SystemSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "adaptive_playback_settings.xml",
+    "key": "adaptive_playback_intro_text",
+    "title": "Automatically pauses media when the volume is muted and will resume automatically when volume is restored within the set time",
+    "type": "com.android.settingslib.widget.TopIntroPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "adaptive_playback_settings.xml",
+    "key": "adaptive_playback_timeout",
+    "title": "Playback timeout",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "always_on_display_schedule.xml",
+    "key": "doze_always_on_auto_mode",
+    "title": "@string/night_display_auto_mode_title",
+    "type": "com.crdroid.settings.preferences.SecureSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "always_on_display_schedule.xml",
+    "key": "doze_always_on_auto_since",
+    "title": "@string/night_display_start_time_title",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "always_on_display_schedule.xml",
+    "key": "doze_always_on_auto_till",
+    "title": "@string/night_display_end_time_title",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_bar.xml",
+    "key": "statusbar_battery_bar",
+    "title": "Enable",
+    "type": "lineageos.preference.SystemSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_bar.xml",
+    "key": "statusbar_battery_bar_thickness",
+    "title": "Thickness",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_bar.xml",
+    "key": "statusbar_battery_bar_style",
+    "title": "Alignment",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_bar.xml",
+    "key": "statusbar_battery_bar_blend_color",
+    "title": "Blend colors",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_bar.xml",
+    "key": "statusbar_battery_bar_blend_color_reverse",
+    "title": "Reverse color direction",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_bar.xml",
+    "key": "statusbar_battery_bar_color",
+    "title": "Color",
+    "type": "com.crdroid.settings.preferences.colorpicker.SystemSettingColorPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_bar.xml",
+    "key": "statusbar_battery_bar_battery_low_color",
+    "title": "Low battery color",
+    "type": "com.crdroid.settings.preferences.colorpicker.SystemSettingColorPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_bar.xml",
+    "key": "statusbar_battery_bar_animate",
+    "title": "Charging animation",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_bar.xml",
+    "key": "statusbar_battery_bar_enable_charging_color",
+    "title": "Custom charging color",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_bar.xml",
+    "key": "statusbar_battery_bar_charging_color",
+    "title": "Charging color",
+    "type": "com.crdroid.settings.preferences.colorpicker.SystemSettingColorPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_light_settings.xml",
+    "key": "battery_light_enabled",
+    "title": "Enable battery light",
+    "type": "lineageos.preference.LineageSystemSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_light_settings.xml",
+    "key": "battery_light_pulse",
+    "title": "Pulse if battery low",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_light_settings.xml",
+    "key": "battery_light_full_charge_disabled",
+    "title": "Turn off when fully charged",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_light_settings.xml",
+    "key": "low_color",
+    "title": "Battery low",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.ApplicationLightPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_light_settings.xml",
+    "key": "medium_color",
+    "title": "Charging",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.ApplicationLightPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_light_settings.xml",
+    "key": "full_color",
+    "title": "Nearly Charged (>90%)",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.ApplicationLightPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_light_settings.xml",
+    "key": "really_full_color",
+    "title": "Fully Charged (100%)",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.ApplicationLightPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_light_settings.xml",
+    "key": "battery_light_brightness_level",
+    "title": "@string/light_brightness_normal",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.BatteryBrightnessPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "battery_light_settings.xml",
+    "key": "battery_light_brightness_level_zen",
+    "title": "@string/light_brightness_zen",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.BatteryBrightnessZenPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "crdroid_changelog",
+    "title": "Current changelog",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": "com.android.settings"
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "crdroid_website",
+    "title": "Official website",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "crdroid_translate",
+    "title": "Translations",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "crdroid_share",
+    "title": "Share crDroid",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "crdroid_donate",
+    "title": "Support us",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": "com.android.settings"
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "crdroid_source",
+    "title": "GitHub",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "crdroid_telegram",
+    "title": "crDroid community",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "crdroid_telegram_channel",
+    "title": "Updates channel",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "crdroid_buildserversponsor",
+    "title": "InterServer",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "crdroid_sponsor",
+    "title": "ScopeHosts",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_about.xml",
+    "key": "system_update_settings",
+    "title": "Updates",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_disable",
+    "title": "Disable HW keys",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "swap_capacitive_keys",
+    "title": "Swap capacitive buttons",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "additional_buttons",
+    "title": "Additional buttons",
+    "type": "lineageos.preference.RemotePreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "click_partial_screenshot",
+    "title": "Click to partial screenshot",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "button_backlight",
+    "title": "Backlight",
+    "type": "com.crdroid.settings.fragments.buttons.ButtonBacklightBrightness",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "anbi_enabled",
+    "title": "Accidental touch",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "power_menu",
+    "title": "Power menu",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.buttons.PowerMenuActions",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "power_end_call",
+    "title": "End call",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "torch_long_press_power_gesture",
+    "title": "Long press for torch",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "torch_long_press_power_timeout",
+    "title": "Automatically turn torch off",
+    "type": "com.crdroid.settings.preferences.LineageSystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "home_wake_screen",
+    "title": "Wake device",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "home_answer_call",
+    "title": "Answer call",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_home_long_press",
+    "title": "Long press action",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_home_double_tap",
+    "title": "Double tap action",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "back_wake_screen",
+    "title": "Wake device",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_back_long_press",
+    "title": "Long press action",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "menu_wake_screen",
+    "title": "Wake device",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_menu_press",
+    "title": "Short press action",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_menu_long_press",
+    "title": "Long press action",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "assist_wake_screen",
+    "title": "Wake device",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_assist_press",
+    "title": "Short press action",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_assist_long_press",
+    "title": "Long press action",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "app_switch_wake_screen",
+    "title": "Wake device",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_app_switch_press",
+    "title": "Short press action",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_app_switch_long_press",
+    "title": "Long press action",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "hardware_keys_app_switch_double_tap",
+    "title": "Double tap action",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "camera_wake_screen",
+    "title": "Wake device",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "camera_sleep_on_release",
+    "title": "Screen peek",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "camera_launch",
+    "title": "Launch camera",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "volume_wake_screen",
+    "title": "Wake device",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "volume_answer_call",
+    "title": "Answer call",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "volbtn_music_controls",
+    "title": "Control playback",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "volume_key_cursor_control",
+    "title": "Keyboard cursor control",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_button.xml",
+    "key": "swap_volume_buttons",
+    "title": "Reorient",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "lockscreen_custom_clock_style",
+    "title": "Custom clock style",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.lockscreen.CustomClockPreview",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "pulse_settings",
+    "title": "Pulse Visualizer",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.lockscreen.PulseSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "media_art_settings",
+    "title": "Media cover art",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.lockscreen.MediaArtSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "lockscreen_battery_info",
+    "title": "Battery info",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "lockscreen_smartspace_enabled",
+    "title": "Smartspace",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "lockscreen_weather_enabled",
+    "title": "Weather update",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "lockscreen_weather_location",
+    "title": "Current location",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "lockscreen_weather_text",
+    "title": "Current condition",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "lockscreen_weather_wind_info",
+    "title": "Wind info",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "lockscreen_weather_humidity_info",
+    "title": "Humidity info",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "double_tap_sleep_lockscreen",
+    "title": "Tap to sleep",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "udfps_icon_picker",
+    "title": "UDFPS icon picker",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.lockscreen.UdfpsIconPicker",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "udfps_recognizing_animation_preview",
+    "title": "UDFPS custom animation",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.lockscreen.UdfpsAnimation",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "fp_success_vibrate",
+    "title": "Fingerprint authentication vibration",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "fp_error_vibrate",
+    "title": "Fingerprint error vibration",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "enable_ripple_effect",
+    "title": "Ripple effect",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_lockscreen.xml",
+    "key": "lockscreen_enable_power_menu",
+    "title": "Power menu",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_misc.xml",
+    "key": "play_integrity_fix",
+    "title": "Play Integrity Fix",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.misc.PlayIntegrityFix",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_misc.xml",
+    "key": "tricky_store",
+    "title": "TrickyStore",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.misc.TrickyStore",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_misc.xml",
+    "key": "game_spoofing",
+    "title": "Game spoofing",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.misc.GameSpoofing",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_misc.xml",
+    "key": "gaming_mode",
+    "title": "Game space",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": "io.chaldeaprjkt.gamespace"
+  },
+  {
+    "screen": "crdroid_settings_misc.xml",
+    "key": "pm_downgrade_allowed",
+    "title": "Allow app downgrade",
+    "type": "com.crdroid.settings.preferences.GlobalSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_misc.xml",
+    "key": "sidebar",
+    "title": "Sidebar",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": "com.libremobileos.sidebar"
+  },
+  {
+    "screen": "crdroid_settings_misc.xml",
+    "key": "three_fingers_swipe",
+    "title": "Three fingers swipe",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_misc.xml",
+    "key": "sensor_block_settings",
+    "title": "Sensor block per-package",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.misc.SensorBlock",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_misc.xml",
+    "key": "pocket_judge",
+    "title": "Pocket detection",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_misc.xml",
+    "key": "enable_rotation_button",
+    "title": "Floating rotate button",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "notification_sound_vib_screen_on",
+    "title": "Noisy notifications",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "notification_row_transparency",
+    "title": "Translucent notifications",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "notification_row_transparency_lockscreen",
+    "title": "Translucent lockscreen notifications",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "media_squiggle_animation",
+    "title": "Squiggle animation",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "notification_guts_kill_app_button",
+    "title": "Force stop button",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "show_clipboard_overlay",
+    "title": "Show clipboard overlay",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "heads_up_notifications_enabled",
+    "title": "Heads up",
+    "type": "com.crdroid.settings.preferences.GlobalSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "persist.sys.compact_heads_up_notification.always_show",
+    "title": "Compact heads-up",
+    "type": "com.crdroid.settings.preferences.SystemPropertySwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "less_boring_heads_up",
+    "title": "Less boring",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "heads_up_timeout",
+    "title": "Time out",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "flashlight_on_call",
+    "title": "Blink flashlight for incoming call",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "flashlight_on_call_ignore_dnd",
+    "title": "Ignore DND",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "flashlight_on_call_rate",
+    "title": "Blink rate",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "battery_lights",
+    "title": "Battery light",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.notifications.notificationlight.BatteryLightSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_notifications.xml",
+    "key": "notification_lights",
+    "title": "Notification light",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.notifications.notificationlight.NotificationLightSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_header_image",
+    "title": "Header image",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.quicksettings.QsHeaderImageSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "enable_lockscreen_quick_settings",
+    "title": "QS on lock screen",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_show_brightness_slider",
+    "title": "When to show",
+    "type": "lineageos.preference.LineageSecureSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_show_volume_slider",
+    "title": "Slider mode",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_brightness_slider_shape",
+    "title": "Brightness slider shape",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_brightness_slider_position",
+    "title": "Position",
+    "type": "lineageos.preference.LineageSecureSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_brightness_slider_haptic",
+    "title": "Haptic feedback",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_show_auto_brightness",
+    "title": "Auto brightness icon",
+    "type": "lineageos.preference.LineageSecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_show_ringer_mode",
+    "title": "Ringer mode",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_panel_style",
+    "title": "QS Panel style",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_tile_shape",
+    "title": "QS tiles shape",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_tile_icon_shape",
+    "title": "QS tiles shape",
+    "type": "com.crdroid.settings.preferences.QSTileIconShapePreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_tile_label_hide",
+    "title": "Hide label",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_tile_animation_style",
+    "title": "QS tiles animation",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_layout_columns_rows",
+    "title": "Columns & rows",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.quicksettings.LayoutSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_tile_haptic",
+    "title": "Haptic feedback",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_show_data_usage",
+    "title": "Data usage",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_footer_show_edit",
+    "title": "Edit tiles icon",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_footer_show_power_menu",
+    "title": "Power menu shortcut",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_quicksettings.xml",
+    "key": "qs_footer_show_settings",
+    "title": "Settings shortcut",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_sound.xml",
+    "key": "screenshot_shutter_sound",
+    "title": "Screenshot sound",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_sound.xml",
+    "key": "volume_panel_on_left",
+    "title": "Volume panel on left",
+    "type": "lineageos.preference.LineageSecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_sound.xml",
+    "key": "volume_dialog_dismiss_timeout",
+    "title": "Volume panel timeout",
+    "type": "com.crdroid.settings.preferences.SecureSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_sound.xml",
+    "key": "volume_dialog_haptic_feedback",
+    "title": "Volume panel haptics",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_sound.xml",
+    "key": "vibrate_on_connect",
+    "title": "Vibrate on connect",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_sound.xml",
+    "key": "vibrate_on_callwaiting",
+    "title": "Vibrate on call waiting",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_sound.xml",
+    "key": "vibrate_on_disconnect",
+    "title": "Vibrate on disconnect",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "status_bar_icons",
+    "title": "Status bar icons",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "clock",
+    "title": "Dynamic Bar",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.statusbar.DynamicBar",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "status_bar_clock",
+    "title": "Clock style",
+    "type": "lineageos.preference.LineageSystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "clock",
+    "title": "Clock & date",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.statusbar.Clock",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "statusbar_clock_chip",
+    "title": "Clock background chip",
+    "type": "com.crdroid.settings.preferences.ClockBackgroundChipPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "network_traffic_settings",
+    "title": "Network traffic monitor",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.statusbar.NetworkTrafficSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "bluetooth_show_battery",
+    "title": "Bluetooth battery status",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "wifi_standard_icon",
+    "title": "WiFi standard",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "enable_camera_privacy_indicator",
+    "title": "Mic and camera privacy indicator",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "enable_location_privacy_indicator",
+    "title": "Location privacy indicator",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "enable_projection_privacy_indicator",
+    "title": "Media projection privacy indicator",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "statusbar_colored_icons",
+    "title": "Colored icons",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "statusbar_notif_count",
+    "title": "Show notification count",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "lockscreen_show_carrier",
+    "title": "Show carrier label",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "lockscreen_show_custom_carrier_text",
+    "title": "Custom carrier label",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "status_bar_logo",
+    "title": "Logo",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "status_bar_logo_position",
+    "title": "Logo position",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "status_bar_logo_style",
+    "title": "Logo style",
+    "type": "com.crdroid.settings.preferences.StatusBarLogoStylePreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "status_bar_battery_style",
+    "title": "Battery style",
+    "type": "lineageos.preference.LineageSystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "status_bar_show_battery_percent",
+    "title": "Battery percent",
+    "type": "lineageos.preference.LineageSystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "batterybar",
+    "title": "Battery bar",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.statusbar.BatteryBar",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "double_tap_sleep_gesture",
+    "title": "Tap to sleep",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "status_bar_brightness_control",
+    "title": "Brightness control",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "status_bar_brightness_control_lockscreen",
+    "title": "Brightness control on lockscreen",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "qs_quick_pulldown",
+    "title": "Quick pulldown",
+    "type": "lineageos.preference.LineageSystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "statusbar_extra_padding_start",
+    "title": "Start padding",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "statusbar_extra_padding_top",
+    "title": "Top padding",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_statusbar.xml",
+    "key": "statusbar_extra_padding_end",
+    "title": "End padding",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "doze_fragment",
+    "title": "Ambient display",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.ui.DozeSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "doze_always_on_wallpaper_enabled",
+    "title": "Ambient wallpaper",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "pulse_on_new_tracks",
+    "title": "Music ticker",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "edge_light_settings",
+    "title": "Edge light",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.ui.EdgeLightSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "gradient_settings",
+    "title": "Gradients customization",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.ui.GradientSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "system_font",
+    "title": "Font style",
+    "type": "com.crdroid.settings.preferences.FontsPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "monet_engine",
+    "title": "Monet settings",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.ui.MonetSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "custom_system_theme",
+    "title": "Themes",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": "com.android.axion.axthemestore"
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "settings_icon",
+    "title": "Settings style",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.ui.SettingsIcon",
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "display_cutout_force_fullscreen_settings",
+    "title": "Full screen apps",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": "com.android.settings"
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "screen_off_animation",
+    "title": "Screen off animation",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "crdroid_settings_ui.xml",
+    "key": "smart_pixels",
+    "title": "Smart Pixels",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.ui.SmartPixels",
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "doze_enabled",
+    "title": "@string/doze_title",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "doze_always_on",
+    "title": "@string/doze_always_on_title2",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "always_on_display_schedule",
+    "title": "Display schedule",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.ui.doze.AODSchedule",
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "doze_on_charge",
+    "title": "Always show when charging",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "doze_device_settings",
+    "title": "Additional settings",
+    "type": "lineageos.preference.RemotePreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "doze_tilt_gesture",
+    "title": "Tilt",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "doze_pick_up_gesture",
+    "title": "Pick up",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "doze_handwave_gesture",
+    "title": "Hand wave",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "doze_pocket_gesture",
+    "title": "Pocket",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "raise_to_wake_gesture",
+    "title": "Wake up",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "doze_settings.xml",
+    "key": "doze_gesture_vibrate",
+    "title": "Vibrate",
+    "type": "com.crdroid.settings.preferences.SecureSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "dynamic_bar_hero_banner",
+    "title": "",
+    "type": "com.android.settingslib.widget.LayoutPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "ax_dynamic_bar_enabled",
+    "title": "Enable Dynamic Bar",
+    "type": "lineageos.preference.SecureSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "ax_dynamic_bar_keyguard_enabled",
+    "title": "Dynamic bar on lock screen",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "ax_dynamic_bar_keyguard_battery_chip_mode",
+    "title": "Battery info on lock screen",
+    "type": "com.crdroid.settings.preferences.SecureSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_audio_recording",
+    "title": "Audio recording",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_media",
+    "title": "Media playback",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_call",
+    "title": "Ongoing call",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_notification",
+    "title": "Notifications",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "ax_dynamic_bar_compact_notifications",
+    "title": "Compact notifications",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_timer",
+    "title": "Timer",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_stopwatch",
+    "title": "Stopwatch",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_alarm",
+    "title": "Alarm",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_charging",
+    "title": "Charging started",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_bluetooth",
+    "title": "Bluetooth",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_hotspot",
+    "title": "Hotspot",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_ringer",
+    "title": "Ringer Mode",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_vpn",
+    "title": "VPN",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_clipboard",
+    "title": "Clipboard",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_torch",
+    "title": "Flashlight",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_promoted_ongoing",
+    "title": "Ongoing activities",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_sports",
+    "title": "Sports",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_app_switch",
+    "title": "Recent app switch",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "event_biometric_unlock",
+    "title": "Biometric unlock",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "dynamic_bar_guide",
+    "title": "How to use Dynamic Bar",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.statusbar.DynamicBarGuide",
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar.xml",
+    "key": "dynamic_bar_footer",
+    "title": "Dynamic Bar transforms your status bar into an interactive hub. Status chips appear and animate based on system events, giving you at-a-glance information without interrupting your workflow.\\n\\nEach event type has its own accent color and expanded card with quick actions.",
+    "type": "com.android.settingslib.widget.FooterPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "dynamic_bar_guide_prefs.xml",
+    "key": "dynamic_bar_guide_content",
+    "title": "",
+    "type": "com.android.settingslib.widget.LayoutPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "edge_light_settings.xml",
+    "key": "edge_light_preview",
+    "title": "",
+    "type": "com.android.settingslib.widget.LayoutPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "edge_light_settings.xml",
+    "key": "edge_light_enabled",
+    "title": "Enable",
+    "type": "lineageos.preference.SystemSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "edge_light_settings.xml",
+    "key": "edge_light_pulse_count",
+    "title": "Pulse count",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "edge_light_settings.xml",
+    "key": "edge_light_stroke_width",
+    "title": "Stroke width",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "edge_light_settings.xml",
+    "key": "edge_light_color_mode",
+    "title": "Color mode",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "edge_light_settings.xml",
+    "key": "edge_light_style",
+    "title": "Render style",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "edge_light_settings.xml",
+    "key": "edge_light_animation_effect",
+    "title": "Animation effect",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "edge_light_settings.xml",
+    "key": "edge_light_custom_color",
+    "title": "Custom color",
+    "type": "com.crdroid.settings.preferences.colorpicker.SystemSettingColorPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "game_spoofing.xml",
+    "key": "gs_enabled",
+    "title": "Enable game spoofing",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "game_spoofing.xml",
+    "key": "gs_add_game",
+    "title": "Add game",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "game_spoofing.xml",
+    "key": "gs_reload",
+    "title": "Reload",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "gradient_settings.xml",
+    "key": "qs_tile_gradient",
+    "title": "QS tiles gradient",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "gradient_settings.xml",
+    "key": "qs_brightness_slider_gradient",
+    "title": "QS brightness slider gradient",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "gradient_settings.xml",
+    "key": "volume_slider_gradient",
+    "title": "Volume slider gradient",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "gradient_settings.xml",
+    "key": "custom_gradient_color_mode",
+    "title": "Gradient color mode",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "gradient_settings.xml",
+    "key": "custom_gradient_start_color",
+    "title": "Gradient start color",
+    "type": "com.crdroid.settings.preferences.colorpicker.SystemSettingColorPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "gradient_settings.xml",
+    "key": "custom_gradient_end_color",
+    "title": "Gradient end color",
+    "type": "com.crdroid.settings.preferences.colorpicker.SystemSettingColorPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "lockscreen_clock_preview_settings.xml",
+    "key": "clock_preview",
+    "title": "",
+    "type": "com.android.settingslib.widget.LayoutPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "lockscreen_clock_preview_settings.xml",
+    "key": "lock_clock_font",
+    "title": "Clock font style",
+    "type": "com.crdroid.settings.preferences.LockClockFontsPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "lockscreen_clock_preview_settings.xml",
+    "key": "lock_screen_custom_clock_color_mode",
+    "title": "Custom clock color mode",
+    "type": "com.crdroid.settings.preferences.SecureSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "lockscreen_clock_preview_settings.xml",
+    "key": "lock_screen_custom_clock_size_scale",
+    "title": "Clock size",
+    "type": "com.crdroid.settings.preferences.SecureSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "lockscreen_clock_preview_settings.xml",
+    "key": "lock_screen_custom_clock_custom_color",
+    "title": "Custom color",
+    "type": "com.crdroid.settings.preferences.colorpicker.SecureSettingColorPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "lockscreen_clock_preview_settings.xml",
+    "key": "lock_screen_custom_clock_opacity",
+    "title": "Custom clock opacity",
+    "type": "com.crdroid.settings.preferences.SecureSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "lockscreen_clock_preview_settings.xml",
+    "key": "lock_screen_custom_clock_aod_anim",
+    "title": "Custom clock AOD animation",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "lockscreen_clock_preview_settings.xml",
+    "key": "lock_screen_custom_clock_margin_top",
+    "title": "Custom clock height",
+    "type": "com.crdroid.settings.preferences.SecureSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "lockscreen_clock_preview_settings.xml",
+    "key": "custom_clock_style_info",
+    "title": "Custom clock style replaces AOSP clock styles with custom clocks. Smartspace will be disabled. You can enable and use custom weather instead.",
+    "type": "com.android.settingslib.widget.FooterPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "media_art_settings.xml",
+    "key": "ls_media_art_enabled",
+    "title": "Enable",
+    "type": "lineageos.preference.SystemSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "media_art_settings.xml",
+    "key": "ambient_media_art_enabled",
+    "title": "Ambient media cover art",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "media_art_settings.xml",
+    "key": "ls_media_art_filter",
+    "title": "Media cover art filter",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "media_art_settings.xml",
+    "key": "ls_media_art_fade_level",
+    "title": "Media cover art fade level",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "media_art_settings.xml",
+    "key": "ls_media_art_blur_level",
+    "title": "Media art blur level",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "monet_engine.xml",
+    "key": "monet_preview",
+    "title": "",
+    "type": "com.android.settingslib.widget.LayoutPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "monet_engine.xml",
+    "key": "theme_style",
+    "title": "Theme style",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "monet_engine.xml",
+    "key": "color_source",
+    "title": "Color source",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "monet_engine.xml",
+    "key": "accent_color",
+    "title": "Accent color",
+    "type": "com.crdroid.settings.preferences.colorpicker.ColorPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "monet_engine.xml",
+    "key": "accent_background",
+    "title": "Background color",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "monet_engine.xml",
+    "key": "bg_color",
+    "title": "Custom color",
+    "type": "com.crdroid.settings.preferences.colorpicker.ColorPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "monet_engine.xml",
+    "key": "luminance_factor",
+    "title": "Luminance",
+    "type": "com.crdroid.settings.preferences.CustomSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "monet_engine.xml",
+    "key": "chroma_factor",
+    "title": "Chroma factor",
+    "type": "com.crdroid.settings.preferences.CustomSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "monet_engine.xml",
+    "key": "whole_palette",
+    "title": "Whole palette",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "monet_engine.xml",
+    "key": "tint_background",
+    "title": "Tint background",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "network_traffic_settings.xml",
+    "key": "network_traffic_enabled",
+    "title": "Enable",
+    "type": "lineageos.preference.SystemSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "network_traffic_settings.xml",
+    "key": "network_traffic_mode",
+    "title": "Display mode",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "network_traffic_settings.xml",
+    "key": "network_traffic_autohide",
+    "title": "Auto hide",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "network_traffic_settings.xml",
+    "key": "network_traffic_autohide_threshold",
+    "title": "Inactivity threshold",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "network_traffic_settings.xml",
+    "key": "network_traffic_refresh_interval",
+    "title": "Refresh interval",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "network_traffic_settings.xml",
+    "key": "network_traffic_units",
+    "title": "Traffic measurement units",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "network_traffic_settings.xml",
+    "key": "network_traffic_hidearrow",
+    "title": "Hide arrows",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "notification_light_pulse",
+    "title": "Enable notification light",
+    "type": "lineageos.preference.SystemSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "notification_light_color_auto",
+    "title": "Choose colors automatically",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "default",
+    "title": "Default",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.ApplicationLightPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "notification_light_pulse_override",
+    "title": "Override all apps",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "notification_light_brightness_level",
+    "title": "@string/light_brightness_normal",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.NotificationBrightnessPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "notification_light_brightness_level_zen",
+    "title": "@string/light_brightness_zen",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.NotificationBrightnessZenPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "notification_light_screen_on_enable",
+    "title": "Lights with screen on",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "notification_light_pulse_custom_enable",
+    "title": "Use custom values",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "missed_call",
+    "title": "Missed call",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.ApplicationLightPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "voicemail",
+    "title": "Voicemail",
+    "type": "com.crdroid.settings.fragments.notifications.notificationlight.ApplicationLightPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "notification_light_settings.xml",
+    "key": "custom_apps_add",
+    "title": "@string/add",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "play_integrity_fix.xml",
+    "key": "pif_active_config",
+    "title": "Active configuration",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "play_integrity_fix.xml",
+    "key": "pif_fetch_beta",
+    "title": "Fetch Pixel Beta fingerprint",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "play_integrity_fix.xml",
+    "key": "pif_import_config",
+    "title": "Import configuration",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "play_integrity_fix.xml",
+    "key": "pif_delete_config",
+    "title": "Delete active configuration",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "play_integrity_fix.xml",
+    "key": "spoof_pif_photos",
+    "title": "Spoof Google Photos",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "play_integrity_fix.xml",
+    "key": "pif_footer",
+    "title": "1. Tap \\\"Fetch Pixel Beta fingerprint\\\" and select a device from the available list.\\n2. If no devices are found, import a working PIF config from a trusted source. Config files are not provided; you must find one yourself.\\n3. Recheck your Play Integrity status.\\n\\nAlways delete the active configuration before loading a new one. Loading an expired PIF config will cause strong integrity via TrickyStore to fail, even with a valid keybox.",
+    "type": "com.android.settingslib.widget.FooterPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "power_menu.xml",
+    "key": "screenshot",
+    "title": "Screenshot",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "power_menu.xml",
+    "key": "onthego",
+    "title": "On-The-Go mode",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "power_menu.xml",
+    "key": "airplane",
+    "title": "Airplane",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "power_menu.xml",
+    "key": "users",
+    "title": "Users",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "power_menu.xml",
+    "key": "lockdown",
+    "title": "Lockdown",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "power_menu.xml",
+    "key": "emergency",
+    "title": "Emergency",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "power_menu.xml",
+    "key": "devicecontrols",
+    "title": "Device controls",
+    "type": "SwitchPreferenceCompat",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "power_menu.xml",
+    "key": "advanced_reboot",
+    "title": "Advanced restart",
+    "type": "lineageos.preference.LineageSecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "power_menu.xml",
+    "key": "advanced_reboot_secured",
+    "title": "Secured lockscreen",
+    "type": "lineageos.preference.LineageSecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "pulse_settings.xml",
+    "key": "lockscreen_pulse_enabled",
+    "title": "Enable",
+    "type": "lineageos.preference.SecureSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "pulse_settings.xml",
+    "key": "ambient_pulse_enabled",
+    "title": "Ambient Pulse",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "pulse_settings.xml",
+    "key": "pulse_bass_haptics",
+    "title": "Bass haptics",
+    "type": "com.crdroid.settings.preferences.SecureSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "pulse_settings.xml",
+    "key": "pulse_renderer",
+    "title": "Visualizer style",
+    "type": "com.crdroid.settings.preferences.SecureSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "pulse_settings.xml",
+    "key": "pulse_rounded_bars",
+    "title": "Rounded bars",
+    "type": "com.crdroid.settings.preferences.SecureSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "pulse_settings.xml",
+    "key": "pulse_color",
+    "title": "Visualizer color",
+    "type": "com.crdroid.settings.preferences.SecureSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "pulse_settings.xml",
+    "key": "pulse_custom_color",
+    "title": "Custom color",
+    "type": "com.crdroid.settings.preferences.colorpicker.SecureSettingColorPickerPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "pulse_settings.xml",
+    "key": "pulse_bar_count",
+    "title": "Number of bars",
+    "type": "com.crdroid.settings.preferences.SecureSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "pulse_settings.xml",
+    "key": "pulse_height_multiplier",
+    "title": "Pulse height",
+    "type": "com.crdroid.settings.preferences.SecureSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_header_image_settings.xml",
+    "key": "status_bar_custom_header",
+    "title": "Enable",
+    "type": "lineageos.preference.SystemSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_header_image_settings.xml",
+    "key": "qs_header_provider",
+    "title": "Header provider",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_header_image_settings.xml",
+    "key": "daylight_header_pack",
+    "title": "Header image collection",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_header_image_settings.xml",
+    "key": "custom_header_browse",
+    "title": "Browse installed headers",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": "org.omnirom.omnistyle"
+  },
+  {
+    "screen": "qs_header_image_settings.xml",
+    "key": "file_header_select",
+    "title": "Select image",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_header_image_settings.xml",
+    "key": "status_bar_custom_header_height",
+    "title": "Header image offset",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_header_image_settings.xml",
+    "key": "status_bar_custom_header_shadow",
+    "title": "Header image shadow",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_layout_settings.xml",
+    "key": "qs_tiles_columns",
+    "title": "Columns (portrait)",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_layout_settings.xml",
+    "key": "qs_tiles_columns_landscape",
+    "title": "Columns (landscape)",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_layout_settings.xml",
+    "key": "qs_tiles_rows",
+    "title": "Rows (portrait)",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_layout_settings.xml",
+    "key": "qs_tiles_rows_landscape",
+    "title": "Rows (landscape)",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "qs_layout_settings.xml",
+    "key": "qqs_tiles_rows",
+    "title": "Quick QS Rows (portrait)",
+    "type": "com.crdroid.settings.preferences.SystemSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "sensor_block_settings.xml",
+    "key": "sensor_block",
+    "title": "Enable",
+    "type": "lineageos.preference.GlobalSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "sensor_block_settings.xml",
+    "key": "add_sensor_block_packages",
+    "title": "Add apps for Sensor block",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "sensor_block_settings.xml",
+    "key": "sensor_block_footer",
+    "title": "",
+    "type": "com.android.settingslib.widget.FooterPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "settings_icons.xml",
+    "key": "settings_icon_style",
+    "title": "Settings icon style",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "settings_icons.xml",
+    "key": "settings_icon_random_colors",
+    "title": "Random colors",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "settings_icons.xml",
+    "key": "settings_icon_corner_style",
+    "title": "Settings icons corner style",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "smart_pixels.xml",
+    "key": "smart_pixel_filter_enabled",
+    "title": "Enable",
+    "type": "lineageos.preference.SecureSettingMainSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "smart_pixels.xml",
+    "key": "smart_pixel_filter_percent",
+    "title": "Percent of pixels to disable",
+    "type": "com.crdroid.settings.preferences.SecureSettingSeekBarPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "smart_pixels.xml",
+    "key": "smart_pixels_footer",
+    "title": "Smart pixels is a power saving feature. Depending on how many pixels you decide to turn off, you could see improvement in battery life. Note that in some cases it can result in unresponsive areas on touch screen",
+    "type": "com.android.settingslib.widget.FooterPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "status_bar_clock.xml",
+    "key": "status_bar_clock_auto_hide",
+    "title": "Auto hide",
+    "type": "lineageos.preference.LineageSystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "status_bar_clock.xml",
+    "key": "status_bar_clock_seconds",
+    "title": "Clock seconds",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "status_bar_clock.xml",
+    "key": "status_bar_clock_period_separator",
+    "title": "Period separator",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "status_bar_clock.xml",
+    "key": "status_bar_clock_bold",
+    "title": "Bold clock",
+    "type": "com.crdroid.settings.preferences.SystemSettingSwitchPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "status_bar_clock.xml",
+    "key": "status_bar_am_pm",
+    "title": "AM/PM style",
+    "type": "lineageos.preference.LineageSystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "status_bar_clock.xml",
+    "key": "status_bar_clock_date_display",
+    "title": "Date",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "status_bar_clock.xml",
+    "key": "status_bar_clock_date_position",
+    "title": "Date position",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "status_bar_clock.xml",
+    "key": "status_bar_clock_date_style",
+    "title": "Date style",
+    "type": "com.crdroid.settings.preferences.SystemSettingListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "status_bar_clock.xml",
+    "key": "status_bar_clock_date_format",
+    "title": "Date format",
+    "type": "ListPreference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "tricky_store.xml",
+    "key": "ts_import_keybox",
+    "title": "Import keybox",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "tricky_store.xml",
+    "key": "ts_delete_keybox",
+    "title": "Delete keybox",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "tricky_store.xml",
+    "key": "ts_manage_targets",
+    "title": "Manage target apps",
+    "type": "Preference",
+    "fragment": "com.crdroid.settings.fragments.misc.TrickyStoreAppSettings",
+    "intent_package": null
+  },
+  {
+    "screen": "tricky_store.xml",
+    "key": "ts_import_targets",
+    "title": "Import target list",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "tricky_store.xml",
+    "key": "ts_verification_mode",
+    "title": "Verification mode",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "tricky_store.xml",
+    "key": "ts_security_patch",
+    "title": "Security patch date",
+    "type": "Preference",
+    "fragment": null,
+    "intent_package": null
+  },
+  {
+    "screen": "tricky_store.xml",
+    "key": "ts_footer",
+    "title": "1. Obtain a valid keybox XML from a trusted source. Keyboxes are not provided; you must find one yourself.\\n2. Tap \\\"Import keybox\\\" and load the file.\\n3. Open \\\"Manage target apps\\\" and select Google Play Services and Google Play Store.\\n4. Set target mode to \\\"Leaf\\\" if your device has a working TEE, otherwise leave it as Auto.\\n5. Recheck your Play Integrity status.\\n\\nAlways delete the existing keybox before importing a new one. If Google revokes a keybox, it may still allow passing up to device integrity even though strong integrity will fail.",
+    "type": "com.android.settingslib.widget.FooterPreference",
+    "fragment": null,
+    "intent_package": null
+  }
+]

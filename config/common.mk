@@ -13,17 +13,12 @@ include vendor/nasgoros/config/version.mk
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.nasgoros.base=LineageOS
 
-# Boot animation (regenerate with bootanimation/generate.py)
-TARGET_BOOTANIMATION := vendor/nasgoros/bootanimation/bootanimation.zip
+# Feature modules and opt-out switches; see PORTING.md before changing ROM bases.
+$(call inherit-product, vendor/nasgoros/config/features.mk)
 
 # Rebrand user-visible "LineageOS" strings in every locale (tools/gen-branding-overlay.py)
 PRODUCT_PACKAGE_OVERLAYS += vendor/nasgoros/overlay/branding
 PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/nasgoros/overlay/branding
 
-# Settings > NasgorOS (packages/apps/NasgorSettings)
-PRODUCT_PACKAGES += \
-    NasgorSettings
-
-# Apps removed from NasgorOS (see FEATURES.md)
-PRODUCT_PACKAGES += \
-    NasgorRemovePackages
+# Minimal app selection and first-boot provisioning (see removed-packages/README.md).
+$(call inherit-product, vendor/nasgoros/config/features/minimal-apps.mk)

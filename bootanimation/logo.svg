@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2026 The nasgorOS Project; SPDX-License-Identifier: Apache-2.0 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="320" viewBox="0 0 400 320">
+  <title>nasgor os — nasi goreng dengan telur, cabai, dan mentimun</title>
+  <g stroke="#39251c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M31 231 C35 271 99 296 201 296 C300 296 366 270 370 231Z" fill="#a8beb5"/>
+    <ellipse cx="200" cy="230" rx="173" ry="54" fill="#fff4d9"/>
+    <ellipse cx="200" cy="229" rx="145" ry="34" fill="#d9dfca" stroke="#c1c9b6" stroke-width="3"/>
+    <!-- Irregular contour of the rice mound. -->
+    <path d="M63 222 C55 210 68 194 76 190 C69 178 85 164 95 162
+      C91 150 106 136 119 135 C119 122 137 115 149 116
+      C157 101 175 106 185 102 C201 92 215 102 227 106
+      C243 101 255 113 264 121 C280 120 292 133 293 146
+      C307 149 316 162 314 173 C329 180 327 192 337 201
+      C347 214 335 232 321 238 C254 263 132 261 78 242
+      C65 238 57 231 63 222Z" fill="#df8836"/>
+    <path d="M72 201 C85 191 88 173 103 166 C119 143 132 147 143 132
+      C167 115 187 119 202 114 C231 120 251 125 262 142
+      C286 148 291 167 305 181 C318 193 324 208 320 218
+      C257 245 140 245 78 226 C68 223 67 210 72 201Z" fill="#f4ac50" stroke="none"/>
+    <g fill="none" stroke="#ffe1a0" stroke-width="7">
+      <path d="M107 183l8-5 M133 161l9 3 M158 142l8-4 M97 209l8 3
+        M124 221l9-3 M157 196l9 4 M180 224l8-3 M212 236l8-2
+        M244 218l7 3 M277 231l8-4 M298 204l9 3 M171 171l7 2
+        M138 240l8 1 M208 207l7-4"/>
+    </g>
+    <g fill="none" stroke="#b86a30" stroke-width="5">
+      <path d="M84 228l7 1 M122 194l6 3 M152 222l7 2 M190 246l8-1
+        M242 244l7-2 M305 230l6-3 M112 159l6-3 M180 123l6 1"/>
+    </g>
+    <!-- Carrot and scallions. -->
+    <g stroke="none">
+      <rect x="114" y="197" width="13" height="11" rx="3" fill="#ed6840" transform="rotate(-18 120 202)"/>
+      <rect x="192" y="225" width="13" height="11" rx="3" fill="#ed6840" transform="rotate(20 198 230)"/>
+      <rect x="269" y="198" width="13" height="11" rx="3" fill="#ed6840" transform="rotate(-12 275 203)"/>
+      <path d="M136 178l13-7 5 8-13 7Z M168 211l13-6 4 8-13 6Z
+        M227 229l13-7 4 8-13 7Z M92 189l10-5 4 7-10 5Z" fill="#44754a"/>
+    </g>
+    <!-- Fried egg. -->
+    <path d="M183 124 C178 109 195 96 212 98 C225 87 244 92 254 103
+      C272 98 288 109 289 123 C306 128 311 143 302 154
+      C311 170 295 186 279 185 C267 204 247 201 234 192
+      C218 203 197 193 194 181 C176 178 170 161 179 148
+      C168 140 171 129 183 124Z" fill="#fff5d8" stroke="#cf873b" stroke-width="4"/>
+    <path d="M198 121 C208 104 224 108 234 111" fill="none" stroke="#fffdf0" stroke-width="7"/>
+    <ellipse cx="240" cy="145" rx="33" ry="30" fill="#ffbd35" stroke="#ed982b" stroke-width="3"/>
+    <path d="M223 137 C224 129 232 125 240 126" fill="none" stroke="#ffe590" stroke-width="6"/>
+    <!-- Cucumber slices. -->
+    <g transform="rotate(-23 315 232)">
+      <ellipse cx="318" cy="225" rx="26" ry="22" fill="#467e54" stroke="#365839" stroke-width="3"/>
+      <ellipse cx="318" cy="225" rx="19" ry="15" fill="#b9d891" stroke="none"/>
+      <path d="M308 224l5-3 M323 218l-1 4 M321 231l5 1" stroke="#f1ebbf" stroke-width="4"/>
+      <ellipse cx="298" cy="242" rx="26" ry="22" fill="#579460" stroke="#365839" stroke-width="3"/>
+      <ellipse cx="298" cy="242" rx="19" ry="15" fill="#c2df9b" stroke="none"/>
+      <path d="M288 241l5-3 M303 235l-1 4 M301 248l5 1" stroke="#fff3c8" stroke-width="4"/>
+    </g>
+    <!-- Red chili. -->
+    <path d="M73 242 C85 235 109 251 140 243 C126 263 90 270 74 252Z" fill="#ee6345" stroke="#aa4030" stroke-width="3"/>
+    <path d="M76 243 C72 237 66 235 63 237" fill="none" stroke="#548450" stroke-width="5"/>
+    <path d="M88 246l13 5" fill="none" stroke="#ffab78" stroke-width="3"/>
+  </g>
+</svg>

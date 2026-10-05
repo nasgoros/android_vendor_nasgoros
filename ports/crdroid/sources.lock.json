@@ -1,0 +1,190 @@
+{
+  "android": 17,
+  "scope": "crDroid Settings, supporting frameworks and feature providers",
+  "projects": [
+    {
+      "path": "frameworks/base",
+      "repository": "crdroidandroid/android_frameworks_base",
+      "revision": "eec891c4885cf956e56796b989d229df8fb850c3",
+      "branch": "17.0",
+      "local_clone": "android_frameworks_base",
+      "reason": "Framework APIs, SystemUI and settings consumers"
+    },
+    {
+      "path": "frameworks/native",
+      "repository": "crdroidandroid/android_frameworks_native",
+      "revision": "1210cd4125a0f0cd6f4cb98aeaa6f1f10c50900a",
+      "branch": "17.0",
+      "local_clone": "android_frameworks_native",
+      "reason": "Native display, sensor and input consumers"
+    },
+    {
+      "path": "frameworks/libs/systemui",
+      "repository": "crdroidandroid/android_frameworks_libs_systemui",
+      "revision": "65eb5d7c1874e93205881b8861af6a1e516ee0d5",
+      "branch": "17.0",
+      "local_clone": "android_frameworks_libs_systemui",
+      "reason": "Shared SystemUI libraries and clocks"
+    },
+    {
+      "path": "frameworks/opt/telephony",
+      "repository": "crdroidandroid/android_frameworks_opt_telephony",
+      "revision": "be8063a7b62aaf89d7da33300a931570bcc14e0a",
+      "branch": "17.0",
+      "local_clone": "android_frameworks_opt_telephony",
+      "reason": "Telephony preferences backend"
+    },
+    {
+      "path": "lineage-sdk",
+      "repository": "crdroidandroid/android_lineage-sdk",
+      "revision": "0f6ea41610cb9e0443ad2715c7e0959c65f3d7ea",
+      "branch": "17.0",
+      "local_clone": "android_lineage-sdk",
+      "reason": "Settings provider keys and preference support"
+    },
+    {
+      "path": "packages/apps/Settings",
+      "repository": "crdroidandroid/android_packages_apps_Settings",
+      "revision": "799904691b9a00e18b61cdd73c1f3b6d27a92ef6",
+      "branch": "17.0",
+      "local_clone": "android_packages_apps_Settings",
+      "reason": "Settings host for crDroid fragments"
+    },
+    {
+      "path": "packages/apps/crDroidSettings",
+      "repository": "crdroidandroid/android_packages_apps_crDroidSettings",
+      "revision": "0c8bcceebab0350cb6a998a2266473695f6d836d",
+      "branch": "17.0",
+      "local_clone": "android_packages_apps_crDroidSettings",
+      "reason": "Complete upstream customization screens"
+    },
+    {
+      "path": "packages/apps/GameSpace",
+      "repository": "crdroidandroid/android_packages_apps_GameSpace",
+      "revision": "3e325db0f30a219e6b1294de47cc4ad5481c3fb7",
+      "branch": "17.0",
+      "local_clone": "android_packages_apps_GameSpace",
+      "reason": "Game mode settings dependency"
+    },
+    {
+      "path": "packages/apps/OmniStyle",
+      "repository": "crdroidandroid/android_packages_apps_OmniStyle",
+      "revision": "15432cf870458b15259312b6e4c27c3e194a9939",
+      "branch": "17.0",
+      "local_clone": "android_packages_apps_OmniStyle",
+      "reason": "Quick Settings header image choices"
+    },
+    {
+      "path": "packages/apps/ThemeStore",
+      "repository": "crdroidandroid/android_packages_apps_ThemeStore",
+      "revision": "2bc5b64cf95bd65a1175dc998ff027862649b8ea",
+      "branch": "17.0",
+      "local_clone": "android_packages_apps_ThemeStore",
+      "reason": "Theme selection settings dependency"
+    },
+    {
+      "path": "packages/apps/LMOFreeform",
+      "repository": "crdroidandroid/android_packages_apps_LMOFreeform",
+      "revision": "246622d65e29c1d3e5fa0e221b6f0926a6990343",
+      "branch": "17.0",
+      "local_clone": "android_packages_apps_LMOFreeform",
+      "reason": "Sidebar and freeform settings dependency"
+    },
+    {
+      "path": "packages/apps/Sandbox",
+      "repository": "crdroidandroid/android_packages_apps_Sandbox",
+      "revision": "149b72cbe1409501cb104f6e4e20e5ae316596f9",
+      "branch": "17.0",
+      "local_clone": "android_packages_apps_Sandbox",
+      "reason": "App sandbox framework service and settings"
+    },
+    {
+      "path": "packages/services/QuickLook",
+      "repository": "crdroidandroid/android_packages_services_QuickLook",
+      "revision": "dda4e5a58d6f987abb3c19a7e73c639f02412d6a",
+      "branch": "17.0",
+      "local_clone": "android_packages_services_QuickLook",
+      "reason": "Lockscreen smartspace dependency"
+    },
+    {
+      "path": "packages/services/OmniJaws",
+      "repository": "crdroidandroid/android_packages_services_OmniJaws",
+      "revision": "5422d818bd900d4e37a3745603c1d47920a0f968",
+      "branch": "17.0",
+      "local_clone": "android_packages_services_OmniJaws",
+      "reason": "Weather settings provider"
+    },
+    {
+      "path": "packages/services/Telecomm",
+      "repository": "crdroidandroid/android_packages_services_Telecomm",
+      "revision": "b042e145da8cfb6fe6c351f968e1187a2d13ef0c",
+      "branch": "17.0",
+      "local_clone": "android_packages_services_Telecomm",
+      "reason": "In-call vibration settings backend"
+    },
+    {
+      "path": "packages/services/Telephony",
+      "repository": "crdroidandroid/android_packages_services_Telephony",
+      "revision": "b04c5bee0eb82e1ef0e1c6243b7a3cc630649a5a",
+      "branch": "17.0",
+      "local_clone": "android_packages_services_Telephony",
+      "reason": "Network indicator settings backend"
+    },
+    {
+      "path": "external/FadingEdgeLayout",
+      "repository": "crdroidandroid/android_external_FadingEdgeLayout",
+      "revision": "0165827a1c0c7076faa236fb01dcd5f877595ecf",
+      "branch": "17.0",
+      "local_clone": "android_external_FadingEdgeLayout",
+      "reason": "SystemUI rendering dependency"
+    },
+    {
+      "path": "vendor/addons",
+      "repository": "crdroidandroid/android_vendor_addons",
+      "revision": "9cb99ad7ce256c71aa849ecf1f127196edbde32b",
+      "branch": "17.0",
+      "local_clone": "android_vendor_crdroid_addons",
+      "reason": "Shared libraries and optional style resources only"
+    },
+    {
+      "path": "device/lineage/sepolicy",
+      "repository": "crdroidandroid/android_device_crdroid_sepolicy",
+      "revision": "4e01647ad427797e1398697c9ae1cb11eb68fda4",
+      "branch": "17.0",
+      "local_clone": "android_device_crdroid_sepolicy",
+      "reason": "Policies for customization services"
+    },
+    {
+      "path": "system/sepolicy",
+      "repository": "crdroidandroid/android_system_sepolicy",
+      "revision": "6453de8f2aaa9f797a19ff10a5bc5543575d9199",
+      "branch": "17.0",
+      "local_clone": "android_system_sepolicy",
+      "reason": "Framework policy compatibility"
+    },
+    {
+      "path": "packages/apps/AppLocker",
+      "repository": "crdroidandroid/android_packages_apps_AppLocker",
+      "revision": "065f2f5553bcf297fe503b28ef15433447df92a5",
+      "branch": "17.0",
+      "local_clone": "android_packages_apps_AppLocker",
+      "reason": "App sandbox lock-screen dependency"
+    },
+    {
+      "path": "packages/resources/apps",
+      "repository": "crdroidandroid/android_packages_resources_apps",
+      "revision": "08e798a9bf8d4617eae05a390127e417c44baef4",
+      "branch": "16.0",
+      "local_clone": "android_packages_resources_apps",
+      "reason": "Weather provider resources, matching the upstream Android 17 manifest"
+    },
+    {
+      "path": "packages/overlays/Lineage",
+      "repository": "LineageOS/android_packages_overlays_Lineage",
+      "revision": "9e5784b30e406feca0b424ce2adda39adacc1612",
+      "branch": "lineage-24.0",
+      "local_clone": "android_packages_overlays_Lineage",
+      "reason": "Keep Lineage overlays while excluding font modules supplied by addons"
+    }
+  ]
+}

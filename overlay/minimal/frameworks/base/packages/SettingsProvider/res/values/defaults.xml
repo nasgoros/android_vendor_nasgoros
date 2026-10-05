@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
+     SPDX-License-Identifier: Apache-2.0 -->
+<resources>
+    <!-- Seedvault is not shipped. A later installed backup transport can select itself. -->
+    <string name="def_backup_transport" translatable="false"></string>
+</resources>

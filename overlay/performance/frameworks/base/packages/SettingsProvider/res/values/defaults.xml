@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <fraction name="def_window_animation_scale">50%</fraction>
+    <fraction name="def_window_transition_scale">50%</fraction>
+    <fraction name="def_animator_duration_scale">50%</fraction>
+    <integer name="def_disable_window_blurs">1</integer>
+</resources>
