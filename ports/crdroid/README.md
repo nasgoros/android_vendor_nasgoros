@@ -96,15 +96,20 @@ Android 18 / other-ROM upgrade steps, API boundaries and the patch maintenance
 checklist. Boot animation, wallpaper and NasgorSettings have separate product
 modules under `config/features/`.
 
-Source checks on 2026-10-05 passed: 23 exact source pins, the merged manifest,
+Source checks on 2026-10-05 passed: 26 exact source pins, the merged manifest,
 resource/manifest XML files, 10 explicit activity intents, definitions for
-160 selected product packages, and reconstruction of all four adaptation patches.
+160 selected product packages, and reconstruction of all five adaptation patches.
 These checks do not validate the complete Soong dependency graph or SELinux policy.
 
 An earlier NasgorSettings app build completed against the previous Lineage tree.
 It does not validate the final monitor/routing changes or this crDroid port.
-Compilation was deferred at the user's request; no complete ROM build or device
-validation has been performed for these changes.
+The first complete-ROM attempt reached native compilation and exposed the missing
+`frameworks/av` and `system/core` dependencies. After adding the matching pinned
+repositories, the original compiler commands for `android_media_AudioSystem.cpp`,
+`android_hardware_Camera.cpp` and `android_hardware_camera2_DngCreator.cpp` passed
+in the build container. The new `AppVolumeData` header was generated from the
+upstream AIDL with the real AIDL compiler; validation outputs were isolated from
+the ROM build outputs. Complete-ROM and device validation remain required.
 
 Re-run source checks without compiling:
 
