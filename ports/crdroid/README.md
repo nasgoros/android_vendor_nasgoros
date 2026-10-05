@@ -32,8 +32,8 @@ import as Apache-2.0.
 
 ## Sources and integration
 
-- `sources.lock.json`: 26 pinned repositories (25 crDroid dependencies and the
-  Lineage overlay source), source paths and reasons.
+- `sources.lock.json`: 27 pinned repositories (25 crDroid dependencies plus the
+  Lineage overlay and wallpaper sources), source paths and reasons.
 - `config/crdroid.mk`: required feature providers and font/clock/navigation
   resources. It deliberately selects resources without inheriting the whole
   `vendor/addons/config.mk` product.
@@ -51,6 +51,11 @@ The native backend includes the matching crDroid `frameworks/av` and
 used by the DNG creator; the latter supplies the extended camera face layout
 and camera commands. Mixing crDroid `frameworks/base` with the Lineage versions
 of these repositories fails to compile `libandroid_runtime`.
+
+The Lineage wallpaper app is retained with a small compatibility patch adding
+`SystemSettingsRepository.stringSetting`. It observes `Settings.System` with
+the same lifecycle, default-value and background-dispatcher behavior as the
+app's existing secure-settings implementation, satisfying the shared crDroid API.
 
 The upstream addons bootanimation module is excluded by a patch because it
 would duplicate Lineage's module. NasgorOS' existing `TARGET_BOOTANIMATION`
@@ -96,9 +101,9 @@ Android 18 / other-ROM upgrade steps, API boundaries and the patch maintenance
 checklist. Boot animation, wallpaper and NasgorSettings have separate product
 modules under `config/features/`.
 
-Source checks on 2026-10-05 passed: 26 exact source pins, the merged manifest,
+Source checks on 2026-10-06 passed: 27 exact source pins, the merged manifest,
 resource/manifest XML files, 10 explicit activity intents, definitions for
-160 selected product packages, and reconstruction of all five adaptation patches.
+160 selected product packages, and reconstruction of all six adaptation patches.
 These checks do not validate the complete Soong dependency graph or SELinux policy.
 
 An earlier NasgorSettings app build completed against the previous Lineage tree.

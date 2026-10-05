@@ -18,5 +18,9 @@
   {
     "path": "packages/overlays/Lineage",
     "patch": "packages_overlays_Lineage/0001-use-addon-font-modules.patch"
+  },
+  {
+    "path": "packages/apps/WallpaperPicker2",
+    "patch": "packages_apps_WallpaperPicker2/0001-support-system-string-settings.patch"
   }
 ]
