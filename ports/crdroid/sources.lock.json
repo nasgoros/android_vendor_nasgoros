@@ -11,6 +11,14 @@
       "reason": "Framework APIs, SystemUI and settings consumers"
     },
     {
+      "path": "packages/apps/FaceUnlock",
+      "repository": "crdroidandroid/android_packages_apps_FaceUnlock",
+      "revision": "a4cef893b8d07e30dfe4752bd8149b133f0cb196",
+      "branch": "17.0",
+      "local_clone": "android_packages_apps_FaceUnlock",
+      "reason": "FaceSense AIDL (vendor.aospa.biometrics.face) required by crDroid frameworks/base; hosted on gitlab.com"
+    },
+    {
       "path": "frameworks/native",
       "repository": "crdroidandroid/android_frameworks_native",
       "revision": "1210cd4125a0f0cd6f4cb98aeaa6f1f10c50900a",

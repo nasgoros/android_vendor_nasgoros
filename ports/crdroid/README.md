@@ -32,7 +32,7 @@ import as Apache-2.0.
 
 ## Sources and integration
 
-- `sources.lock.json`: 23 pinned repositories (22 crDroid dependencies and the
+- `sources.lock.json`: 24 pinned repositories (23 crDroid dependencies and the
   Lineage overlay source), source paths and reasons.
 - `config/crdroid.mk`: required feature providers and font/clock/navigation
   resources. It deliberately selects resources without inheriting the whole
