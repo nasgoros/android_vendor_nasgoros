@@ -56,6 +56,9 @@ The Lineage wallpaper app is retained with a small compatibility patch adding
 `SystemSettingsRepository.stringSetting`. It observes `Settings.System` with
 the same lifecycle, default-value and background-dispatcher behavior as the
 app's existing secure-settings implementation, satisfying the shared crDroid API.
+The 2026-10-06 build exposed this interface mismatch at 61%; after applying the
+patch, the original `WallpaperPicker2Lib` Kotlin compiler command passed in the
+build container with the build's JDK 21, and the complete-ROM build was resumed.
 
 The upstream addons bootanimation module is excluded by a patch because it
 would duplicate Lineage's module. NasgorOS' existing `TARGET_BOOTANIMATION`
