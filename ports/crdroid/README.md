@@ -32,7 +32,7 @@ import as Apache-2.0.
 
 ## Sources and integration
 
-- `sources.lock.json`: 24 pinned repositories (23 crDroid dependencies and the
+- `sources.lock.json`: 26 pinned repositories (25 crDroid dependencies and the
   Lineage overlay source), source paths and reasons.
 - `config/crdroid.mk`: required feature providers and font/clock/navigation
   resources. It deliberately selects resources without inheriting the whole
@@ -45,6 +45,12 @@ import as Apache-2.0.
 Feature providers such as GameSpace, OmniJaws, OmniStyle, QuickLook, ThemeStore
 and the sidebar implement options in Settings. They are dependencies, rather
 than a switch to crDroid Home or replacement of ordinary applications.
+
+The native backend includes the matching crDroid `frameworks/av` and
+`system/core`. The former supplies per-app audio volume APIs and the TIFF tags
+used by the DNG creator; the latter supplies the extended camera face layout
+and camera commands. Mixing crDroid `frameworks/base` with the Lineage versions
+of these repositories fails to compile `libandroid_runtime`.
 
 The upstream addons bootanimation module is excluded by a patch because it
 would duplicate Lineage's module. NasgorOS' existing `TARGET_BOOTANIMATION`

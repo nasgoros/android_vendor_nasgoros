@@ -3,6 +3,22 @@
   "scope": "crDroid Settings, supporting frameworks and feature providers",
   "projects": [
     {
+      "path": "frameworks/av",
+      "repository": "crdroidandroid/android_frameworks_av",
+      "revision": "9bc64d559bcfb2f7992c68cc93fd41f15fee9936",
+      "branch": "17.0",
+      "local_clone": "android_frameworks_av",
+      "reason": "Per-app audio volume backend and camera/TIFF extensions used by frameworks/base"
+    },
+    {
+      "path": "system/core",
+      "repository": "crdroidandroid/android_system_core",
+      "revision": "2c9ddae76941b3912e06120ba40c345a11ce3dec",
+      "branch": "17.0",
+      "local_clone": "android_system_core",
+      "reason": "Matching camera_face layout and camera command definitions"
+    },
+    {
       "path": "frameworks/base",
       "repository": "crdroidandroid/android_frameworks_base",
       "revision": "eec891c4885cf956e56796b989d229df8fb850c3",
