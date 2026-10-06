@@ -41,6 +41,9 @@ endif
 # Android 9 style 2-button navigation as an extra System navigation choice.
 $(call inherit-product, vendor/nasgoros/config/features/navigation.mk)
 
+# No addon.d (product decision): nothing survives a ROM flash via backuptool.
+$(call inherit-product, vendor/nasgoros/config/features/no-addon-d.mk)
+
 # No OTA updates (product decision): removes Updater and the System update entry.
 $(call inherit-product, vendor/nasgoros/config/features/no-ota.mk)
 

@@ -13,6 +13,11 @@ $(NASGOROS_TARGET_PACKAGE): $(INTERNAL_OTA_PACKAGE_TARGET)
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(NASGOROS_TARGET_PACKAGE)
 	@echo "Package Complete: $(NASGOROS_TARGET_PACKAGE)" >&2
 
+# No addon.d: the installer never backs up or restores /system/addon.d
+# (LineageOS enables backuptool for non-user builds). This file is included
+# after build/make/core/Makefile, so the target-specific value wins.
+$(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
+
 .PHONY: nasgoros
 nasgoros: $(NASGOROS_TARGET_PACKAGE) $(DEFAULT_GOAL)
 
