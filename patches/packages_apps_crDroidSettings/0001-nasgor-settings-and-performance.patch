@@ -1,6 +1,6 @@
 diff --git a/res/values-in/nasgor_strings.xml b/res/values-in/nasgor_strings.xml
 new file mode 100644
-index 0000000..f810eeb
+index 0000000..13ffac0
 --- /dev/null
 +++ b/res/values-in/nasgor_strings.xml
 @@ -0,0 +1,20 @@
@@ -9,8 +9,8 @@ index 0000000..f810eeb
 +     SPDX-License-Identifier: Apache-2.0 -->
 +<resources>
 +    <string name="nasgor_performance_title">Performa</string>
-+    <string name="nasgor_performance_monitor_title">Info FPS, CPU &amp; GPU</string>
-+    <string name="nasgor_performance_summary">FPS langsung, detail perangkat, dan overlay performa</string>
++    <string name="nasgor_performance_monitor_title">Info FPS</string>
++    <string name="nasgor_performance_summary">Tampilkan frame rate aplikasi di layar</string>
 +    <string name="nasgor_about_title">Tentang NasgorOS</string>
 +    <string name="nasgor_sources_title">Kode sumber</string>
 +    <string name="nasgor_downloads_title">Unduhan</string>
@@ -26,7 +26,7 @@ index 0000000..f810eeb
 +</resources>
 diff --git a/res/values/nasgor_strings.xml b/res/values/nasgor_strings.xml
 new file mode 100644
-index 0000000..4c2c24e
+index 0000000..65c8c7f
 --- /dev/null
 +++ b/res/values/nasgor_strings.xml
 @@ -0,0 +1,20 @@
@@ -35,8 +35,8 @@ index 0000000..4c2c24e
 +     SPDX-License-Identifier: Apache-2.0 -->
 +<resources>
 +    <string name="nasgor_performance_title">Performance</string>
-+    <string name="nasgor_performance_monitor_title">FPS, CPU &amp; GPU info</string>
-+    <string name="nasgor_performance_summary">Live FPS, hardware details and performance overlay</string>
++    <string name="nasgor_performance_monitor_title">FPS info</string>
++    <string name="nasgor_performance_summary">Show the frame rate of the app on screen</string>
 +    <string name="nasgor_about_title">About NasgorOS</string>
 +    <string name="nasgor_sources_title">Source code</string>
 +    <string name="nasgor_downloads_title">Downloads</string>

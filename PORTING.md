@@ -16,11 +16,11 @@ sudah dibuat atau diuji. Jangan mengubah branch `17.0` untuk mengejar Android 18
 | UI About | Settings `NasgorAboutHeaderPreference`, layout, palette terang/gelap; crDroid `NasgorAbout` | patch Settings dan crDroid Settings | Sedang; periksa XML dan binding Catalyst, jangan menghapus controller/info legal bawaan |
 | Seluruh kustomisasi crDroid Settings | manifest terpisah, `ports/crdroid/sources.lock.json`, `patches/` | `config/crdroid.mk`, `overlay/crdroid/` | Tinggi; versi Settings, framework, SystemUI, SDK, native, sepolicy dan penyedia fitur harus cocok |
 
-Logika monitor berada di aplikasi sendiri. `HardwareReader` membaca perangkat,
-`MetricParser` mengolah counter, `TaskFpsMonitor` mengelola callback FPS,
-`PerformanceFragment` menampilkan data, dan `PerformanceOverlayService` menangani
-overlay beserta siklus layar. Tidak ada perintah root atau service crDroid dalam
-monitor. App secara keseluruhan masih memakai library Lineage untuk hub lama;
+Info FPS berada di aplikasi sendiri. `TaskFpsMonitor` mengelola callback FPS,
+`PerformanceFragment` berisi satu sakelar, `FpsSettings` menyimpan status dan posisi,
+dan `FpsOverlayService` menampilkan penghitung yang bisa digeser tanpa notifikasi
+(service biasa; aplikasi masuk `allow-in-power-save` lewat sysconfig). Saat port,
+pastikan sysconfig itu ikut terpasang. Tidak ada perintah root atau service crDroid. App secara keseluruhan masih memakai library Lineage untuk hub lama;
 menyalin APK ke ROM lain tidak cukup untuk melakukan port.
 
 FPS berasal dari frame aplikasi aktif. Hz layar tetap data terpisah. Jika
