@@ -16,3 +16,8 @@ Native libraries are extracted into the sibling `lib/` tree and installed for
 the primary target ABI through `Android.mk`. The signed APK is copied unchanged
 with dex preoptimization disabled. On updates, replace that tree with the new
 APK's `lib/<abi>/*.so` entries and preserve executable mode (0755).
+
+`LOCAL_OPTIONAL_USES_LIBRARIES` declares `androidx.window.extensions` followed by
+`androidx.window.sidecar`, matching the APK manifest. Keep the order aligned when
+updating the APK; manifest library verification remains enabled even though this
+signed prebuilt does not use dex preoptimization.

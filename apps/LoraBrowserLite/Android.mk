@@ -12,6 +12,8 @@ LOCAL_CERTIFICATE := PRESIGNED
 LOCAL_PRODUCT_MODULE := true
 LOCAL_MULTILIB := first
 LOCAL_DEX_PREOPT := false
+# Match the signed APK's optional uses-library declarations in manifest order.
+LOCAL_OPTIONAL_USES_LIBRARIES := androidx.window.extensions androidx.window.sidecar
 # Copy the signed release APK byte-for-byte; repacking invalidates its signature.
 LOCAL_REPLACE_PREBUILT_APK_INSTALLED := $(LOCAL_PATH)/$(LOCAL_SRC_FILES)
 # System packages do not extract native libraries at first boot. Install the
