@@ -60,7 +60,6 @@ def print_banner(info):
     script.Print(" %-15s: %s" % (label, value or "unknown"))
   script.Print(line)
   script.Print(" GApps: flash LiteGapps after the ROM,")
-  script.Print(" before the first boot, and again after")
-  script.Print(" every ROM update (no addon.d).")
+  script.Print(" before the first boot.")
   script.Print(" No OTA updates: install new builds manually.")
   script.Print(line)
