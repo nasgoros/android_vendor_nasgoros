@@ -22,5 +22,9 @@
   {
     "path": "packages/apps/WallpaperPicker2",
     "patch": "packages_apps_WallpaperPicker2/0001-support-system-string-settings.patch"
+  },
+  {
+    "path": "build/soong",
+    "patch": "build_soong/0001-allow-lmofreeform-bootclasspath.patch"
   }
 ]

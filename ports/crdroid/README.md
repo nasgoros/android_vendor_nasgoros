@@ -32,8 +32,8 @@ import as Apache-2.0.
 
 ## Sources and integration
 
-- `sources.lock.json`: 27 pinned repositories (25 crDroid dependencies plus the
-  Lineage overlay and wallpaper sources), source paths and reasons.
+- `sources.lock.json`: 28 pinned repositories (25 crDroid dependencies plus the
+  Lineage overlay, wallpaper and Soong sources), source paths and reasons.
 - `config/crdroid.mk`: required feature providers and font/clock/navigation
   resources. It deliberately selects resources without inheriting the whole
   `vendor/addons/config.mk` product.
@@ -59,6 +59,9 @@ app's existing secure-settings implementation, satisfying the shared crDroid API
 The 2026-10-06 build exposed this interface mismatch at 61%; after applying the
 patch, the original `WallpaperPicker2Lib` Kotlin compiler command passed in the
 build container with the build's JDK 21, and the complete-ROM build was resumed.
+
+Lineage Soong retains its boot JAR package check, with the upstream LMODroid
+namespace allowance for the LMOFreeform AIDL callbacks used by the framework.
 
 The upstream addons bootanimation module is excluded by a patch because it
 would duplicate Lineage's module. NasgorOS' existing `TARGET_BOOTANIMATION`
@@ -104,9 +107,9 @@ Android 18 / other-ROM upgrade steps, API boundaries and the patch maintenance
 checklist. Boot animation, wallpaper and NasgorSettings have separate product
 modules under `config/features/`.
 
-Source checks on 2026-10-06 passed: 27 exact source pins, the merged manifest,
+Source checks on 2026-10-06 passed: 28 exact source pins, the merged manifest,
 resource/manifest XML files, 10 explicit activity intents, definitions for
-160 selected product packages, and reconstruction of all six adaptation patches.
+160 selected product packages, and reconstruction of all seven adaptation patches.
 These checks do not validate the complete Soong dependency graph or SELinux policy.
 
 An earlier NasgorSettings app build completed against the previous Lineage tree.

@@ -1,0 +1,14 @@
+diff --git a/scripts/check_boot_jars/package_allowed_list.txt b/scripts/check_boot_jars/package_allowed_list.txt
+index 335d29c..f39e0e3 100644
+--- a/scripts/check_boot_jars/package_allowed_list.txt
++++ b/scripts/check_boot_jars/package_allowed_list.txt
+@@ -217,6 +217,9 @@ vendor\.google_clockwork\.displayoffload3\..*
+ lineageos\.platform
+ org\.lineageos\.platform\.internal
+ 
++# LMODroid adds
++com\.libremobileos\..*
++
+ # MTK adds
+ com\.mediatek
+ com\.mediatek\..*

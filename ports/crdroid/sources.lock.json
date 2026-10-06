@@ -217,6 +217,14 @@
       "branch": "lineage-24.0",
       "local_clone": "android_packages_apps_WallpaperPicker2",
       "reason": "Keep the Lineage wallpaper app with the crDroid shared-settings interface adaptation"
+    },
+    {
+      "path": "build/soong",
+      "repository": "LineageOS/android_build_soong",
+      "revision": "5ea236479501d50a4a0eafb568f4f35d1bdda3cb",
+      "branch": "lineage-24.0",
+      "local_clone": "android_build_soong",
+      "reason": "Keep Lineage build tools with the LMOFreeform bootclasspath namespace adaptation"
     }
   ]
 }
