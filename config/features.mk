@@ -37,3 +37,7 @@ endif
 ifeq ($(NASGOROS_WITH_ZIMUX),true)
 $(call inherit-product, vendor/nasgoros/config/features/zimux.mk)
 endif
+
+# Recovery-only feature implemented by the nasgorOS recovery fork.
+NASGOROS_WITH_RECOVERY_FILE_MANAGER ?= true
+PRODUCT_VENDOR_PROPERTIES += ro.nasgoros.recovery_file_manager=$(NASGOROS_WITH_RECOVERY_FILE_MANAGER)
