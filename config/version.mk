@@ -23,12 +23,21 @@ NASGOROS_DEVICE := $(LINEAGE_BUILD)
 # Internal version, e.g. 17.0-20261003-UNOFFICIAL-merlinx
 NASGOROS_VERSION := $(NASGOROS_VERSION_MAJOR).$(NASGOROS_VERSION_MINOR)-$(NASGOROS_BUILD_DATE)-$(NASGOROS_BUILDTYPE)-$(NASGOROS_DEVICE)
 
-# Display version, e.g. NasgorOS 17.0 Minimalist
-NASGOROS_DISPLAY_VERSION := NasgorOS $(NASGOROS_VERSION_MAJOR).$(NASGOROS_VERSION_MINOR) $(NASGOROS_CODENAME)
+# Maintainer and builder shown in Settings and the recovery installer, e.g.
+# `export NASGOROS_MAINTAINER=wahyu6070`. Product properties cannot contain
+# spaces, so spaces are stored as underscores and shown as spaces again.
+NASGOROS_MAINTAINER ?= wahyu6070
+NASGOROS_BUILDER ?= $(NASGOROS_MAINTAINER)
+nasgoros_no_space = $(subst $(space),_,$(strip $(1)))
 
+# Display version, e.g. "NasgorOS 17.0 Minimalist". The pieces are separate
+# properties (no spaces allowed); Settings and the installer join them.
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.nasgoros.version=$(NASGOROS_VERSION) \
-    ro.nasgoros.display.version=$(NASGOROS_DISPLAY_VERSION) \
+    ro.nasgoros.display.version=$(NASGOROS_VERSION_MAJOR).$(NASGOROS_VERSION_MINOR) \
+    ro.nasgoros.codename=$(NASGOROS_CODENAME) \
+    ro.nasgoros.maintainer=$(call nasgoros_no_space,$(NASGOROS_MAINTAINER)) \
+    ro.nasgoros.builder=$(call nasgoros_no_space,$(NASGOROS_BUILDER)) \
     ro.nasgoros.build.version=$(NASGOROS_VERSION_MAJOR).$(NASGOROS_VERSION_MINOR) \
     ro.nasgoros.releasetype=$(NASGOROS_BUILDTYPE) \
     ro.nasgoros.device=$(NASGOROS_DEVICE)

@@ -207,16 +207,29 @@ index 0000000000..5f90775e10
 +</LinearLayout>
 diff --git a/res/values-in/nasgor_about.xml b/res/values-in/nasgor_about.xml
 new file mode 100644
-index 0000000000..1ddcaefea6
+index 0000000000..b8a284f811
 --- /dev/null
 +++ b/res/values-in/nasgor_about.xml
-@@ -0,0 +1,7 @@
+@@ -0,0 +1,20 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-License-Identifier: Apache-2.0 -->
 +<resources>
 +    <string name="nasgor_about_device_label">Perangkat Anda</string>
 +    <string name="nasgor_about_chipset_value">Chipset · %1$s</string>
 +    <string name="nasgor_about_memory_label">RAM</string>
++    <string name="nasgor_hw_title">Perangkat keras</string>
++    <string name="nasgor_hw_chipset">Chipset</string>
++    <string name="nasgor_hw_cpu">CPU</string>
++    <string name="nasgor_hw_cpu_clock">Kecepatan clock CPU</string>
++    <string name="nasgor_hw_architecture">Arsitektur</string>
++    <string name="nasgor_hw_gpu">GPU</string>
++    <string name="nasgor_hw_gpu_api">API grafis</string>
++    <string name="nasgor_hw_memory">RAM</string>
++    <string name="nasgor_hw_storage">Penyimpanan internal</string>
++    <string name="nasgor_hw_display">Layar</string>
++    <string name="nasgor_hw_battery">Kapasitas baterai</string>
++    <string name="nasgor_hw_cores">%1$d inti</string>
++    <string name="nasgor_hw_governor">Governor: %1$s</string>
 +</resources>
 diff --git a/res/values-night/nasgor_about.xml b/res/values-night/nasgor_about.xml
 new file mode 100644
@@ -235,10 +248,10 @@ index 0000000000..10b1ed61e8
 +</resources>
 diff --git a/res/values/nasgor_about.xml b/res/values/nasgor_about.xml
 new file mode 100644
-index 0000000000..31ea9a7e67
+index 0000000000..bf7bcace9e
 --- /dev/null
 +++ b/res/values/nasgor_about.xml
-@@ -0,0 +1,15 @@
+@@ -0,0 +1,28 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
 +     SPDX-License-Identifier: Apache-2.0 -->
@@ -253,6 +266,19 @@ index 0000000000..31ea9a7e67
 +    <string name="nasgor_about_chipset_value">Chipset · %1$s</string>
 +    <string name="nasgor_about_android_label" translatable="false">Android</string>
 +    <string name="nasgor_about_memory_label">RAM</string>
++    <string name="nasgor_hw_title">Hardware</string>
++    <string name="nasgor_hw_chipset">Chipset</string>
++    <string name="nasgor_hw_cpu">CPU</string>
++    <string name="nasgor_hw_cpu_clock">CPU clock speed</string>
++    <string name="nasgor_hw_architecture">Architecture</string>
++    <string name="nasgor_hw_gpu">GPU</string>
++    <string name="nasgor_hw_gpu_api">Graphics API</string>
++    <string name="nasgor_hw_memory">RAM</string>
++    <string name="nasgor_hw_storage">Internal storage</string>
++    <string name="nasgor_hw_display">Display</string>
++    <string name="nasgor_hw_battery">Battery capacity</string>
++    <string name="nasgor_hw_cores">%1$d cores</string>
++    <string name="nasgor_hw_governor">Governor: %1$s</string>
 +</resources>
 diff --git a/res/xml/firmware_version.xml b/res/xml/firmware_version.xml
 index 07a782b8db..f270186f4f 100644
@@ -275,7 +301,7 @@ index 07a782b8db..f270186f4f 100644
      <!-- Device name -->
      <Preference
 diff --git a/res/xml/my_device_info.xml b/res/xml/my_device_info.xml
-index 2387deb970..3e313e4340 100644
+index 2387deb970..5803c0e3f2 100644
 --- a/res/xml/my_device_info.xml
 +++ b/res/xml/my_device_info.xml
 @@ -21,6 +21,12 @@
@@ -299,15 +325,23 @@ index 2387deb970..3e313e4340 100644
          android:selectable="false"
          android:title="@string/my_device_info_basic_info_category_title">
  
-@@ -63,6 +70,7 @@
+@@ -61,8 +68,15 @@
+             settings:enableCopying="true"/>
+     </PreferenceCategory>
  
++    <!-- NasgorOS: chipset, CPU clusters/clocks, GPU, memory, display, battery -->
++    <com.android.settings.deviceinfo.aboutphone.NasgorHardwareCategory
++        android:key="nasgor_hardware_category"
++        android:order="25"
++        settings:searchable="false" />
++
      <PreferenceCategory
          android:key="legal_category"
 +        android:order="40"
          android:title="@string/my_device_info_legal_category_title">
  
          <!-- Legal information -->
-@@ -90,6 +98,7 @@
+@@ -90,6 +104,7 @@
  
      <PreferenceCategory
          android:key="device_detail_category"
@@ -315,7 +349,7 @@ index 2387deb970..3e313e4340 100644
          android:selectable="false"
          android:title="@string/my_device_info_device_details_category_title">
  
-@@ -168,6 +177,7 @@
+@@ -168,6 +183,7 @@
  
      <PreferenceCategory
          android:key="device_identifiers_category"
@@ -325,10 +359,10 @@ index 2387deb970..3e313e4340 100644
          <!--IP address -->
 diff --git a/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java b/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java
 new file mode 100644
-index 0000000000..d954e9a3db
+index 0000000000..6a632941ac
 --- /dev/null
 +++ b/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java
-@@ -0,0 +1,56 @@
+@@ -0,0 +1,65 @@
 +/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
 + * SPDX-License-Identifier: Apache-2.0 */
 +package com.android.settings.deviceinfo.aboutphone;
@@ -362,10 +396,7 @@ index 0000000000..d954e9a3db
 +        holder.setDividerAllowedAbove(false);
 +        holder.setDividerAllowedBelow(false);
 +        Context context = getContext();
-+        String version = SystemProperties.get("ro.nasgoros.display.version", "");
-+        if (version.startsWith("NasgorOS ")) {
-+            version = version.substring("NasgorOS ".length());
-+        }
++        String version = displayVersion();
 +        if (version.isEmpty()) version = Build.VERSION.RELEASE;
 +        setText(holder, R.id.nasgor_about_version, version);
 +        setText(holder, R.id.nasgor_about_device, Build.MODEL);
@@ -381,28 +412,401 @@ index 0000000000..d954e9a3db
 +                : context.getString(R.string.unknown));
 +    }
 +
++    /** "17.0 Minimalist": product properties cannot hold spaces, so join the parts. */
++    public static String displayVersion() {
++        String version = SystemProperties.get("ro.nasgoros.display.version", "");
++        String codename = SystemProperties.get("ro.nasgoros.codename", "");
++        return codename.isEmpty() || version.isEmpty() ? version : version + " " + codename;
++    }
++
++    /** Maintainer name from the build; underscores stand for spaces. */
++    public static String maintainer() {
++        return SystemProperties.get("ro.nasgoros.maintainer", "").replace('_', ' ').trim();
++    }
++
 +    private static void setText(PreferenceViewHolder holder, int id, CharSequence text) {
 +        ((TextView) holder.findViewById(id)).setText(text);
 +    }
 +}
+diff --git a/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareCategory.java b/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareCategory.java
+new file mode 100644
+index 0000000000..1ece465361
+--- /dev/null
++++ b/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareCategory.java
+@@ -0,0 +1,305 @@
++/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
++ * SPDX-License-Identifier: Apache-2.0 */
++package com.android.settings.deviceinfo.aboutphone;
++
++import android.app.ActivityManager;
++import android.content.Context;
++import android.opengl.EGL14;
++import android.opengl.EGLConfig;
++import android.opengl.EGLContext;
++import android.opengl.EGLDisplay;
++import android.opengl.EGLSurface;
++import android.opengl.GLES20;
++import android.os.Build;
++import android.os.Environment;
++import android.os.Handler;
++import android.os.Looper;
++import android.os.StatFs;
++import android.os.SystemProperties;
++import android.text.format.Formatter;
++import android.util.AttributeSet;
++import android.view.Display;
++
++import androidx.preference.Preference;
++import androidx.preference.PreferenceCategory;
++
++import com.android.internal.os.PowerProfile;
++import com.android.settings.R;
++
++import java.io.BufferedReader;
++import java.io.FileReader;
++import java.io.IOException;
++import java.util.ArrayList;
++import java.util.LinkedHashMap;
++import java.util.List;
++import java.util.Locale;
++import java.util.Map;
++
++/**
++ * "Hardware" section of About phone: chipset, CPU clusters and clocks, GPU,
++ * memory, storage, display and battery. Values are read from the device on a
++ * background thread; anything unreadable is shown as unknown, never guessed.
++ */
++public final class NasgorHardwareCategory extends PreferenceCategory {
++    private static volatile Info sCache;
++    private final Handler mMain = new Handler(Looper.getMainLooper());
++    private boolean mLoading;
++
++    public NasgorHardwareCategory(Context context, AttributeSet attrs) {
++        super(context, attrs);
++        setTitle(R.string.nasgor_hw_title);
++        setPersistent(false);
++    }
++
++    @Override
++    public void onAttached() {
++        super.onAttached();
++        if (sCache != null) {
++            show(sCache);
++            return;
++        }
++        if (mLoading) return;
++        mLoading = true;
++        final Context app = getContext().getApplicationContext();
++        Display current = null;
++        try {
++            current = getContext().getDisplay();
++        } catch (UnsupportedOperationException ignored) {
++            // Not a visual context; the display row is shown as unknown.
++        }
++        final Display display = current;
++        new Thread(() -> {
++            Info info = Info.read(app, display);
++            sCache = info;
++            mMain.post(() -> {
++                mLoading = false;
++                show(info);
++            });
++        }, "NasgorHardwareInfo").start();
++    }
++
++    private void show(Info info) {
++        removeAll();
++        Context c = getContext();
++        String unknown = c.getString(R.string.unknown);
++        add(c, R.string.nasgor_hw_chipset, info.chipset, unknown);
++        add(c, R.string.nasgor_hw_cpu, info.cpu, unknown);
++        add(c, R.string.nasgor_hw_cpu_clock, info.cpuClock, unknown);
++        add(c, R.string.nasgor_hw_architecture, info.architecture, unknown);
++        add(c, R.string.nasgor_hw_gpu, info.gpu, unknown);
++        add(c, R.string.nasgor_hw_gpu_api, info.gpuApi, unknown);
++        add(c, R.string.nasgor_hw_memory, info.memory, unknown);
++        add(c, R.string.nasgor_hw_storage, info.storage, unknown);
++        add(c, R.string.nasgor_hw_display, info.display, unknown);
++        add(c, R.string.nasgor_hw_battery, info.battery, unknown);
++    }
++
++    private void add(Context context, int title, String value, String unknown) {
++        Preference preference = new Preference(context);
++        preference.setTitle(title);
++        preference.setSummary(value == null || value.isEmpty() ? unknown : value);
++        preference.setSelectable(false);
++        preference.setPersistent(false);
++        preference.setIconSpaceReserved(false);
++        preference.setCopyingEnabled(true);
++        addPreference(preference);
++    }
++
++    private static final class Info {
++        String chipset, cpu, cpuClock, architecture, gpu, gpuApi, memory, storage, display,
++                battery;
++
++        static Info read(Context context, Display display) {
++            Info info = new Info();
++            info.chipset = chipset();
++            readCpu(context, info);
++            readGpu(info);
++            ActivityManager am = context.getSystemService(ActivityManager.class);
++            ActivityManager.MemoryInfo mem = new ActivityManager.MemoryInfo();
++            if (am != null) am.getMemoryInfo(mem);
++            if (mem.totalMem > 0) info.memory = Formatter.formatShortFileSize(context, mem.totalMem);
++            try {
++                StatFs stat = new StatFs(Environment.getDataDirectory().getPath());
++                info.storage = Formatter.formatShortFileSize(context, stat.getTotalBytes());
++            } catch (IllegalArgumentException ignored) { }
++            if (display != null) {
++                Display.Mode mode = display.getMode();
++                float max = 0;
++                for (Display.Mode m : display.getSupportedModes()) {
++                    max = Math.max(max, m.getRefreshRate());
++                }
++                info.display = String.format(Locale.getDefault(), "%d × %d · %.0f Hz",
++                        mode.getPhysicalWidth(), mode.getPhysicalHeight(), max);
++            }
++            double capacity = new PowerProfile(context).getBatteryCapacity();
++            if (capacity > 0) {
++                info.battery = String.format(Locale.getDefault(), "%.0f mAh", capacity);
++            }
++            return info;
++        }
++
++        private static String chipset() {
++            String name = SystemProperties.get("ro.nasgoros.chipset", "");
++            String model = Build.UNKNOWN.equals(Build.SOC_MODEL) ? "" : Build.SOC_MODEL;
++            String maker = Build.UNKNOWN.equals(Build.SOC_MANUFACTURER) ? "" : Build.SOC_MANUFACTURER;
++            String platform = SystemProperties.get("ro.board.platform", Build.HARDWARE);
++            String code = !model.isEmpty() ? (maker.isEmpty() ? model : maker + " " + model)
++                    : platform.toUpperCase(Locale.ROOT);
++            return name.isEmpty() ? code : name + " (" + code + ")";
++        }
++
++        /** Groups cores into clusters by CPU part and maximum frequency. */
++        private static void readCpu(Context context, Info info) {
++            int cores = Runtime.getRuntime().availableProcessors();
++            int index = -1;
++            List<String> corePart = new ArrayList<>();
++            try (BufferedReader reader = new BufferedReader(new FileReader("/proc/cpuinfo"))) {
++                String line;
++                String implementer = "";
++                while ((line = reader.readLine()) != null) {
++                    int colon = line.indexOf(':');
++                    if (colon < 0) continue;
++                    String key = line.substring(0, colon).trim();
++                    String value = line.substring(colon + 1).trim();
++                    if (key.equals("processor")) {
++                        index++;
++                        implementer = "";
++                    } else if (key.equals("CPU implementer")) {
++                        implementer = value;
++                    } else if (key.equals("CPU part") && index >= 0) {
++                        while (corePart.size() < index) corePart.add(null);
++                        corePart.add(coreName(implementer, value));
++                    }
++                }
++            } catch (IOException ignored) { }
++
++            List<String> clusters = new ArrayList<>();
++            List<String> clocks = new ArrayList<>();
++            Map<String, Integer> counts = new LinkedHashMap<>();
++            Map<String, String> clockFor = new LinkedHashMap<>();
++            for (int i = 0; i < cores; i++) {
++                long max = readKhz(i, "cpuinfo_max_freq");
++                long min = readKhz(i, "cpuinfo_min_freq");
++                String name = i < corePart.size() && corePart.get(i) != null
++                        ? corePart.get(i) : "";
++                String key = name + "@" + max;
++                counts.merge(key, 1, Integer::sum);
++                clockFor.put(key, max > 0 ? ghz(min) + " – " + ghz(max) + " GHz" : "");
++            }
++            for (Map.Entry<String, Integer> e : counts.entrySet()) {
++                String name = e.getKey().substring(0, e.getKey().indexOf('@'));
++                String clock = clockFor.get(e.getKey());
++                String label = e.getValue() + "× " + (name.isEmpty() ? "CPU" : name);
++                clusters.add(clock.isEmpty() ? label : label + " @ " + maxOnly(clock));
++                if (!clock.isEmpty()) clocks.add(e.getValue() + "× " + clock);
++            }
++            info.cpu = context.getString(R.string.nasgor_hw_cores, cores) + " · "
++                    + String.join(" + ", clusters);
++            info.cpuClock = String.join("\n", clocks);
++            String governor = readLine("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
++            if (!governor.isEmpty() && !info.cpuClock.isEmpty()) {
++                info.cpuClock += "\n" + context.getString(R.string.nasgor_hw_governor, governor);
++            }
++            info.architecture = String.join(", ", Build.SUPPORTED_ABIS);
++        }
++
++        private static String maxOnly(String range) {
++            int dash = range.indexOf('–');
++            return dash < 0 ? range : range.substring(dash + 1).trim();
++        }
++
++        private static long readKhz(int cpu, String node) {
++            String value = readLine("/sys/devices/system/cpu/cpu" + cpu + "/cpufreq/" + node);
++            try { return value.isEmpty() ? 0 : Long.parseLong(value); }
++            catch (NumberFormatException e) { return 0; }
++        }
++
++        private static String ghz(long khz) {
++            return String.format(Locale.ROOT, "%.2f", khz / 1_000_000.0);
++        }
++
++        private static String readLine(String path) {
++            try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
++                String line = reader.readLine();
++                return line == null ? "" : line.trim();
++            } catch (IOException | SecurityException e) {
++                return "";
++            }
++        }
++
++        /** ARM and Qualcomm MIDR part numbers to core names. */
++        private static String coreName(String implementer, String part) {
++            String p = part.toLowerCase(Locale.ROOT);
++            if ("0x41".equalsIgnoreCase(implementer)) {
++                switch (p) {
++                    case "0xd03": return "Cortex-A53";
++                    case "0xd04": return "Cortex-A35";
++                    case "0xd05": return "Cortex-A55";
++                    case "0xd07": return "Cortex-A57";
++                    case "0xd08": return "Cortex-A72";
++                    case "0xd09": return "Cortex-A73";
++                    case "0xd0a": return "Cortex-A75";
++                    case "0xd0b": return "Cortex-A76";
++                    case "0xd0d": return "Cortex-A77";
++                    case "0xd41": return "Cortex-A78";
++                    case "0xd44": return "Cortex-X1";
++                    case "0xd46": return "Cortex-A510";
++                    case "0xd47": return "Cortex-A710";
++                    case "0xd48": return "Cortex-X2";
++                    case "0xd4d": return "Cortex-A715";
++                    case "0xd4e": return "Cortex-X3";
++                    case "0xd80": return "Cortex-A520";
++                    case "0xd81": return "Cortex-A720";
++                    case "0xd82": return "Cortex-X4";
++                    default: return "ARM " + part;
++                }
++            }
++            if ("0x51".equalsIgnoreCase(implementer)) {
++                switch (p) {
++                    case "0x801": case "0x803": case "0x805": return "Kryo Silver";
++                    case "0x800": case "0x802": case "0x804": return "Kryo Gold";
++                    default: return "Kryo " + part;
++                }
++            }
++            return part;
++        }
++
++        /** Renderer, vendor and GLES version from a 1×1 offscreen EGL context. */
++        private static void readGpu(Info info) {
++            EGLDisplay dpy = EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);
++            if (dpy == EGL14.EGL_NO_DISPLAY) return;
++            int[] version = new int[2];
++            if (!EGL14.eglInitialize(dpy, version, 0, version, 1)) return;
++            EGLContext ctx = EGL14.EGL_NO_CONTEXT;
++            EGLSurface surface = EGL14.EGL_NO_SURFACE;
++            try {
++                int[] attrs = {EGL14.EGL_RENDERABLE_TYPE, EGL14.EGL_OPENGL_ES2_BIT,
++                        EGL14.EGL_SURFACE_TYPE, EGL14.EGL_PBUFFER_BIT, EGL14.EGL_NONE};
++                EGLConfig[] configs = new EGLConfig[1];
++                int[] count = new int[1];
++                if (!EGL14.eglChooseConfig(dpy, attrs, 0, configs, 0, 1, count, 0)
++                        || count[0] == 0) return;
++                ctx = EGL14.eglCreateContext(dpy, configs[0], EGL14.EGL_NO_CONTEXT,
++                        new int[] {EGL14.EGL_CONTEXT_CLIENT_VERSION, 2, EGL14.EGL_NONE}, 0);
++                surface = EGL14.eglCreatePbufferSurface(dpy, configs[0],
++                        new int[] {EGL14.EGL_WIDTH, 1, EGL14.EGL_HEIGHT, 1, EGL14.EGL_NONE}, 0);
++                if (ctx == EGL14.EGL_NO_CONTEXT || surface == EGL14.EGL_NO_SURFACE
++                        || !EGL14.eglMakeCurrent(dpy, surface, surface, ctx)) return;
++                String renderer = GLES20.glGetString(GLES20.GL_RENDERER);
++                String vendor = GLES20.glGetString(GLES20.GL_VENDOR);
++                String gles = GLES20.glGetString(GLES20.GL_VERSION);
++                if (renderer != null) {
++                    info.gpu = vendor == null || renderer.startsWith(vendor)
++                            ? renderer : vendor + " " + renderer;
++                }
++                if (gles != null) info.gpuApi = gles;
++            } finally {
++                EGL14.eglMakeCurrent(dpy, EGL14.EGL_NO_SURFACE, EGL14.EGL_NO_SURFACE,
++                        EGL14.EGL_NO_CONTEXT);
++                if (surface != EGL14.EGL_NO_SURFACE) EGL14.eglDestroySurface(dpy, surface);
++                if (ctx != EGL14.EGL_NO_CONTEXT) EGL14.eglDestroyContext(dpy, ctx);
++                EGL14.eglTerminate(dpy);
++            }
++        }
++    }
++}
 diff --git a/src/com/android/settings/deviceinfo/firmwareversion/BuildMaintainerPreference.kt b/src/com/android/settings/deviceinfo/firmwareversion/BuildMaintainerPreference.kt
-index 84ae83928d..1dbf9f950f 100644
+index 84ae83928d..4f68b90cc0 100644
 --- a/src/com/android/settings/deviceinfo/firmwareversion/BuildMaintainerPreference.kt
 +++ b/src/com/android/settings/deviceinfo/firmwareversion/BuildMaintainerPreference.kt
-@@ -69,7 +69,7 @@ class BuildMaintainerPreference :
+@@ -13,6 +13,7 @@ import android.net.Uri
+ import android.os.Handler
+ import android.os.Looper
+ import android.os.SystemProperties
++import com.android.settings.deviceinfo.aboutphone.NasgorAboutHeaderPreference
+ import android.text.TextUtils
+ import android.util.Log
+ import androidx.preference.Preference
+@@ -57,7 +58,9 @@ class BuildMaintainerPreference :
+         preference.onPreferenceClickListener = this
+ 
+         val context = preference.context
+-        val overlayMaintainer = safeGetString(context, R.string.build_maintainer_summary).trim()
++        val overlayMaintainer = NasgorAboutHeaderPreference.maintainer().ifEmpty {
++            safeGetString(context, R.string.build_maintainer_summary).trim()
++        }
+         val overlayDonateUrl = safeGetString(context, R.string.build_maintainer_donate_url)
+ 
+         if (resolvedMaintainer.isEmpty()) {
+@@ -69,16 +72,15 @@ class BuildMaintainerPreference :
  
          applyState(preference)
  
 -        if (!fetchStarted) {
-+        if (!fetchStarted && !SystemProperties.getBoolean("ro.nasgoros.crdroid_settings", false)) {
-             fetchStarted = true
-             fetchMaintainerFromOta(preference, overlayMaintainer, overlayDonateUrl)
-         }
+-            fetchStarted = true
+-            fetchMaintainerFromOta(preference, overlayMaintainer, overlayDonateUrl)
+-        }
++        // nasgorOS has no OTA server: never fetch the maintainer from OTA JSON.
+     }
+ 
+     override fun getSummary(context: Context): CharSequence? {
+         val maintainer = resolvedMaintainer
+         if (maintainer.isNotEmpty()) return maintainer
+-        return safeGetString(context, R.string.build_maintainer_summary).trim()
++        return NasgorAboutHeaderPreference.maintainer().ifEmpty {
++            safeGetString(context, R.string.build_maintainer_summary).trim()
++        }
+     }
+ 
+     override fun onPreferenceClick(preference: Preference): Boolean {
 diff --git a/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreference.kt b/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreference.kt
-index b476e4fef1..1d40e9f924 100644
+index b476e4fef1..e844ea739e 100644
 --- a/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreference.kt
 +++ b/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreference.kt
-@@ -105,10 +105,10 @@ class LineageVersionDetailPreference :
+@@ -21,6 +21,7 @@ import android.content.Intent
+ import android.os.Build
+ import android.os.SystemClock
+ import android.os.SystemProperties
++import com.android.settings.deviceinfo.aboutphone.NasgorAboutHeaderPreference
+ import android.os.UserHandle
+ import android.os.UserManager
+ import androidx.preference.Preference
+@@ -66,7 +67,9 @@ class LineageVersionDetailPreference :
+     }
+ 
+     override fun getSummary(context: Context): CharSequence =
+-        SystemProperties.get(LINEAGE_VERSION_PROPERTY, context.getString(R.string.unknown));
++        NasgorAboutHeaderPreference.displayVersion().ifEmpty {
++            context.getString(R.string.unknown)
++        }
+ 
+     // return true swallows the click event, while return false will start the intent
+     override fun onPreferenceClick(preference: Preference): Boolean {
+@@ -105,10 +108,10 @@ class LineageVersionDetailPreference :
          const val ACTIVITY_TRIGGER_COUNT = 3
          const val DELAY_TIMER_MILLIS = 500L
  
@@ -417,7 +821,7 @@ index b476e4fef1..1d40e9f924 100644
  }
  // LINT.ThenChange(LineageVersionDetailPreferenceController.java)
 diff --git a/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreferenceController.java b/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreferenceController.java
-index d4e7e1bb62..c870324064 100644
+index d4e7e1bb62..b3dc6a1611 100644
 --- a/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreferenceController.java
 +++ b/src/com/android/settings/deviceinfo/firmwareversion/LineageVersionDetailPreferenceController.java
 @@ -42,11 +42,11 @@ public class LineageVersionDetailPreferenceController extends BasePreferenceCont
@@ -435,6 +839,18 @@ index d4e7e1bb62..c870324064 100644
  
      private final UserManager mUserManager;
      private final long[] mHits = new long[ACTIVITY_TRIGGER_COUNT];
+@@ -77,8 +77,9 @@ public class LineageVersionDetailPreferenceController extends BasePreferenceCont
+ 
+     @Override
+     public CharSequence getSummary() {
+-        return SystemProperties.get(KEY_LINEAGE_VERSION_PROP,
+-                mContext.getString(R.string.unknown));
++        String version = com.android.settings.deviceinfo.aboutphone
++                .NasgorAboutHeaderPreference.displayVersion();
++        return version.isEmpty() ? mContext.getString(R.string.unknown) : version;
+     }
+ 
+     @Override
 diff --git a/src/com/android/settings/deviceinfo/firmwareversion/LogoPreference.kt b/src/com/android/settings/deviceinfo/firmwareversion/LogoPreference.kt
 index c42ae4fe9d..df8e876d9b 100644
 --- a/src/com/android/settings/deviceinfo/firmwareversion/LogoPreference.kt

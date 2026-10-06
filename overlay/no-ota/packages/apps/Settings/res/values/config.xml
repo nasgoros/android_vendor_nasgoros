@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
+     SPDX-License-Identifier: Apache-2.0 -->
+<resources>
+    <!-- No OTA updates: hide Settings > System > System update. -->
+    <bool name="config_show_system_update_settings">false</bool>
+</resources>

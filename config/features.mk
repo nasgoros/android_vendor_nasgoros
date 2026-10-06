@@ -38,6 +38,9 @@ ifeq ($(NASGOROS_WITH_ZIMUX),true)
 $(call inherit-product, vendor/nasgoros/config/features/zimux.mk)
 endif
 
+# No OTA updates (product decision): removes Updater and the System update entry.
+$(call inherit-product, vendor/nasgoros/config/features/no-ota.mk)
+
 # Recovery-only feature implemented by the nasgorOS recovery fork.
 NASGOROS_WITH_RECOVERY_FILE_MANAGER ?= true
 PRODUCT_PRODUCT_PROPERTIES += ro.nasgoros.recovery_file_manager=$(NASGOROS_WITH_RECOVERY_FILE_MANAGER)
