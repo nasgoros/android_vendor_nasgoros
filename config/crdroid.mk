@@ -11,11 +11,9 @@ PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/nasgoros/overlay/crdroid
 # These providers implement options inside Nasgor Settings.
 PRODUCT_PACKAGES += \
     GameSpace \
-    OmniJaws \
     OmniStyle \
     AxThemeStore \
     AxQuickLook \
-    AxSandbox \
     LMOFreeform \
     LMOFreeformSidebar
 

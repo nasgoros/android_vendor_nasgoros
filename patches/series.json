@@ -8,6 +8,10 @@
     "patch": "packages_apps_crDroidSettings/0001-nasgor-settings-and-performance.patch"
   },
   {
+    "path": "packages/apps/crDroidSettings",
+    "patch": "packages_apps_crDroidSettings/0002-hide-weather-without-omnijaws.patch"
+  },
+  {
     "path": "packages/apps/Settings",
     "patch": "packages_apps_Settings/0001-nasgor-branding-and-version.patch"
   },

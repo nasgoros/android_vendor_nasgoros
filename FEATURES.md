@@ -73,12 +73,14 @@ Removed with `LOCAL_OVERRIDES_PACKAGES` in `removed-packages/Android.mk` (module
 | `messaging` | Messages (SMS/MMS) | AOSP | none — **no SMS app** until one is installed |
 | `Twelve` | Music player | LineageOS | none |
 | `Recorder` | Voice recorder | LineageOS | none |
+| `AxSandbox` (+ `AppLocker`) | crDroid app sandbox / app lock | crDroid | none; framework service stays idle without the app |
+| `OmniJaws` | crDroid weather provider | crDroid | none; QS weather tile hides itself, lock screen weather category hidden by `patches/packages_apps_crDroidSettings/0002-hide-weather-without-omnijaws.patch` |
 
 The minimal selection additionally excludes `Seedvault`, `LocalContactsBackup`,
 `AudioFX`, `MusicFX`, `FMRadio`, `FmRecordingsProvider`, `BuiltInPrintService`,
 `PrintRecommendationService`, `BasicDreams`, `PhotoTable`, `EasterEgg`, `Traceur`
-and `LineageSetupWizard`. Camera, file manager, PDF printing, WebView and all
-selected crDroid feature providers remain installed. See
+and `LineageSetupWizard`. Camera, file manager, PDF printing, WebView and the
+selected crDroid feature providers (except Sandbox and OmniJaws) remain installed. See
 [removed-packages/README.md](removed-packages/README.md) for effects, first-boot
 provisioning, and restoration steps; restoring the wizard requires removing
 `NasgorProvision` as well.
@@ -103,7 +105,7 @@ ordinary applications keep their existing sources.
 Konfigurasi performa mematikan blur jendela,
 menyetel skala animasi jendela/transisi ke 0,5×, dan mematikan screensaver
 aktif otomatis. Pulse-on-track dan Pulse ambient nonaktif secara default; Pulse
-visualizer serta cuaca lock screen tetap dapat dinyalakan lewat crDroid Settings.
+visualizer tetap dapat dinyalakan lewat crDroid Settings (cuaca tidak disertakan).
 Wallpaper bergerak tidak dipilih sebagai wallpaper bawaan; picker/dukungan live
 wallpaper tetap tersedia. Efek yang bergantung pada setelan pengguna tetap dapat
 diaktifkan kembali. Nilai SettingsProvider hanya menjadi default saat profil

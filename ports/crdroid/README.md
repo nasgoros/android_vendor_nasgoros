@@ -42,8 +42,9 @@ import as Apache-2.0.
 - `ro.nasgoros.crdroid_settings`: routes the NasgorOS homepage entry to the
   full customization host; it does not disable every backend feature.
 
-Feature providers such as GameSpace, OmniJaws, OmniStyle, QuickLook, ThemeStore
-and the sidebar implement options in Settings. They are dependencies, rather
+Feature providers such as GameSpace, OmniStyle, QuickLook, ThemeStore and the
+sidebar implement options in Settings. Sandbox/AppLocker and OmniJaws remain
+pinned as source dependencies but are not shipped (`config/crdroid.mk`). They are dependencies, rather
 than a switch to crDroid Home or replacement of ordinary applications.
 
 The native backend includes the matching crDroid `frameworks/av` and

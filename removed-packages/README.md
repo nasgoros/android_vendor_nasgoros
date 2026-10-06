@@ -25,9 +25,12 @@ emergency alert, izin, pemasang APK, jaringan, updater dan aksesibilitas tetap
 dipertahankan. HTMLViewer diperlukan halaman lisensi Settings; WebView diperlukan
 banyak aplikasi. Jangan menghapusnya hanya karena ukuran APK-nya besar.
 
-Seluruh penyedia fitur crDroid yang sudah dipilih tetap disertakan, termasuk
-GameSpace, OmniJaws, OmniStyle, QuickLook, ThemeStore, Sandbox/AppLocker dan sidebar.
-Menghapusnya akan membuat fitur kustomisasi yang diminta sebelumnya tidak lengkap.
+Penyedia fitur crDroid yang disertakan: GameSpace, OmniStyle, QuickLook, ThemeStore
+dan sidebar. **Sandbox/AppLocker** (`AxSandbox`) dan **cuaca** (`OmniJaws`) dikeluarkan
+atas permintaan user (2026-10-07). Repo keduanya tetap di manifest karena framework
+dan SystemUI crDroid mereferensikan kodenya; hanya aplikasinya yang tidak dipasang.
+Tile cuaca QS tersembunyi otomatis, dan kategori cuaca layar kunci di crDroid
+Settings disembunyikan oleh patch `0002-hide-weather-without-omnijaws.patch`.
 
 ## Boot tanpa wizard
 
