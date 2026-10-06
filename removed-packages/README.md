@@ -53,8 +53,10 @@ ROM tanpa wizard ini, termasuk penambahan akun lewat Settings.
 
 Hapus nama modul dari `LOCAL_OVERRIDES_PACKAGES` untuk mengembalikannya; base ROM
 juga harus memilih modul itu. Pasangan radio dan backup dikembalikan bersama.
-Jika Seedvault dipulihkan, lepas overlay `def_backup_transport` atau pilih transport
-melalui pengaturan backup. Jika wizard dipulihkan, hapus `NasgorProvision` dari
+Tanpa Seedvault, overlay `def_backup_transport` memakai default AOSP
+(`com.android.localtransport/.LocalTransport`), bukan nilai kosong, karena setup
+wizard Google membaca transport aktif saat restore. Jika Seedvault dipulihkan, lepas
+overlay tersebut atau pilih transport melalui pengaturan backup. Jika wizard dipulihkan, hapus `NasgorProvision` dari
 produk dan dari daftar override yang berlaku; jangan memasang dua pemilik setup.
 
 Saat pindah Android/ROM, cocokkan ulang nama modul, periksa dependensi `required`
