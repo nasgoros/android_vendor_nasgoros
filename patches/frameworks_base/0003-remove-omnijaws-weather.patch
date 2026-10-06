@@ -1,0 +1,1736 @@
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 7420054667e9..514fd9996cfb 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -7318,30 +7318,10 @@ public final class Settings {
+          */
+         public static final String STATUS_BAR_CUSTOM_HEADER_HEIGHT = "status_bar_custom_header_height";
+ 
+-        /**
+-         * @hide
+-         */
+-        public static final String LOCKSCREEN_WEATHER_ENABLED = "lockscreen_weather_enabled";
+ 
+-        /**
+-         * @hide
+-         */
+-        public static final String LOCKSCREEN_WEATHER_LOCATION = "lockscreen_weather_location";
+ 
+-        /**
+-         * @hide
+-         */
+-        public static final String LOCKSCREEN_WEATHER_TEXT = "lockscreen_weather_text";
+ 
+-        /**
+-         * @hide
+-         */
+-        public static final String LOCKSCREEN_WEATHER_WIND_INFO = "lockscreen_weather_wind_info";
+ 
+-        /**
+-         * @hide
+-         */
+-        public static final String LOCKSCREEN_WEATHER_HUMIDITY_INFO = "lockscreen_weather_humidity_info";
+ 
+         /**
+          * Whether to enable the ripple animation on fingerprint unlock
+diff --git a/core/java/com/android/internal/util/crdroid/OmniJawsClient.java b/core/java/com/android/internal/util/crdroid/OmniJawsClient.java
+deleted file mode 100644
+index 1d256449866a..000000000000
+--- a/core/java/com/android/internal/util/crdroid/OmniJawsClient.java
++++ /dev/null
+@@ -1,619 +0,0 @@
+-/*
+- * Copyright (C) 2021 The OmniROM project
+- * Copyright (C) 2022-2026 crDroid Android project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.android.internal.util.crdroid;
+-
+-import android.content.BroadcastReceiver;
+-import android.content.Context;
+-import android.content.Intent;
+-import android.content.IntentFilter;
+-import android.content.pm.PackageManager;
+-import android.content.pm.PackageManager.NameNotFoundException;
+-import android.content.res.Resources;
+-import android.database.Cursor;
+-import android.graphics.Color;
+-import android.graphics.drawable.ColorDrawable;
+-import android.graphics.drawable.Drawable;
+-import android.net.Uri;
+-import android.text.TextUtils;
+-import android.util.Log;
+-
+-import java.lang.ref.WeakReference;
+-import java.text.DecimalFormat;
+-import java.text.SimpleDateFormat;
+-import java.util.ArrayList;
+-import java.util.Date;
+-import java.util.List;
+-import java.util.Locale;
+-import java.util.concurrent.CopyOnWriteArrayList;
+-
+-public class OmniJawsClient {
+-
+-    private static final String TAG = "OmniJawsClient";
+-    private static final boolean DEBUG = false;
+-
+-    public static final String SERVICE_PACKAGE = "org.omnirom.omnijaws";
+-    public static final Uri WEATHER_URI = Uri.parse("content://org.omnirom.omnijaws.provider/weather");
+-    public static final Uri SETTINGS_URI = Uri.parse("content://org.omnirom.omnijaws.provider/settings");
+-    public static final Uri HOURLY_URI = Uri.parse("content://org.omnirom.omnijaws.provider/hourly");
+-    public static final String WEATHER_UPDATE = SERVICE_PACKAGE + ".WEATHER_UPDATE";
+-    public static final String WEATHER_ERROR = SERVICE_PACKAGE + ".WEATHER_ERROR";
+-
+-    private static final String ICON_PACKAGE_DEFAULT = "org.omnirom.omnijaws";
+-    private static final String ICON_PREFIX_DEFAULT = "google_new";
+-    private static final String EXTRA_ERROR = "error";
+-    public static final int EXTRA_ERROR_NETWORK = 0;
+-    public static final int EXTRA_ERROR_LOCATION = 1;
+-    public static final int EXTRA_ERROR_DISABLED = 2;
+-
+-    private static final String COL_CITY = "city";
+-    private static final String COL_WIND_SPEED = "wind_speed";
+-    private static final String COL_WIND_DIRECTION = "wind_direction";
+-    private static final String COL_CONDITION_CODE = "condition_code";
+-    private static final String COL_TEMPERATURE = "temperature";
+-    private static final String COL_HUMIDITY = "humidity";
+-    private static final String COL_CONDITION = "condition";
+-    private static final String COL_FORECAST_LOW = "forecast_low";
+-    private static final String COL_FORECAST_HIGH = "forecast_high";
+-    private static final String COL_FORECAST_CONDITION = "forecast_condition";
+-    private static final String COL_FORECAST_CONDITION_CODE = "forecast_condition_code";
+-    private static final String COL_TIME_STAMP = "time_stamp";
+-    private static final String COL_FORECAST_DATE = "forecast_date";
+-    private static final String COL_PIN_WHEEL = "pin_wheel";
+-    private static final String COL_FEELS_LIKE = "feels_like";
+-    private static final String COL_PRESSURE = "pressure";
+-    private static final String COL_UVI = "uvi";
+-    private static final String COL_VISIBILITY = "visibility";
+-    private static final String COL_DEW_POINT = "dew_point";
+-    private static final String COL_SUNRISE = "sunrise";
+-    private static final String COL_SUNSET = "sunset";
+-    private static final String COL_CITY_ID = "city_id";
+-
+-    private static final String COL_ENABLED = "enabled";
+-    private static final String COL_UNITS = "units";
+-    private static final String COL_PROVIDER = "provider";
+-    private static final String COL_SETUP = "setup";
+-    private static final String COL_ICON_PACK = "icon_pack";
+-
+-    private static final String COL_HOURLY_TEMPERATURE = "hourly_temperature";
+-    private static final String COL_HOURLY_CONDITION_CODE = "hourly_condition_code";
+-    private static final String COL_HOURLY_CONDITION = "hourly_condition";
+-    private static final String COL_HOURLY_TIMESTAMP = "hourly_timestamp";
+-    private static final String COL_HOURLY_HUMIDITY = "hourly_humidity";
+-    private static final String COL_HOURLY_WIND_SPEED = "hourly_wind_speed";
+-
+-    public static final String[] WEATHER_PROJECTION = {
+-            COL_CITY, COL_WIND_SPEED, COL_WIND_DIRECTION, COL_CONDITION_CODE, COL_TEMPERATURE,
+-            COL_HUMIDITY, COL_CONDITION, COL_FORECAST_LOW, COL_FORECAST_HIGH, COL_FORECAST_CONDITION,
+-            COL_FORECAST_CONDITION_CODE, COL_TIME_STAMP, COL_FORECAST_DATE, COL_PIN_WHEEL,
+-            COL_FEELS_LIKE, COL_PRESSURE, COL_UVI, COL_VISIBILITY, COL_DEW_POINT,
+-            COL_SUNRISE, COL_SUNSET, COL_CITY_ID
+-    };
+-
+-    public static final String[] SETTINGS_PROJECTION = {
+-            COL_ENABLED, COL_UNITS, COL_PROVIDER, COL_SETUP, COL_ICON_PACK
+-    };
+-
+-    public static final String[] HOURLY_PROJECTION = {
+-            COL_HOURLY_TEMPERATURE, COL_HOURLY_CONDITION_CODE, COL_HOURLY_CONDITION,
+-            COL_HOURLY_TIMESTAMP, COL_HOURLY_HUMIDITY, COL_HOURLY_WIND_SPEED
+-    };
+-
+-    private static final DecimalFormat sNoDigitsFormat = new DecimalFormat("0");
+-
+-    private static OmniJawsClient sInstance;
+-
+-    private volatile WeatherInfo mCachedInfo;
+-    private volatile Resources mRes;
+-    private volatile String mPackageName;
+-    private volatile String mIconPrefix;
+-    private volatile String mSettingIconPackage;
+-    private volatile boolean mMetric = true;
+-
+-    private final List<WeakReference<OmniJawsObserver>> mObservers = new CopyOnWriteArrayList<>();
+-    private WeatherUpdateReceiver mReceiver;
+-    private Context mReceiverContext;
+-    private boolean mWeatherReceiverRegistered = false;
+-
+-    public static OmniJawsClient get() {
+-        if (sInstance == null) {
+-            synchronized (OmniJawsClient.class) {
+-                if (sInstance == null) {
+-                    sInstance = new OmniJawsClient();
+-                }
+-            }
+-        }
+-        return sInstance;
+-    }
+-
+-    public interface OmniJawsObserver {
+-        void weatherUpdated();
+-        void weatherError(int errorReason);
+-        default void updateSettings() {}
+-    }
+-
+-    private class WeatherUpdateReceiver extends BroadcastReceiver {
+-        @Override public void onReceive(Context context, Intent intent) {
+-            String action = intent.getAction();
+-            pruneDeadObservers();
+-            for (WeakReference<OmniJawsObserver> ref : mObservers) {
+-                OmniJawsObserver obs = ref.get();
+-                if (obs == null) continue;
+-                try {
+-                    if (WEATHER_UPDATE.equals(action)) {
+-                        obs.weatherUpdated();
+-                    } else if (WEATHER_ERROR.equals(action)) {
+-                        obs.weatherError(intent.getIntExtra(EXTRA_ERROR, 0));
+-                    }
+-                } catch (Exception e) {
+-                    Log.e(TAG, "observer threw on " + action, e);
+-                }
+-            }
+-        }
+-    }
+-
+-    public Intent getSettingsIntent() {
+-        return new Intent(Intent.ACTION_MAIN)
+-                .setClassName(SERVICE_PACKAGE, SERVICE_PACKAGE + ".SettingsActivity");
+-    }
+-
+-    public Intent getWeatherActivityIntent(Context context) {
+-        if (isOmniJawsEnabled(context)) {
+-            return new Intent(Intent.ACTION_MAIN)
+-                    .setClassName(SERVICE_PACKAGE, SERVICE_PACKAGE + ".WeatherActivity");
+-        }
+-        return getSettingsIntent();
+-    }
+-
+-    public WeatherInfo getWeatherInfo() {
+-        return mCachedInfo;
+-    }
+-
+-    public void queryWeather(Context context) {
+-        if (!isOmniJawsEnabled(context)) {
+-            Log.w(TAG, "queryWeather while disabled");
+-            mCachedInfo = null;
+-            return;
+-        }
+-
+-        WeatherInfo info = null;
+-
+-        try (Cursor weatherCursor = context.getContentResolver().query(
+-                WEATHER_URI, WEATHER_PROJECTION, null, null, null)) {
+-
+-            if (weatherCursor != null && weatherCursor.getCount() > 0) {
+-                info = new WeatherInfo();
+-                info.tempUnits = getTemperatureUnit();
+-                info.windUnits = getWindUnit();
+-                List<DayForecast> forecasts = new ArrayList<>();
+-
+-                final int colCity = weatherCursor.getColumnIndex(COL_CITY);
+-                final int colWindSpeed = weatherCursor.getColumnIndex(COL_WIND_SPEED);
+-                final int colWindDir = weatherCursor.getColumnIndex(COL_WIND_DIRECTION);
+-                final int colConditionCode = weatherCursor.getColumnIndex(COL_CONDITION_CODE);
+-                final int colTemperature = weatherCursor.getColumnIndex(COL_TEMPERATURE);
+-                final int colHumidity = weatherCursor.getColumnIndex(COL_HUMIDITY);
+-                final int colCondition = weatherCursor.getColumnIndex(COL_CONDITION);
+-                final int colTimeStamp = weatherCursor.getColumnIndex(COL_TIME_STAMP);
+-                final int colPinWheel = weatherCursor.getColumnIndex(COL_PIN_WHEEL);
+-                final int colFeelsLike = weatherCursor.getColumnIndex(COL_FEELS_LIKE);
+-                final int colPressure = weatherCursor.getColumnIndex(COL_PRESSURE);
+-                final int colUvi = weatherCursor.getColumnIndex(COL_UVI);
+-                final int colVisibility = weatherCursor.getColumnIndex(COL_VISIBILITY);
+-                final int colDewPoint = weatherCursor.getColumnIndex(COL_DEW_POINT);
+-                final int colSunrise = weatherCursor.getColumnIndex(COL_SUNRISE);
+-                final int colSunset = weatherCursor.getColumnIndex(COL_SUNSET);
+-                final int colCityId = weatherCursor.getColumnIndex(COL_CITY_ID);
+-
+-                final int colForecastLow = weatherCursor.getColumnIndex(COL_FORECAST_LOW);
+-                final int colForecastHigh = weatherCursor.getColumnIndex(COL_FORECAST_HIGH);
+-                final int colForecastCondition = weatherCursor.getColumnIndex(COL_FORECAST_CONDITION);
+-                final int colForecastConditionCode =
+-                        weatherCursor.getColumnIndex(COL_FORECAST_CONDITION_CODE);
+-                final int colForecastDate = weatherCursor.getColumnIndex(COL_FORECAST_DATE);
+-
+-                for (int i = 0; i < weatherCursor.getCount(); i++) {
+-                    weatherCursor.moveToPosition(i);
+-                    if (i == 0) {
+-                        info.city = getString(weatherCursor, colCity);
+-                        info.cityId = getString(weatherCursor, colCityId);
+-                        info.windSpeed = getFormattedValue(getFloat(weatherCursor, colWindSpeed));
+-                        info.windDirection = getInt(weatherCursor, colWindDir, 0) + "\u00b0";
+-                        info.conditionCode = getInt(weatherCursor, colConditionCode, -1);
+-                        info.temp = getFormattedValue(getFloat(weatherCursor, colTemperature));
+-                        info.humidity = getString(weatherCursor, colHumidity);
+-                        info.condition = getString(weatherCursor, colCondition);
+-                        info.timeStamp = getLong(weatherCursor, colTimeStamp, 0L);
+-                        info.pinWheel = getString(weatherCursor, colPinWheel);
+-
+-                        info.feelsLike = getFloat(weatherCursor, colFeelsLike);
+-                        info.pressure = getFloat(weatherCursor, colPressure);
+-                        info.uvi = getFloat(weatherCursor, colUvi);
+-                        info.visibility = getFloat(weatherCursor, colVisibility);
+-                        info.dewPoint = getFloat(weatherCursor, colDewPoint);
+-                        info.sunrise = getLong(weatherCursor, colSunrise, 0L);
+-                        info.sunset = getLong(weatherCursor, colSunset, 0L);
+-                    } else {
+-                        DayForecast day = new DayForecast();
+-                        day.low = getFormattedValue(getFloat(weatherCursor, colForecastLow));
+-                        day.high = getFormattedValue(getFloat(weatherCursor, colForecastHigh));
+-                        day.condition = getString(weatherCursor, colForecastCondition);
+-                        day.conditionCode = getInt(weatherCursor, colForecastConditionCode, -1);
+-                        day.date = getString(weatherCursor, colForecastDate);
+-                        forecasts.add(day);
+-                    }
+-                }
+-                info.forecasts = forecasts;
+-            }
+-        } catch (Exception e) {
+-            Log.e(TAG, "queryWeather: weather", e);
+-            info = null;
+-        }
+-
+-        try (Cursor settingsCursor = context.getContentResolver().query(
+-                SETTINGS_URI, SETTINGS_PROJECTION, null, null, null)) {
+-
+-            if (settingsCursor != null && settingsCursor.moveToFirst()) {
+-                mMetric = getInt(settingsCursor,
+-                        settingsCursor.getColumnIndex(COL_UNITS), 0) == 0;
+-                if (info != null) {
+-                    info.tempUnits = getTemperatureUnit();
+-                    info.windUnits = getWindUnit();
+-                    info.provider = getString(settingsCursor,
+-                            settingsCursor.getColumnIndex(COL_PROVIDER));
+-                    info.iconPack = getString(settingsCursor,
+-                            settingsCursor.getColumnIndex(COL_ICON_PACK));
+-                }
+-            }
+-        } catch (Exception e) {
+-            Log.e(TAG, "queryWeather: settings", e);
+-        }
+-
+-        if (info != null) {
+-            try (Cursor hourlyCursor = context.getContentResolver().query(
+-                    HOURLY_URI, HOURLY_PROJECTION, null, null, null)) {
+-                if (hourlyCursor != null && hourlyCursor.getCount() > 0) {
+-                    final int colTemp = hourlyCursor.getColumnIndex(COL_HOURLY_TEMPERATURE);
+-                    final int colCode = hourlyCursor.getColumnIndex(COL_HOURLY_CONDITION_CODE);
+-                    final int colCondition = hourlyCursor.getColumnIndex(COL_HOURLY_CONDITION);
+-                    final int colTimestamp = hourlyCursor.getColumnIndex(COL_HOURLY_TIMESTAMP);
+-                    final int colHumidity = hourlyCursor.getColumnIndex(COL_HOURLY_HUMIDITY);
+-                    final int colWindSpeed = hourlyCursor.getColumnIndex(COL_HOURLY_WIND_SPEED);
+-
+-                    if (colTemp == -1 || colCode == -1 || colCondition == -1
+-                            || colTimestamp == -1 || colHumidity == -1 || colWindSpeed == -1) {
+-                        Log.w(TAG, "queryWeather: hourly columns missing, skipping hourly forecasts");
+-                    } else {
+-                        List<HourlyForecast> hourly = new ArrayList<>();
+-                        while (hourlyCursor.moveToNext()) {
+-                            HourlyForecast h = new HourlyForecast();
+-                            h.temperature = hourlyCursor.getFloat(colTemp);
+-                            h.conditionCode = hourlyCursor.getInt(colCode);
+-                            h.condition = hourlyCursor.getString(colCondition);
+-                            h.timestamp = hourlyCursor.getLong(colTimestamp);
+-                            h.humidity = hourlyCursor.getFloat(colHumidity);
+-                            h.windSpeed = hourlyCursor.getFloat(colWindSpeed);
+-                            hourly.add(h);
+-                        }
+-                        info.hourlyForecasts = hourly;
+-                    }
+-                }
+-            } catch (Exception e) {
+-                Log.e(TAG, "queryWeather: hourly", e);
+-            }
+-        }
+-
+-        mCachedInfo = info;
+-
+-        updateSettings(context);
+-    }
+-
+-    private static String getString(Cursor c, int col) {
+-        if (col == -1) return null;
+-        try {
+-            return c.getString(col);
+-        } catch (Exception e) {
+-            return null;
+-        }
+-    }
+-
+-    private static int getInt(Cursor c, int col, int def) {
+-        if (col == -1) return def;
+-        try {
+-            return c.getInt(col);
+-        } catch (Exception e) {
+-            return def;
+-        }
+-    }
+-
+-    private static float getFloat(Cursor c, int col) {
+-        if (col == -1) return Float.NaN;
+-        try {
+-            return c.getFloat(col);
+-        } catch (Exception e) {
+-            return Float.NaN;
+-        }
+-    }
+-
+-    private static long getLong(Cursor c, int col, long def) {
+-        if (col == -1) return def;
+-        try {
+-            return c.getLong(col);
+-        } catch (Exception e) {
+-            return def;
+-        }
+-    }
+-
+-    private void updateSettings(Context context) {
+-        WeatherInfo info = mCachedInfo;
+-        String iconPack = (info != null) ? info.iconPack : null;
+-        if (TextUtils.isEmpty(iconPack)) {
+-            loadDefaultIconsPackage(context);
+-        } else if (!iconPack.equals(mSettingIconPackage)) {
+-            mSettingIconPackage = iconPack;
+-            loadCustomIconPackage(context);
+-        }
+-    }
+-
+-    private void loadDefaultIconsPackage(Context context) {
+-        mPackageName = ICON_PACKAGE_DEFAULT;
+-        mIconPrefix = ICON_PREFIX_DEFAULT;
+-        mSettingIconPackage = mPackageName + "." + mIconPrefix;
+-        try {
+-            mRes = context.getPackageManager().getResourcesForApplication(mPackageName);
+-        } catch (Exception e) {
+-            Log.w(TAG, "No default icon package found");
+-            mRes = null;
+-        }
+-    }
+-
+-    private void loadCustomIconPackage(Context context) {
+-        int idx = mSettingIconPackage.lastIndexOf(".");
+-        if (idx == -1) {
+-            loadDefaultIconsPackage(context);
+-            return;
+-        }
+-        mPackageName = mSettingIconPackage.substring(0, idx);
+-        mIconPrefix = mSettingIconPackage.substring(idx + 1);
+-        try {
+-            mRes = context.getPackageManager().getResourcesForApplication(mPackageName);
+-        } catch (Exception e) {
+-            Log.w(TAG, "Icon pack loading failed, fallback to default");
+-            loadDefaultIconsPackage(context);
+-        }
+-    }
+-
+-    private static String getFormattedValue(float value) {
+-        if (Float.isNaN(value)) return "-";
+-        String result = sNoDigitsFormat.format(value);
+-        return result.equals("-0") ? "0" : result;
+-    }
+-
+-    public boolean isOmniJawsServiceInstalled(Context context) {
+-        return isAvailableApp(context, SERVICE_PACKAGE);
+-    }
+-
+-    public boolean isOmniJawsEnabled(Context context) {
+-        if (!isOmniJawsServiceInstalled(context)) return false;
+-
+-        try (Cursor c = context.getContentResolver().query(
+-                SETTINGS_URI, SETTINGS_PROJECTION, null, null, null)) {
+-            if (c == null || !c.moveToFirst()) return false;
+-            return getInt(c, c.getColumnIndex(COL_ENABLED), 0) == 1;
+-        } catch (Exception e) {
+-            Log.e(TAG, "isOmniJawsEnabled", e);
+-            return false;
+-        }
+-    }
+-
+-    private boolean isAvailableApp(Context context, String pkg) {
+-        try {
+-            PackageManager pm = context.getPackageManager();
+-            pm.getPackageInfo(pkg, PackageManager.GET_ACTIVITIES);
+-            int state = pm.getApplicationEnabledSetting(pkg);
+-            return state != PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+-                    && state != PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER;
+-        } catch (NameNotFoundException | IllegalArgumentException e) {
+-            return false;
+-        }
+-    }
+-
+-    public void addObserver(Context context, OmniJawsObserver observer) {
+-        if (observer == null) return;
+-        removeObserverInternal(observer);
+-        mObservers.add(new WeakReference<>(observer));
+-        registerReceiverIfNeeded(context);
+-    }
+-
+-    public void removeObserver(Context context, OmniJawsObserver observer) {
+-        if (observer == null) return;
+-        removeObserverInternal(observer);
+-        if (mObservers.isEmpty()) {
+-            unregisterReceiver();
+-        }
+-    }
+-
+-    private void removeObserverInternal(OmniJawsObserver observer) {
+-        mObservers.removeIf(ref -> {
+-            OmniJawsObserver o = ref.get();
+-            return o == null || o == observer;
+-        });
+-    }
+-
+-    private void pruneDeadObservers() {
+-        try {
+-            mObservers.removeIf(ref -> ref.get() == null);
+-        } catch (Exception e) {
+-            Log.w(TAG, "Exception occured while pruning, ignoring");
+-        }
+-    }
+-
+-    private synchronized void registerReceiverIfNeeded(Context context) {
+-        if (mWeatherReceiverRegistered || mObservers.isEmpty()) {
+-            return;
+-        }
+-        mReceiverContext = context.getApplicationContext();
+-        mReceiver = new WeatherUpdateReceiver();
+-        IntentFilter filter = new IntentFilter();
+-        filter.addAction(WEATHER_UPDATE);
+-        filter.addAction(WEATHER_ERROR);
+-        try {
+-            mReceiverContext.registerReceiver(mReceiver, filter, Context.RECEIVER_EXPORTED);
+-            mWeatherReceiverRegistered = true;
+-        } catch (Exception e) {
+-            Log.e(TAG, "registerReceiver failed", e);
+-            mReceiver = null;
+-            mReceiverContext = null;
+-        }
+-    }
+-
+-    private synchronized void unregisterReceiver() {
+-        if (mWeatherReceiverRegistered && mReceiver != null && mReceiverContext != null) {
+-            try {
+-                mReceiverContext.unregisterReceiver(mReceiver);
+-            } catch (Exception ignored) {}
+-        }
+-        mReceiver = null;
+-        mReceiverContext = null;
+-        mWeatherReceiverRegistered = false;
+-    }
+-
+-    private String getTemperatureUnit() {
+-        return mMetric ? "\u00b0C" : "\u00b0F";
+-    }
+-
+-    private String getWindUnit() {
+-        return mMetric ? "km/h" : "mph";
+-    }
+-
+-    public Drawable getWeatherConditionImage(Context context, int conditionCode) {
+-        if (mRes == null) {
+-            loadDefaultIconsPackage(context);
+-        }
+-        if (mRes == null) {
+-            return getDefaultConditionImage(context);
+-        }
+-        try {
+-            int resId = mRes.getIdentifier(mIconPrefix + "_" + conditionCode, "drawable", mPackageName);
+-            if (resId == 0) {
+-                return getDefaultConditionImage(context);
+-            }
+-            Drawable d = mRes.getDrawable(resId, null);
+-            return d != null ? d : getDefaultConditionImage(context);
+-        } catch (Exception e) {
+-            Log.e(TAG, "getWeatherConditionImage", e);
+-            return getDefaultConditionImage(context);
+-        }
+-    }
+-
+-    private Drawable getDefaultConditionImage(Context context) {
+-        try {
+-            Resources res = context.getPackageManager().getResourcesForApplication(ICON_PACKAGE_DEFAULT);
+-            int resId = res.getIdentifier(ICON_PREFIX_DEFAULT + "_na", "drawable", ICON_PACKAGE_DEFAULT);
+-            if (resId == 0) {
+-                return new ColorDrawable(Color.TRANSPARENT);
+-            }
+-            Drawable d = res.getDrawable(resId, null);
+-            return d != null ? d : new ColorDrawable(Color.TRANSPARENT);
+-        } catch (Exception e) {
+-            return new ColorDrawable(Color.TRANSPARENT);
+-        }
+-    }
+-
+-    public Drawable getResOmni(Context context, String iconOmni) {
+-        if (mRes == null) loadDefaultIconsPackage(context);
+-        if (mRes == null) return new ColorDrawable(Color.TRANSPARENT);
+-        try {
+-            int resId = mRes.getIdentifier(iconOmni, "drawable", mPackageName);
+-            if (resId == 0) {
+-                return new ColorDrawable(Color.TRANSPARENT);
+-            }
+-            Drawable d = mRes.getDrawable(resId, null);
+-            return d != null ? d : new ColorDrawable(Color.TRANSPARENT);
+-        } catch (Exception e) {
+-            Log.e(TAG, "getResOmni", e);
+-            return new ColorDrawable(Color.TRANSPARENT);
+-        }
+-    }
+-
+-    public static class WeatherInfo {
+-        public String city;
+-        public String cityId;
+-        public String windSpeed;
+-        public String windDirection;
+-        public int conditionCode;
+-        public String temp;
+-        public String humidity;
+-        public String condition;
+-        public Long timeStamp;
+-        public List<DayForecast> forecasts;
+-        public String tempUnits;
+-        public String windUnits;
+-        public String provider;
+-        public String pinWheel;
+-        public String iconPack;
+-
+-        public float feelsLike = Float.NaN;
+-        public float pressure = Float.NaN;
+-        public float uvi = Float.NaN;
+-        public float visibility = Float.NaN;
+-        public float dewPoint = Float.NaN;
+-        public long sunrise;
+-        public long sunset;
+-        public List<HourlyForecast> hourlyForecasts;
+-
+-        public String getLastUpdateTime() {
+-            if (timeStamp == null || timeStamp == 0L) {
+-                return "";
+-            }
+-            return new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date(timeStamp));
+-        }
+-
+-        @Override
+-        public String toString() {
+-            return city + " @ " + (timeStamp != null ? new Date(timeStamp) : "never")
+-                    + " | " + condition + " | " + temp;
+-        }
+-    }
+-
+-    public static class DayForecast {
+-        public String low;
+-        public String high;
+-        public int conditionCode;
+-        public String condition;
+-        public String date;
+-
+-        @Override
+-        public String toString() {
+-            return "[" + date + " - " + low + "/" + high + " - " + condition + "]";
+-        }
+-    }
+-
+-    public static class HourlyForecast {
+-        public float temperature;
+-        public int conditionCode;
+-        public String condition;
+-        public long timestamp;
+-        public float humidity;
+-        public float windSpeed;
+-
+-        @Override
+-        public String toString() {
+-            return "[" + new Date(timestamp) + " - " + temperature + " - " + condition + "]";
+-        }
+-    }
+-}
+diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
+index 3337e94d1ce9..90e829acf708 100644
+--- a/packages/SystemUI/AndroidManifest.xml
++++ b/packages/SystemUI/AndroidManifest.xml
+@@ -436,9 +436,6 @@
+     <uses-permission android:name="android.permission.REPORT_UI_LATENCY_STATS"
+         android:featureFlag="com.android.server.ui_latency_stats.ui_latency_stats_service" />
+ 
+-    <!-- OmniJaws -->
+-    <uses-permission android:name="org.omnirom.omnijaws.READ_WEATHER" />
+-
+     <!-- OnTheGo -->
+     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+ 
+diff --git a/packages/SystemUI/res-keyguard/layout/keyguard_weather_area.xml b/packages/SystemUI/res-keyguard/layout/keyguard_weather_area.xml
+deleted file mode 100644
+index 8fa1eaafcf83..000000000000
+--- a/packages/SystemUI/res-keyguard/layout/keyguard_weather_area.xml
++++ /dev/null
+@@ -1,39 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<com.android.systemui.weather.WeatherInfoView
+-    xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:systemui="http://schemas.android.com/apk/res-auto"
+-    android:id="@+id/keyguard_weather_area"
+-    android:layout_width="match_parent"
+-    android:layout_height="wrap_content"
+-    android:paddingTop="8dp">
+-
+-    <!-- Weather Info -->
+-    <ImageView
+-        android:id="@+id/weather_icon"
+-        android:layout_width="@dimen/weather_image_max_size"
+-        android:layout_height="@dimen/weather_image_max_size"
+-        android:visibility="gone"
+-        systemui:layout_constraintStart_toStartOf="parent"
+-        systemui:layout_constraintTop_toTopOf="parent" />
+-
+-    <TextView
+-        android:id="@+id/weather_temp"
+-        android:layout_width="0dp"
+-        android:layout_height="wrap_content"
+-        android:textAppearance="@style/TextAppearance.Keyguard.Secondary"
+-        android:textColor="?attr/wallpaperTextColor"
+-        android:visibility="gone"
+-        android:ellipsize="marquee"
+-        android:singleLine="true"
+-        android:marqueeRepeatLimit="marquee_forever"
+-        android:focusable="true"
+-        android:focusableInTouchMode="true"
+-        android:scrollHorizontally="true"
+-        android:freezesText="true"
+-        systemui:layout_constraintStart_toEndOf="@id/weather_icon"
+-        systemui:layout_constraintTop_toTopOf="@id/weather_icon"
+-        systemui:layout_constraintEnd_toEndOf="parent"
+-        android:layout_marginStart="8dp"
+-        android:layout_marginEnd="24dp" />
+-
+-</com.android.systemui.weather.WeatherInfoView>
+diff --git a/packages/SystemUI/res/drawable/ic_qs_weather.xml b/packages/SystemUI/res/drawable/ic_qs_weather.xml
+deleted file mode 100644
+index edd144fcef82..000000000000
+--- a/packages/SystemUI/res/drawable/ic_qs_weather.xml
++++ /dev/null
+@@ -1,10 +0,0 @@
+-<vector xmlns:android="http://schemas.android.com/apk/res/android"
+-    android:height="24dp"
+-    android:width="24dp"
+-    android:viewportWidth="24"
+-    android:viewportHeight="24"
+-    android:tint="?android:attr/colorControlNormal">
+-<path
+-    android:fillColor="#FFFFFFFF"
+-    android:pathData="M12.74,5.47C15.1,6.5 16.35,9.03 15.92,11.46C17.19,12.56 18,14.19 18,16V16.17C18.31,16.06 18.65,16 19,16A3,3 0 0,1 22,19A3,3 0 0,1 19,22H6A4,4 0 0,1 2,18A4,4 0 0,1 6,14H6.27C5,12.45 4.6,10.24 5.5,8.26C6.72,5.5 9.97,4.24 12.74,5.47M11.93,7.3C10.16,6.5 8.09,7.31 7.31,9.07C6.85,10.09 6.93,11.22 7.41,12.13C8.5,10.83 10.16,10 12,10C12.7,10 13.38,10.12 14,10.34C13.94,9.06 13.18,7.86 11.93,7.3M13.55,3.64C13,3.4 12.45,3.23 11.88,3.12L14.37,1.82L15.27,4.71C14.76,4.29 14.19,3.93 13.55,3.64M6.09,4.44C5.6,4.79 5.17,5.19 4.8,5.63L4.91,2.82L7.87,3.5C7.25,3.71 6.65,4.03 6.09,4.44M18,9.71C17.91,9.12 17.78,8.55 17.59,8L19.97,9.5L17.92,11.73C18.03,11.08 18.05,10.4 18,9.71M3.04,11.3C3.11,11.9 3.24,12.47 3.43,13L1.06,11.5L3.1,9.28C3,9.93 2.97,10.61 3.04,11.3M19,18H16V16A4,4 0 0,0 12,12A4,4 0 0,0 8,16H6A2,2 0 0,0 4,18A2,2 0 0,0 6,20H19A1,1 0 0,0 20,19A1,1 0 0,0 19,18Z"/>
+-</vector>
+diff --git a/packages/SystemUI/res/values/config.xml b/packages/SystemUI/res/values/config.xml
+index e25cf317ff0d..0867d0c8b392 100644
+--- a/packages/SystemUI/res/values/config.xml
++++ b/packages/SystemUI/res/values/config.xml
+@@ -107,7 +107,7 @@
+ 
+     <!-- Tiles native to System UI. Order should match "quick_settings_tiles_default" -->
+     <string name="quick_settings_tiles_stock" translatable="false">
+-        internet,wifi,bt,flashlight,dnd,modes_dnd,alarm,airplane,nfc,controls,wallet,rotation,battery,cast,screenrecord,mictoggle,cameratoggle,location,hotspot,inversion,saver,dark,work,night,reverse,reduce_brightness,qr_code_scanner,onehanded,color_correction,font_scaling,record_issue,hearing_devices,notes,desktopeffects,cell,ambient_display,aod,caffeine,heads_up,powershare,profiles,reading_mode,sync,usb_tether,vpn,onthego,sound,cpuinfo,fpsinfo,compass,dataswitch,volume_panel,smart_pixels,weather,refresh_rate,screenshot,locale,dns,preferred_network,vpn_tethering,blur
++        internet,wifi,bt,flashlight,dnd,modes_dnd,alarm,airplane,nfc,controls,wallet,rotation,battery,cast,screenrecord,mictoggle,cameratoggle,location,hotspot,inversion,saver,dark,work,night,reverse,reduce_brightness,qr_code_scanner,onehanded,color_correction,font_scaling,record_issue,hearing_devices,notes,desktopeffects,cell,ambient_display,aod,caffeine,heads_up,powershare,profiles,reading_mode,sync,usb_tether,vpn,onthego,sound,cpuinfo,fpsinfo,compass,dataswitch,volume_panel,smart_pixels,refresh_rate,screenshot,locale,dns,preferred_network,vpn_tethering,blur
+     </string>
+ 
+     <!-- The tiles to display in QuickSettings -->
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/ui/binder/KeyguardRootViewBinder.kt b/packages/SystemUI/src/com/android/systemui/keyguard/ui/binder/KeyguardRootViewBinder.kt
+index 62140f1401bc..3fbc5b276fd1 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/ui/binder/KeyguardRootViewBinder.kt
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/ui/binder/KeyguardRootViewBinder.kt
+@@ -200,7 +200,6 @@ object KeyguardRootViewBinder {
+                             view.alpha = alpha
+                             childViews[burnInLayerId]?.alpha = alpha
+                             childViews[sliceViewId]?.alpha = alpha
+-                            childViews[weatherAreaId]?.alpha = alpha
+                         }
+                     }
+ 
+@@ -228,7 +227,6 @@ object KeyguardRootViewBinder {
+                         viewModel.translationY.collect { y ->
+                             childViews[burnInLayerId]?.translationY = y
+                             childViews[sliceViewId]?.translationY = y
+-                            childViews[weatherAreaId]?.translationY = y
+                             childViews[largeClockId]?.translationY = y
+                             childViews[largeClockDateId]?.translationY = y
+                             childViews[aodPromotedNotificationId]?.translationY = y
+@@ -244,7 +242,6 @@ object KeyguardRootViewBinder {
+                                     // Large Clock is not translated in the x direction
+                                     childViews[burnInLayerId]?.translationX = px
+                                     childViews[sliceViewId]?.translationX = px
+-                                    childViews[weatherAreaId]?.translationX = px
+                                     childViews[aodPromotedNotificationId]?.translationX = px
+                                     childViews[aodNotificationIconContainerId]?.translationX = px
+                                 }
+@@ -282,7 +279,6 @@ object KeyguardRootViewBinder {
+                         viewModel.burnInLayerVisibility.collect { visibility ->
+                             childViews[burnInLayerId]?.visibility = visibility
+                             childViews[sliceViewId]?.visibility = visibility
+-                            childViews[weatherAreaId]?.visibility = visibility
+                         }
+                     }
+ 
+@@ -556,7 +552,6 @@ object KeyguardRootViewBinder {
+ 
+     private val burnInLayerId = R.id.burn_in_layer
+     private val sliceViewId = R.id.keyguard_slice_view
+-    private val weatherAreaId = R.id.keyguard_weather_area
+     private val aodPromotedNotificationId = AodPromotedNotificationSection.viewId
+     private val aodNotificationIconContainerId = R.id.aod_notification_icon_container
+     private val largeClockId = ClockViewIds.LOCKSCREEN_CLOCK_VIEW_LARGE
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/blueprints/DefaultKeyguardBlueprint.kt b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/blueprints/DefaultKeyguardBlueprint.kt
+index d108cc0f410b..cccc13a8d0f5 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/blueprints/DefaultKeyguardBlueprint.kt
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/blueprints/DefaultKeyguardBlueprint.kt
+@@ -38,7 +38,6 @@ import com.android.systemui.keyguard.ui.view.layout.sections.KeyguardSectionsMod
+ import com.android.systemui.keyguard.ui.view.layout.sections.KeyguardSectionsModule.Companion.KEYGUARD_BATTERY_CHARGING_SECTION
+ import com.android.systemui.keyguard.ui.view.layout.sections.KeyguardSliceViewSection
+ import com.android.systemui.keyguard.ui.view.layout.sections.KeyguardClockStyleSection
+-import com.android.systemui.keyguard.ui.view.layout.sections.KeyguardWeatherViewSection
+ import com.android.systemui.keyguard.ui.view.layout.sections.SmartspaceSection
+ import java.util.Optional
+ import javax.inject.Inject
+@@ -72,7 +71,6 @@ constructor(
+     aodBurnInSection: AodBurnInSection,
+     clockSection: ClockSection,
+     smartspaceSection: SmartspaceSection,
+-    keyguardWeatherViewSection: KeyguardWeatherViewSection,
+     keyguardSliceViewSection: KeyguardSliceViewSection,
+     axDynamicBarKeyguardChipSection: AxDynamicBarKeyguardChipSection,
+     keyguardClockStyleSection: KeyguardClockStyleSection,
+@@ -97,7 +95,6 @@ constructor(
+             smartspaceSection,
+             aodBurnInSection,
+             clockSection,
+-            keyguardWeatherViewSection,
+             keyguardSliceViewSection,
+             keyguardClockStyleSection,
+             defaultDeviceEntrySection,
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/blueprints/SplitShadeKeyguardBlueprint.kt b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/blueprints/SplitShadeKeyguardBlueprint.kt
+index 259494d08157..9f5252142442 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/blueprints/SplitShadeKeyguardBlueprint.kt
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/blueprints/SplitShadeKeyguardBlueprint.kt
+@@ -35,7 +35,6 @@ import com.android.systemui.keyguard.ui.view.layout.sections.DefaultStatusBarSec
+ import com.android.systemui.keyguard.ui.view.layout.sections.KeyguardSectionsModule
+ import com.android.systemui.keyguard.ui.view.layout.sections.KeyguardClockStyleSection
+ import com.android.systemui.keyguard.ui.view.layout.sections.KeyguardSliceViewSection
+-import com.android.systemui.keyguard.ui.view.layout.sections.KeyguardWeatherViewSection
+ import com.android.systemui.keyguard.ui.view.layout.sections.SmartspaceSection
+ import com.android.systemui.keyguard.ui.view.layout.sections.SplitShadeGuidelines
+ import com.android.systemui.keyguard.ui.view.layout.sections.SplitShadeMediaSection
+@@ -72,7 +71,6 @@ constructor(
+     aodNotificationIconsSection: AodNotificationIconsSection,
+     aodBurnInSection: AodBurnInSection,
+     clockSection: ClockSection,
+-    keyguardWeatherViewSection: KeyguardWeatherViewSection,
+     keyguardSliceViewSection: KeyguardSliceViewSection,
+     smartspaceSection: SmartspaceSection,
+     mediaSection: SplitShadeMediaSection,
+@@ -100,7 +98,6 @@ constructor(
+             smartspaceSection,
+             aodBurnInSection,
+             clockSection,
+-            keyguardWeatherViewSection,
+             keyguardSliceViewSection,
+             keyguardClockStyleSection,
+             mediaSection,
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/AxDynamicBarKeyguardChipSection.kt b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/AxDynamicBarKeyguardChipSection.kt
+index 8a6bd9e064f8..c119b3adf379 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/AxDynamicBarKeyguardChipSection.kt
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/AxDynamicBarKeyguardChipSection.kt
+@@ -38,7 +38,6 @@ private val HIDDEN_VIEW_IDS = listOf(
+     R.id.smartspace_card_pager,
+     R.id.smartspace_page_indicator,
+     R.id.keyguard_slice_view,
+-    R.id.keyguard_weather_area,
+     R.id.clock_ls,
+ )
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardClockStyleSection.kt b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardClockStyleSection.kt
+index df333ff63dcd..90a1d8a722b3 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardClockStyleSection.kt
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardClockStyleSection.kt
+@@ -104,7 +104,6 @@ constructor(
+                 0,
+                 *intArrayOf(
+                     R.id.keyguard_slice_view,
+-                    R.id.keyguard_weather_area,
+                     R.id.clock_ls,
+                     sharedR.id.bc_smartspace_view,
+                     sharedR.id.date_smartspace_view,
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardSliceViewSection.kt b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardSliceViewSection.kt
+index c69c08bc67aa..587f26db952d 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardSliceViewSection.kt
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardSliceViewSection.kt
+@@ -128,21 +128,12 @@ constructor(
+                 ConstraintSet.BOTTOM,
+             )
+ 
+-            if (!smartspaceController.isOmniWeatherEnabled) {
+-                createBarrier(
+-                    R.id.smart_space_barrier_bottom,
+-                    Barrier.BOTTOM,
+-                    0,
+-                    *intArrayOf(R.id.keyguard_slice_view),
+-                )
+-            } else {
+-                createBarrier(
+-                    R.id.keyguard_weather_area,
+-                    Barrier.BOTTOM,
+-                    0,
+-                    *intArrayOf(R.id.keyguard_slice_view),
+-                )
+-            }
++            createBarrier(
++                R.id.smart_space_barrier_bottom,
++                Barrier.BOTTOM,
++                0,
++                *intArrayOf(R.id.keyguard_slice_view),
++            )
+         }
+     }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardWeatherViewSection.kt b/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardWeatherViewSection.kt
+deleted file mode 100644
+index 453fcf3aeca7..000000000000
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/ui/view/layout/sections/KeyguardWeatherViewSection.kt
++++ /dev/null
+@@ -1,117 +0,0 @@
+-/*
+- * Copyright (C) 2024-2026 crDroid Android Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- *
+- */
+-
+-package com.android.systemui.keyguard.ui.view.layout.sections
+-
+-import android.content.Context
+-import android.view.LayoutInflater
+-import android.view.View
+-import android.view.ViewGroup
+-import androidx.constraintlayout.widget.Barrier
+-import androidx.constraintlayout.widget.ConstraintLayout
+-import androidx.constraintlayout.widget.ConstraintSet
+-import com.android.systemui.customization.clocks.R as clocksR
+-import com.android.systemui.keyguard.shared.model.KeyguardSection
+-import com.android.systemui.res.R
+-import com.android.systemui.shared.R as sharedR
+-import com.android.systemui.statusbar.lockscreen.LockscreenSmartspaceController
+-import javax.inject.Inject
+-
+-import com.android.systemui.weather.WeatherInfoView
+-
+-class KeyguardWeatherViewSection
+-@Inject
+-constructor(
+-    private val context: Context,
+-    val layoutInflater: LayoutInflater,
+-    val smartspaceController: LockscreenSmartspaceController,
+-) : KeyguardSection() {
+-    private lateinit var weatherView: WeatherInfoView
+-
+-    override fun addViews(constraintLayout: ConstraintLayout) {
+-        if (!smartspaceController.isOmniWeatherEnabled || smartspaceController.isEnabled) return
+-
+-        weatherView =
+-            layoutInflater.inflate(R.layout.keyguard_weather_area, null, false) as WeatherInfoView
+-        constraintLayout.addView(weatherView)
+-    }
+-
+-    override fun bindData(constraintLayout: ConstraintLayout) {
+-        if (!smartspaceController.isOmniWeatherEnabled || smartspaceController.isEnabled) return
+-
+-        weatherView.init()
+-    }
+-
+-    override fun applyConstraints(constraintSet: ConstraintSet) {
+-        if (!smartspaceController.isOmniWeatherEnabled || smartspaceController.isEnabled) return
+-
+-        constraintSet.apply {
+-            connect(
+-                R.id.keyguard_weather_area,
+-                ConstraintSet.START,
+-                ConstraintSet.PARENT_ID,
+-                ConstraintSet.START,
+-                context.resources.getDimensionPixelSize(clocksR.dimen.clock_padding_start) +
+-                    context.resources.getDimensionPixelSize(clocksR.dimen.status_view_margin_horizontal),
+-            )
+-            connect(
+-                R.id.keyguard_weather_area,
+-                ConstraintSet.END,
+-                ConstraintSet.PARENT_ID,
+-                ConstraintSet.END
+-            )
+-            constrainHeight(R.id.keyguard_weather_area, ConstraintSet.WRAP_CONTENT)
+-
+-            connect(
+-                R.id.keyguard_weather_area,
+-                ConstraintSet.TOP,
+-                R.id.keyguard_slice_view,
+-                ConstraintSet.BOTTOM
+-            )
+-
+-            // UNIFIED BARRIER - Include ALL status area elements
+-            createUnifiedBarrierAndNotificationConstraints(constraintSet)
+-        }
+-    }
+-
+-    private fun createUnifiedBarrierAndNotificationConstraints(constraintSet: ConstraintSet) {
+-        constraintSet.apply {
+-            // UNIFIED BARRIER - Include ALL status area elements
+-            createBarrier(
+-                R.id.smart_space_barrier_bottom,
+-                Barrier.BOTTOM,
+-                0,
+-                *intArrayOf(
+-                    R.id.keyguard_slice_view,
+-                    R.id.keyguard_weather_area,
+-                    R.id.clock_ls,
+-                    sharedR.id.bc_smartspace_view,
+-                    sharedR.id.date_smartspace_view,
+-                )
+-            )
+-        }
+-    }
+-
+-    override fun removeViews(constraintLayout: ConstraintLayout) {
+-        if (!smartspaceController.isOmniWeatherEnabled || smartspaceController.isEnabled) return
+-
+-        constraintLayout.findViewById<WeatherInfoView?>(R.id.keyguard_weather_area)?.let { weatherArea ->
+-            weatherArea.cleanup()
+-            constraintLayout.removeView(weatherArea)
+-        }
+-    }
+-}
+diff --git a/packages/SystemUI/src/com/android/systemui/lineage/LineageModule.kt b/packages/SystemUI/src/com/android/systemui/lineage/LineageModule.kt
+index b376a7319971..bcc555d80b46 100644
+--- a/packages/SystemUI/src/com/android/systemui/lineage/LineageModule.kt
++++ b/packages/SystemUI/src/com/android/systemui/lineage/LineageModule.kt
+@@ -44,7 +44,6 @@ import com.android.systemui.qs.tiles.UsbTetherTile
+ import com.android.systemui.qs.tiles.VPNTetheringTile
+ import com.android.systemui.qs.tiles.VolumeTile
+ import com.android.systemui.qs.tiles.VpnTile
+-import com.android.systemui.qs.tiles.WeatherTile
+ import com.android.systemui.qs.tiles.base.shared.model.QSTileConfig
+ import com.android.systemui.qs.tiles.base.shared.model.QSTileUIConfig
+ import com.android.systemui.res.R
+@@ -208,12 +207,6 @@ interface LineageModule {
+     @StringKey(VpnTile.TILE_SPEC)
+     fun bindVpnTile(vpnTile: VpnTile): QSTileImpl<*>
+ 
+-    /** Inject WeatherTile into tileMap in QSModule */
+-    @Binds
+-    @IntoMap
+-    @StringKey(WeatherTile.TILE_SPEC)
+-    fun bindWeatherTile(weatherTile: WeatherTile): QSTileImpl<*>
+-
+     companion object {
+         const val AMBIENT_DISPLAY_TILE_SPEC = "ambient_display"
+         const val AOD_TILE_SPEC = "aod"
+@@ -600,20 +593,5 @@ interface LineageModule {
+                 category = TileCategory.CONNECTIVITY
+             )
+         }
+-
+-        @Provides
+-        @IntoMap
+-        @StringKey(WeatherTile.TILE_SPEC)
+-        fun provideWeatherTileConfig(uiEventLogger: QsEventLogger): QSTileConfig =
+-            QSTileConfig(
+-                tileSpec = TileSpec.create(WeatherTile.TILE_SPEC),
+-                uiConfig =
+-                    QSTileUIConfig.Resource(
+-                        iconRes = R.drawable.ic_qs_weather,
+-                        labelRes = R.string.omnijaws_label_default
+-                    ),
+-                instanceId = uiEventLogger.getNewInstanceId(),
+-                category = TileCategory.UTILITIES,
+-            )
+     }
+ }
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java
+deleted file mode 100644
+index 6bcc8bf544a3..000000000000
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java
++++ /dev/null
+@@ -1,237 +0,0 @@
+-/*
+- * Copyright (C) 2017 The OmniROM project
+- * Copyright (C) 2022-2025 crDroid Android project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.android.systemui.qs.tiles;
+-
+-import android.content.Context;
+-import android.content.ComponentName;
+-import android.content.Intent;
+-import android.content.pm.PackageManager;
+-import android.graphics.drawable.Drawable;
+-import android.net.Uri;
+-import android.os.Handler;
+-import android.os.Looper;
+-import android.service.quicksettings.Tile;
+-import android.util.Log;
+-
+-import androidx.annotation.Nullable;
+-
+-import com.android.internal.logging.MetricsLogger;
+-import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+-import com.android.internal.util.crdroid.OmniJawsClient;
+-import com.android.internal.util.crdroid.Utils;
+-import com.android.systemui.animation.Expandable;
+-import com.android.systemui.dagger.qualifiers.Background;
+-import com.android.systemui.dagger.qualifiers.Main;
+-import com.android.systemui.plugins.ActivityStarter;
+-import com.android.systemui.plugins.FalsingManager;
+-import com.android.systemui.plugins.qs.QSTile.BooleanState;
+-import com.android.systemui.plugins.statusbar.StatusBarStateController;
+-import com.android.systemui.qs.QSHost;
+-import com.android.systemui.qs.QsEventLogger;
+-import com.android.systemui.qs.logging.QSLogger;
+-import com.android.systemui.qs.tileimpl.QSTileImpl;
+-import com.android.systemui.res.R;
+-
+-import javax.inject.Inject;
+-
+-public class WeatherTile extends QSTileImpl<BooleanState> implements OmniJawsClient.OmniJawsObserver {
+-
+-    public static final String TILE_SPEC = "weather";
+-    private static final String SERVICE_PACKAGE = "org.omnirom.omnijaws";
+-
+-    private static final String TAG = "WeatherTile";
+-    private static final boolean DEBUG = false;    private Drawable mWeatherImage;
+-    private OmniJawsClient.WeatherInfo mWeatherData;
+-    private boolean mEnabled;
+-    private final ActivityStarter mActivityStarter;
+-    private String mFormattedCondition; 
+-
+-    private static final String[] ALTERNATIVE_WEATHER_APPS = {
+-            "cz.martykan.forecastie",
+-            "com.accuweather.android",
+-            "com.wunderground.android.weather",
+-            "com.samruston.weather",
+-            "jp.miyavi.androiod.gnws",
+-    };
+-
+-    @Inject
+-    public WeatherTile(
+-            QSHost host,
+-            QsEventLogger uiEventLogger,
+-            @Background Looper backgroundLooper,
+-            @Main Handler mainHandler,
+-            FalsingManager falsingManager,
+-            MetricsLogger metricsLogger,
+-            StatusBarStateController statusBarStateController,
+-            ActivityStarter activityStarter,
+-            QSLogger qsLogger
+-    ) {
+-        super(host, uiEventLogger, backgroundLooper, mainHandler, falsingManager, metricsLogger,
+-                statusBarStateController, activityStarter, qsLogger);
+-        mEnabled = OmniJawsClient.get().isOmniJawsEnabled(mContext);
+-        mActivityStarter = activityStarter;
+-    }
+-
+-    @Override
+-    public int getMetricsCategory() {
+-        return MetricsEvent.CRDROID_SETTINGS;
+-    }
+-
+-    @Override
+-    public BooleanState newTileState() {
+-        return new BooleanState();
+-    }
+-
+-    @Override
+-    public void handleSetListening(boolean listening) {
+-        if (DEBUG) Log.d(TAG, "setListening " + listening);
+-        mEnabled = OmniJawsClient.get().isOmniJawsEnabled(mContext);
+-
+-        if (listening) {
+-            OmniJawsClient.get().addObserver(mContext, this);
+-            queryAndUpdateWeather();
+-        } else {
+-            OmniJawsClient.get().removeObserver(mContext, this);
+-        }
+-    }
+-
+-    @Override
+-    public void weatherUpdated() {
+-        if (DEBUG) Log.d(TAG, "weatherUpdated");
+-        queryAndUpdateWeather();
+-    }
+-
+-    @Override
+-    public void weatherError(int errorReason) {
+-        if (DEBUG) Log.d(TAG, "weatherError " + errorReason);
+-        if (errorReason != OmniJawsClient.EXTRA_ERROR_DISABLED) {
+-            mWeatherData = null;
+-            refreshState();
+-        }
+-    }
+-
+-    @Override
+-    protected void handleDestroy() {
+-        OmniJawsClient.get().removeObserver(mContext, this);
+-        super.handleDestroy();
+-    }
+-
+-    @Override
+-    public boolean isAvailable() {
+-        return OmniJawsClient.get().isOmniJawsServiceInstalled(mContext);
+-    }
+-
+-    @Override
+-    protected void handleClick(@Nullable Expandable expandable) {
+-        if (DEBUG) Log.d(TAG, "handleClick");
+-        if (!mState.value || mWeatherData == null) {
+-            mActivityStarter.postStartActivityDismissingKeyguard(
+-                OmniJawsClient.get().getSettingsIntent(), 0);
+-        } else {
+-            PackageManager pm = mContext.getPackageManager();
+-            for (String app: ALTERNATIVE_WEATHER_APPS) {
+-                if (Utils.isPackageInstalled(mContext, app)) {
+-                    Intent intent = pm.getLaunchIntentForPackage(app);
+-                    if (intent != null) {
+-                        mActivityStarter.postStartActivityDismissingKeyguard(intent, 0);
+-                    }
+-                }
+-            }
+-            if (Utils.isPackageInstalled(mContext, "com.google.android.googlequicksearchbox")) {
+-                Intent intent = new Intent(Intent.ACTION_VIEW);
+-                intent.setData(Uri.parse("dynact://velour/weather/ProxyActivity"));
+-                intent.setComponent(new ComponentName("com.google.android.googlequicksearchbox",
+-                        "com.google.android.apps.gsa.velour.DynamicActivityTrampoline"));
+-                mActivityStarter.postStartActivityDismissingKeyguard(intent, 0);
+-            } else {
+-                final Intent weatherActivityIntent = new Intent();
+-                weatherActivityIntent.setAction(Intent.ACTION_MAIN);
+-                weatherActivityIntent.setClassName(SERVICE_PACKAGE, SERVICE_PACKAGE + ".WeatherActivity");
+-                mActivityStarter.postStartActivityDismissingKeyguard(weatherActivityIntent, 0);
+-            }
+-        }
+-        mEnabled = OmniJawsClient.get().isOmniJawsEnabled(mContext);
+-        refreshState();
+-    }
+-
+-    @Override
+-    public Intent getLongClickIntent() {
+-        if (DEBUG) Log.d(TAG, "getLongClickIntent");
+-        return OmniJawsClient.get().getSettingsIntent();
+-    }
+-
+-    @Override
+-    protected void handleUpdateState(BooleanState state, Object arg) {
+-        if (DEBUG) Log.d(TAG, "handleUpdateState " + mEnabled);
+-        state.value = mEnabled;
+-        state.state = state.value ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE;
+-        state.icon = ResourceIcon.get(R.drawable.ic_qs_weather);
+-        state.label = mContext.getResources().getString(R.string.omnijaws_label_default);
+-        state.secondaryLabel = mContext.getResources().getString(R.string.omnijaws_service_unknown);
+-        if (mEnabled) {
+-            if (mWeatherData == null || mWeatherImage == null) {
+-                state.label = mContext.getResources().getString(R.string.omnijaws_label_default);
+-                state.secondaryLabel = mContext.getResources().getString(R.string.omnijaws_service_error);
+-            } else {
+-                state.icon = new DrawableIcon(mWeatherImage);
+-                state.label = mWeatherData.city;
+-                state.secondaryLabel = mWeatherData.temp + mWeatherData.tempUnits +
+-                    " · " + mFormattedCondition;
+-            }
+-        }
+-    }
+-
+-    @Override
+-    public CharSequence getTileLabel() {
+-        return mContext.getResources().getString(R.string.omnijaws_label_default);
+-    }
+-
+-    private void queryAndUpdateWeather() {
+-        if (DEBUG) Log.d(TAG, "queryAndUpdateWeather " + mEnabled);
+-        try {
+-            mWeatherData = null;
+-            if (mEnabled) {
+-                OmniJawsClient.get().queryWeather(mContext);
+-                mWeatherData = OmniJawsClient.get().getWeatherInfo();
+-                mFormattedCondition = mWeatherData.condition;
+-                if (mFormattedCondition.toLowerCase().contains("clouds")) {
+-                    mFormattedCondition = mContext.getResources().getString(R.string.weather_condition_clouds);
+-                } else if (mFormattedCondition.toLowerCase().contains("rain")) {
+-                    mFormattedCondition = mContext.getResources().getString(R.string.weather_condition_rain);
+-                } else if (mFormattedCondition.toLowerCase().contains("clear")) {
+-                    mFormattedCondition = mContext.getResources().getString(R.string.weather_condition_clear);
+-                } else if (mFormattedCondition.toLowerCase().contains("storm")) {
+-                    mFormattedCondition = mContext.getResources().getString(R.string.weather_condition_storm);
+-                } else if (mFormattedCondition.toLowerCase().contains("snow")) {
+-                    mFormattedCondition = mContext.getResources().getString(R.string.weather_condition_snow);
+-                } else if (mFormattedCondition.toLowerCase().contains("wind")) {
+-                    mFormattedCondition = mContext.getResources().getString(R.string.weather_condition_wind);
+-                } else if (mFormattedCondition.toLowerCase().contains("mist")) {
+-                    mFormattedCondition = mContext.getResources().getString(R.string.weather_condition_mist);
+-                }
+-                if (mWeatherData != null) {
+-                    mWeatherImage = OmniJawsClient.get().getWeatherConditionImage(mContext, mWeatherData.conditionCode);
+-                    mWeatherImage = mWeatherImage.mutate();
+-                }
+-            }
+-        } catch(Exception e) {
+-            // Do nothing
+-        }
+-        refreshState();
+-    }
+-}
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/lockscreen/LockscreenSmartspaceController.kt b/packages/SystemUI/src/com/android/systemui/statusbar/lockscreen/LockscreenSmartspaceController.kt
+index 07c72b6381b0..f2f6968825bb 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/lockscreen/LockscreenSmartspaceController.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/lockscreen/LockscreenSmartspaceController.kt
+@@ -35,7 +35,6 @@ import android.provider.Settings
+ import android.provider.Settings.Secure.LOCK_SCREEN_ALLOW_PRIVATE_NOTIFICATIONS
+ import android.provider.Settings.Secure.LOCK_SCREEN_SHOW_NOTIFICATIONS
+ import android.provider.Settings.Secure.LOCKSCREEN_SMARTSPACE_ENABLED
+-import android.provider.Settings.System.LOCKSCREEN_WEATHER_ENABLED
+ import android.provider.Settings.Secure.MEDIA_CONTROLS_LOCK_SCREEN
+ import android.util.Log
+ import android.view.ContextThemeWrapper
+@@ -340,17 +339,6 @@ constructor(
+             return showWeather && !isCustomClockEnabled
+         }
+ 
+-    val isOmniWeatherEnabled: Boolean
+-        get() {
+-            val showCustomWeather =
+-                systemSettings.getIntForUser(
+-                    LOCKSCREEN_WEATHER_ENABLED,
+-                    0,
+-                    userTracker.userId,
+-                ) == 1
+-            return showCustomWeather && !isWeatherEnabled && !isCustomClockEnabled
+-        }
+-
+     val isEnabled: Boolean
+         get() = plugin != null && isWeatherEnabled
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/weather/WeatherImageView.kt b/packages/SystemUI/src/com/android/systemui/weather/WeatherImageView.kt
+index 96cc77ceecb5..8d312b2e4ca9 100644
+--- a/packages/SystemUI/src/com/android/systemui/weather/WeatherImageView.kt
++++ b/packages/SystemUI/src/com/android/systemui/weather/WeatherImageView.kt
+@@ -18,48 +18,23 @@ package com.android.systemui.weather
+ import android.content.Context
+ import android.util.AttributeSet
+ import android.view.View
+-import android.view.View.MeasureSpec
+ import android.widget.ImageView
+-import android.widget.TextView
+-import com.android.systemui.res.R
+ 
++/**
++ * Placeholder kept for the crDroid lock screen clock layouts that reference it.
++ * nasgorOS does not ship a weather provider, so the view never becomes visible.
++ */
+ class WeatherImageView @JvmOverloads constructor(
+     context: Context,
+     attrs: AttributeSet? = null,
+     defStyle: Int = 0
+ ) : ImageView(context, attrs, defStyle) {
+ 
+-    private val maxSizePx: Int =
+-        context.resources.getDimension(R.dimen.weather_image_max_size).toInt()
+-
+-    private val weatherViewController: WeatherViewController
+-
+     init {
+         visibility = View.GONE
+-
+-        val stubText = TextView(context)
+-
+-        weatherViewController = WeatherViewController(
+-            context = context,
+-            weatherIcon = this,
+-            weatherTemp = stubText,
+-            weatherInfoView = this,
+-        )
+-    }
+-
+-    override fun onAttachedToWindow() {
+-        super.onAttachedToWindow()
+-        weatherViewController.init()
+-    }
+-
+-    override fun onDetachedFromWindow() {
+-        super.onDetachedFromWindow()
+-        weatherViewController.removeObserver()
+     }
+ 
+-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+-        val width = maxSizePx.coerceAtMost(MeasureSpec.getSize(widthMeasureSpec))
+-        val height = maxSizePx.coerceAtMost(MeasureSpec.getSize(heightMeasureSpec))
+-        setMeasuredDimension(width, height)
++    override fun setVisibility(visibility: Int) {
++        super.setVisibility(View.GONE)
+     }
+ }
+diff --git a/packages/SystemUI/src/com/android/systemui/weather/WeatherInfoView.kt b/packages/SystemUI/src/com/android/systemui/weather/WeatherInfoView.kt
+deleted file mode 100644
+index 531c2e486ad1..000000000000
+--- a/packages/SystemUI/src/com/android/systemui/weather/WeatherInfoView.kt
++++ /dev/null
+@@ -1,59 +0,0 @@
+-/*
+- * Copyright (C) 2025 the AxionAOSP Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-package com.android.systemui.weather
+-
+-import android.content.Context
+-import android.util.AttributeSet
+-import androidx.constraintlayout.widget.ConstraintLayout
+-import android.widget.ImageView
+-import android.widget.TextView
+-import com.android.systemui.res.R
+-
+-class WeatherInfoView @JvmOverloads constructor(
+-    context: Context, attrs: AttributeSet? = null, defStyle: Int = 0
+-) : ConstraintLayout(context, attrs, defStyle) {
+-
+-    private lateinit var weatherIcon: ImageView
+-    private lateinit var weatherTemp: TextView
+-    private lateinit var controller: WeatherViewController
+-    private var initialized = false
+-
+-    fun init() {
+-        if (initialized) return
+-        initialized = true
+-
+-        weatherIcon = findViewById(R.id.weather_icon)
+-        weatherTemp = findViewById(R.id.weather_temp)
+-
+-        controller = WeatherViewController(context, weatherIcon, weatherTemp, this)
+-        controller.init()
+-    }
+-
+-    fun cleanup() {
+-        if (::controller.isInitialized) controller.removeObserver()
+-        initialized = false
+-    }
+-
+-    override fun onAttachedToWindow() {
+-        super.onAttachedToWindow()
+-        if (!initialized) init()
+-    }
+-
+-    override fun onDetachedFromWindow() {
+-        super.onDetachedFromWindow()
+-        cleanup()
+-    }
+-}
+diff --git a/packages/SystemUI/src/com/android/systemui/weather/WeatherTextView.kt b/packages/SystemUI/src/com/android/systemui/weather/WeatherTextView.kt
+index 21d43d0e8aa5..ae599747d07f 100644
+--- a/packages/SystemUI/src/com/android/systemui/weather/WeatherTextView.kt
++++ b/packages/SystemUI/src/com/android/systemui/weather/WeatherTextView.kt
+@@ -19,36 +19,22 @@ import android.content.Context
+ import android.util.AttributeSet
+ import android.view.View
+ import android.widget.TextView
+-import com.android.systemui.res.R
+ 
++/**
++ * Placeholder kept for the crDroid lock screen clock layouts that reference it.
++ * nasgorOS does not ship a weather provider, so the view never becomes visible.
++ */
+ class WeatherTextView @JvmOverloads constructor(
+     context: Context,
+     attrs: AttributeSet? = null,
+     defStyle: Int = 0
+ ) : TextView(context, attrs, defStyle) {
+ 
+-    private val mWeatherViewController: WeatherViewController
+-
+     init {
+         visibility = View.GONE
+-
+-        val stubIcon = android.widget.ImageView(context)
+-
+-        mWeatherViewController = WeatherViewController(
+-            context = context,
+-            weatherIcon = stubIcon,
+-            weatherTemp = this,
+-            weatherInfoView = this,
+-        )
+-    }
+-
+-    override fun onAttachedToWindow() {
+-        super.onAttachedToWindow()
+-        mWeatherViewController.init()
+     }
+ 
+-    override fun onDetachedFromWindow() {
+-        super.onDetachedFromWindow()
+-        mWeatherViewController.removeObserver()
++    override fun setVisibility(visibility: Int) {
++        super.setVisibility(View.GONE)
+     }
+ }
+diff --git a/packages/SystemUI/src/com/android/systemui/weather/WeatherViewController.kt b/packages/SystemUI/src/com/android/systemui/weather/WeatherViewController.kt
+deleted file mode 100644
+index 41be8e25a72a..000000000000
+--- a/packages/SystemUI/src/com/android/systemui/weather/WeatherViewController.kt
++++ /dev/null
+@@ -1,213 +0,0 @@
+-/*
+- * SPDX-FileCopyrightText: The AxionAOSP Project
+- * SPDX-FileCopyrightText: crDroid Android Project
+- * SPDX-License-Identifier: Apache-2.0
+- */
+-
+-package com.android.systemui.weather
+-
+-import android.content.Context
+-import android.database.ContentObserver
+-import android.net.Uri
+-import android.os.Handler
+-import android.os.Looper
+-import android.os.UserHandle
+-import android.provider.Settings
+-import android.view.View
+-import android.widget.ImageView
+-import android.widget.TextView
+-
+-import com.android.internal.util.crdroid.OmniJawsClient
+-
+-import com.android.systemui.res.R
+-
+-import kotlinx.coroutines.CoroutineScope
+-import kotlinx.coroutines.Dispatchers
+-import kotlinx.coroutines.SupervisorJob
+-import kotlinx.coroutines.cancel
+-import kotlinx.coroutines.launch
+-import kotlinx.coroutines.withContext
+-import kotlinx.coroutines.flow.MutableStateFlow
+-import kotlinx.coroutines.flow.collectLatest
+-
+-class WeatherViewController(
+-    private val context: Context,
+-    private val weatherIcon: ImageView,
+-    private val weatherTemp: TextView,
+-    private val weatherInfoView: View,
+-) : OmniJawsClient.OmniJawsObserver {
+-
+-    private var weatherInfo: OmniJawsClient.WeatherInfo? = null
+-    private val scope = CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
+-
+-    private val weatherSettingsFlow = MutableStateFlow(getWeatherSettings())
+-
+-    private val settingsObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
+-        override fun onChange(selfChange: Boolean, uri: Uri?) {
+-            weatherSettingsFlow.value = getWeatherSettings()
+-        }
+-    }
+-
+-    fun init() {
+-        registerSettingsObservers()
+-        scope.launch {
+-            weatherSettingsFlow.collectLatest { applyWeatherSettings(it) }
+-        }
+-    }
+-
+-    private fun registerSettingsObservers() {
+-        val resolver = context.contentResolver
+-        WEATHER_SETTING_KEYS.forEach { key ->
+-            resolver.registerContentObserver(
+-                Settings.System.getUriFor(key),
+-                false,
+-                settingsObserver,
+-                UserHandle.USER_ALL
+-            )
+-        }
+-    }
+-
+-    private fun unregisterSettingsObservers() {
+-        context.contentResolver.unregisterContentObserver(settingsObserver)
+-    }
+-
+-    private fun getConditionText(condition: String): String {
+-        val locale = context.resources.configuration.locales[0]
+-        val isEnglish = locale.language.startsWith("en", ignoreCase = true)
+-
+-        if (!isEnglish) {
+-            for ((key, value) in WEATHER_CONDITIONS) {
+-                if (condition.contains(key)) {
+-                    return context.resources.getString(value)
+-                }
+-            }
+-        }
+-        return condition.split(" ").joinToString(" ") { it.replaceFirstChar { char -> char.uppercaseChar() } }
+-    }
+-
+-    private fun getWeatherSettings() = WeatherSettings(
+-        weatherEnabled = getSystemSetting(LOCKSCREEN_WEATHER_ENABLED),
+-        showWeatherLocation = getSystemSetting(LOCKSCREEN_WEATHER_LOCATION),
+-        showWeatherText = getSystemSetting(LOCKSCREEN_WEATHER_TEXT, defaultValue = 1),
+-        showWindInfo = getSystemSetting(LOCKSCREEN_WEATHER_WIND_INFO),
+-        showHumidityInfo = getSystemSetting(LOCKSCREEN_WEATHER_HUMIDITY_INFO)
+-    )
+-
+-    private fun getSystemSetting(setting: String, defaultValue: Int = 0) =
+-        Settings.System.getIntForUser(context.contentResolver, setting, defaultValue, UserHandle.USER_CURRENT) != 0
+-
+-    private fun applyWeatherSettings(settings: WeatherSettings) {
+-        if (!settings.weatherEnabled) {
+-            hideAllViews()
+-            OmniJawsClient.get().removeObserver(context, this@WeatherViewController)
+-        } else {
+-            OmniJawsClient.get().addObserver(context, this@WeatherViewController)
+-            updateWeather()
+-            showAllViews()
+-        }
+-    }
+-
+-    override fun weatherUpdated() = updateWeather()
+-
+-    private fun updateWeather() {
+-        if (!weatherSettingsFlow.value.weatherEnabled) {
+-            hideAllViews()
+-            return
+-        }
+-
+-        try {
+-            OmniJawsClient.get().queryWeather(context)
+-            weatherInfo = OmniJawsClient.get().weatherInfo
+-            weatherInfo?.let { info ->
+-                weatherIcon.setImageDrawable(
+-                    OmniJawsClient.get().getWeatherConditionImage(context,
+-                    info.conditionCode))
+-                weatherTemp.text = buildWeatherText(info)
+-                weatherTemp.isSelected = true
+-            }
+-        } catch (e: Exception) {}
+-    }
+-
+-    private fun hideAllViews() {
+-        scope.launch {
+-            listOf(weatherInfoView, weatherIcon, weatherTemp).forEach {
+-                updateViewVisibility(it, false)
+-            }
+-        }
+-    }
+-
+-    private fun showAllViews() {
+-        scope.launch {
+-            listOf(weatherInfoView, weatherIcon, weatherTemp).forEach {
+-                updateViewVisibility(it, true)
+-            }
+-        }
+-    }
+-
+-    private fun buildWeatherText(info: OmniJawsClient.WeatherInfo): String {
+-        val settings = weatherSettingsFlow.value
+-        val conditionText = getConditionText(info.condition.lowercase())
+-
+-        val locationText = if (settings.showWeatherLocation) " • ${info.city}" else ""
+-        val conditionDisplay = if (settings.showWeatherText) " • $conditionText" else ""
+-        val windDisplay = if (settings.showWindInfo) " • ${info.windSpeed} ${info.windUnits} ${info.pinWheel}" else ""
+-        val humidityDisplay = if (settings.showHumidityInfo) " • ${info.humidity}" else ""
+-
+-        return "${info.temp}${info.tempUnits}$locationText$conditionDisplay$windDisplay$humidityDisplay"
+-    }
+-
+-    override fun weatherError(errorReason: Int) {
+-        if (errorReason == OmniJawsClient.EXTRA_ERROR_DISABLED) {
+-            weatherInfo = null
+-            weatherIcon.setImageDrawable(null)
+-            weatherTemp.text = ""
+-            hideAllViews()
+-        }
+-    }
+-
+-    fun removeObserver() {
+-        unregisterSettingsObservers()
+-        scope.cancel()
+-        OmniJawsClient.get().removeObserver(context, this)
+-    }
+-
+-    private suspend fun updateViewVisibility(view: View, visible: Boolean) {
+-        withContext(Dispatchers.Main) {
+-            view.visibility = if (visible) View.VISIBLE else View.GONE
+-        }
+-    }
+-
+-    data class WeatherSettings(
+-        val weatherEnabled: Boolean,
+-        val showWeatherLocation: Boolean,
+-        val showWeatherText: Boolean,
+-        val showWindInfo: Boolean,
+-        val showHumidityInfo: Boolean
+-    )
+-
+-    companion object {
+-        private const val LOCKSCREEN_WEATHER_ENABLED = "lockscreen_weather_enabled"
+-        private const val LOCKSCREEN_WEATHER_LOCATION = "lockscreen_weather_location"
+-        private const val LOCKSCREEN_WEATHER_TEXT = "lockscreen_weather_text"
+-        private const val LOCKSCREEN_WEATHER_WIND_INFO = "lockscreen_weather_wind_info"
+-        private const val LOCKSCREEN_WEATHER_HUMIDITY_INFO = "lockscreen_weather_humidity_info"
+-
+-        private val WEATHER_SETTING_KEYS = listOf(
+-            LOCKSCREEN_WEATHER_ENABLED,
+-            LOCKSCREEN_WEATHER_LOCATION,
+-            LOCKSCREEN_WEATHER_TEXT,
+-            LOCKSCREEN_WEATHER_WIND_INFO,
+-            LOCKSCREEN_WEATHER_HUMIDITY_INFO
+-        )
+-
+-        private val WEATHER_CONDITIONS = mapOf(
+-            "clouds" to R.string.weather_condition_clouds,
+-            "rain" to R.string.weather_condition_rain,
+-            "clear" to R.string.weather_condition_clear,
+-            "storm" to R.string.weather_condition_storm,
+-            "snow" to R.string.weather_condition_snow,
+-            "wind" to R.string.weather_condition_wind,
+-            "mist" to R.string.weather_condition_mist
+-        )
+-    }
+-}

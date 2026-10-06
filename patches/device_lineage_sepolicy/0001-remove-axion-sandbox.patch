@@ -1,0 +1,100 @@
+diff --git a/common/private/file.te b/common/private/file.te
+index 833ab6c..4649b45 100644
+--- a/common/private/file.te
++++ b/common/private/file.te
+@@ -4,6 +4,3 @@ type sysfs_perdev_minors, fs_type, sysfs_type;
+ 
+ # Pocket judge
+ type pocket_judge_sysfs, fs_type, sysfs_type;
+-
+-# Sandbox
+-type ax_sandbox_vault_file, file_type, data_file_type, core_data_file_type;
+diff --git a/common/private/file_contexts b/common/private/file_contexts
+index 04b4811..986d790 100644
+--- a/common/private/file_contexts
++++ b/common/private/file_contexts
+@@ -21,6 +21,3 @@
+ 
+ # Pocket judge
+ /sys/kernel/pocket_judge(/.*)?	u:object_r:pocket_judge_sysfs:s0
+-
+-# Sandbox
+-/data/system_ce/[0-9]*/sandbox/vault(/.*)?  u:object_r:ax_sandbox_vault_file:s0
+diff --git a/common/private/platform_app.te b/common/private/platform_app.te
+index f243856..649d535 100644
+--- a/common/private/platform_app.te
++++ b/common/private/platform_app.te
+@@ -46,12 +46,3 @@ get_prop(platform_app, pm_archiving_enabled_prop)
+ # Access zram sysfs
+ allow platform_app sysfs_zram:dir r_dir_perms;
+ allow platform_app sysfs_zram:file r_file_perms;
+-
+-# Sandbox
+-allow platform_app ax_sandbox_service:service_manager find;
+-allow platform_app ax_sandbox_vault_file:dir create_dir_perms;
+-allow platform_app ax_sandbox_vault_file:file create_file_perms;
+-allow platform_app system_data_file:dir r_dir_perms;
+-allow platform_app system_data_file:file r_file_perms;
+-allow platform_app system_userdir_file:dir r_dir_perms;
+-allow platform_app system_userdir_file:file r_file_perms;
+diff --git a/common/private/service.te b/common/private/service.te
+index 56ff839..a333fc5 100644
+--- a/common/private/service.te
++++ b/common/private/service.te
+@@ -1,5 +1,4 @@
+ type adbroot_service,                   service_manager_type;
+-type ax_sandbox_service, system_api_service, system_server_service, service_manager_type;
+ type lineage_hardware_service, system_api_service, system_server_service, service_manager_type;
+ type lineage_health_interface_service, system_api_service, system_server_service, service_manager_type;
+ type lineage_globalactions_service, system_api_service, system_server_service, service_manager_type;
+diff --git a/common/private/service_contexts b/common/private/service_contexts
+index d1140d1..af57d0b 100644
+--- a/common/private/service_contexts
++++ b/common/private/service_contexts
+@@ -7,7 +7,6 @@ lineagetrust                              u:object_r:lineage_trust_service:s0
+ profile                                   u:object_r:lineage_profile_service:s0
+ 
+ adbroot_service                           u:object_r:adbroot_service:s0
+-ax_sandbox                                u:object_r:ax_sandbox_service:s0
+ pocket                                    u:object_r:pocket_service:s0
+ 
+ # Linearmotor Vibrator
+diff --git a/common/private/system_app.te b/common/private/system_app.te
+index 8ce7069..0ebf415 100644
+--- a/common/private/system_app.te
++++ b/common/private/system_app.te
+@@ -21,11 +21,3 @@ get_prop(system_app, qemu_hw_prop)
+ # Allow GameSpace to set process group
+ allow system_app cgroup:dir search;
+ allow system_app cgroup:file rw_file_perms;
+-
+-# Sandbox
+-allow system_app ax_sandbox_vault_file:dir create_dir_perms;
+-allow system_app ax_sandbox_vault_file:file create_file_perms;
+-allow system_app system_data_file:dir r_dir_perms;
+-allow system_app system_data_file:file r_file_perms;
+-allow system_app system_userdir_file:dir r_dir_perms;
+-allow system_app system_userdir_file:file r_file_perms;
+diff --git a/common/private/system_server.te b/common/private/system_server.te
+index 93b6989..66d45bd 100644
+--- a/common/private/system_server.te
++++ b/common/private/system_server.te
+@@ -2,8 +2,6 @@ allow system_server storage_stub_file:dir getattr;
+ 
+ allow system_server adbroot_service:service_manager find;
+ 
+-add_service(system_server, ax_sandbox_service);
+-
+ # CachedAppOptimizer
+ allow system_server audioserver_tmpfs:file rw_file_perms;
+ allow system_server tmpfs:file rw_file_perms;
+@@ -44,9 +42,5 @@ add_service(system_server, theme_engine_service);
+ # Game space
+ add_service(system_server, game_space_service);
+ 
+-# Sandbox
+-allow system_server ax_sandbox_vault_file:dir create_dir_perms;
+-allow system_server ax_sandbox_vault_file:file create_file_perms;
+-
+ # Let system server set vbmeta prop
+ set_prop(system_server, bootloader_prop)

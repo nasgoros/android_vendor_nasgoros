@@ -24,6 +24,8 @@ for the Android 18 / other-ROM workflow and `config/features.mk` for feature swi
 | About phone / NasgorOS overview cards | 3 | Settings `NasgorAboutHeaderPreference`, `res/*/nasgor_about*`; crDroid `NasgorAbout`; exported in `patches/` | keep both XML and Catalyst bindings, real device values, search/controller keys, light/dark colors |
 | Settings hub and LineageParts entry routing | 2 | `packages/apps/NasgorSettings`, `config/features/settings.mk` | LineageParts part keys, component aliases and LineagePreferenceLib |
 | FPS, CPU, GPU and RAM information + overlay | 2 | `packages/apps/NasgorSettings` | platform FPS/task/window APIs; optional kernel counters can be unavailable |
+| Removed crDroid Axion Sandbox (app lock/hide/isolation/settings spoof) | 3 | `patches/frameworks_base/0002-remove-axion-sandbox.patch` (reverts crDroid commits 766dc51, 9d1d615, 2ddabbe, eec891c), `patches/vendor_addons/0002-remove-axion-sandbox.patch` (`sdk/ax_sandbox`), `patches/device_lineage_sepolicy/0001-remove-axion-sandbox.patch`; Sandbox/AppLocker dropped from manifest | **high**: touches AMS/PMS/WM/NMS/IME/A11y, `IActivityManager.aidl`, SystemUI. On a crDroid bump, regenerate by reverting the upstream Axion sandbox commits again. AOSP App Lock (`AppLockController`, `AppLockActivity`) is kept |
+| Removed OmniJaws weather | 3 | `patches/frameworks_base/0003-remove-omnijaws-weather.patch` (OmniJawsClient, QS tile, lock screen weather, `LOCKSCREEN_WEATHER_*` keys), `patches/packages_apps_crDroidSettings/0002-remove-omnijaws-weather.patch`, `patches/packages_services_QuickLook/0001-remove-omnijaws-weather.patch`; OmniJaws and `packages/resources/apps` dropped from manifest | medium: `WeatherImageView`/`WeatherTextView` remain as always-hidden stubs because ~70 crDroid clock layouts reference them; AOSP smartspace weather is untouched |
 | Complete crDroid Settings customization sources | 3 | `ports/crdroid/`, `patches/`, `config/crdroid.mk`, manifest `snippets/nasgor-crdroid.xml` | pinned matching Settings, SystemUI, framework and provider sources; apply patches after sync and test the full ROM |
 
 ## Recovery file manager
@@ -73,14 +75,14 @@ Removed with `LOCAL_OVERRIDES_PACKAGES` in `removed-packages/Android.mk` (module
 | `messaging` | Messages (SMS/MMS) | AOSP | none — **no SMS app** until one is installed |
 | `Twelve` | Music player | LineageOS | none |
 | `Recorder` | Voice recorder | LineageOS | none |
-| `AxSandbox` (+ `AppLocker`) | crDroid app sandbox / app lock | crDroid | none; framework service stays idle without the app |
-| `OmniJaws` | crDroid weather provider | crDroid | none; QS weather tile hides itself, lock screen weather category hidden by `patches/packages_apps_crDroidSettings/0002-hide-weather-without-omnijaws.patch` |
+| `AxSandbox` (+ `AppLocker`) | crDroid app sandbox / app lock | crDroid (Axion) | none; code removed, see below. AOSP App Lock remains |
+| `OmniJaws` | crDroid weather provider | crDroid (OmniROM) | none; code removed, see below |
 
 The minimal selection additionally excludes `Seedvault`, `LocalContactsBackup`,
 `AudioFX`, `MusicFX`, `FMRadio`, `FmRecordingsProvider`, `BuiltInPrintService`,
 `PrintRecommendationService`, `BasicDreams`, `PhotoTable`, `EasterEgg`, `Traceur`
 and `LineageSetupWizard`. Camera, file manager, PDF printing, WebView and the
-selected crDroid feature providers (except Sandbox and OmniJaws) remain installed. See
+selected crDroid feature providers remain installed. See
 [removed-packages/README.md](removed-packages/README.md) for effects, first-boot
 provisioning, and restoration steps; restoring the wizard requires removing
 `NasgorProvision` as well.
@@ -105,7 +107,7 @@ ordinary applications keep their existing sources.
 Konfigurasi performa mematikan blur jendela,
 menyetel skala animasi jendela/transisi ke 0,5×, dan mematikan screensaver
 aktif otomatis. Pulse-on-track dan Pulse ambient nonaktif secara default; Pulse
-visualizer tetap dapat dinyalakan lewat crDroid Settings (cuaca tidak disertakan).
+visualizer tetap dapat dinyalakan lewat crDroid Settings (cuaca OmniJaws dihapus).
 Wallpaper bergerak tidak dipilih sebagai wallpaper bawaan; picker/dukungan live
 wallpaper tetap tersedia. Efek yang bergantung pada setelan pengguna tetap dapat
 diaktifkan kembali. Nilai SettingsProvider hanya menjadi default saat profil

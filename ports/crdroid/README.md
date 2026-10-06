@@ -32,7 +32,7 @@ import as Apache-2.0.
 
 ## Sources and integration
 
-- `sources.lock.json`: 28 pinned repositories (25 crDroid dependencies plus the
+- `sources.lock.json`: 24 pinned repositories (21 crDroid dependencies plus the
   Lineage overlay, wallpaper and Soong sources), source paths and reasons.
 - `config/crdroid.mk`: required feature providers and font/clock/navigation
   resources. It deliberately selects resources without inheriting the whole
@@ -43,8 +43,9 @@ import as Apache-2.0.
   full customization host; it does not disable every backend feature.
 
 Feature providers such as GameSpace, OmniStyle, QuickLook, ThemeStore and the
-sidebar implement options in Settings. Sandbox/AppLocker and OmniJaws remain
-pinned as source dependencies but are not shipped (`config/crdroid.mk`). They are dependencies, rather
+sidebar implement options in Settings. Axion Sandbox/AppLocker and OmniJaws
+weather are removed from the manifest and their framework, SystemUI, Settings,
+QuickLook, addons and sepolicy code is removed by `patches/`. They are dependencies, rather
 than a switch to crDroid Home or replacement of ordinary applications.
 
 The native backend includes the matching crDroid `frameworks/av` and

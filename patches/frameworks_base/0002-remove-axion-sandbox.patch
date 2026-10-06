@@ -1,0 +1,2474 @@
+diff --git a/core/java/Android.bp b/core/java/Android.bp
+index 18a229b31bfe..aef8f8cc1cf3 100644
+--- a/core/java/Android.bp
++++ b/core/java/Android.bp
+@@ -19,7 +19,6 @@ filegroup {
+     srcs: [
+         "**/*.aidl",
+         "**/*.java",
+-        ":ax_sandbox_common_sources",
+         ":framework-nfc-non-updatable-sources",
+         ":messagequeue-gen",
+         ":ranging_stack_mock_initializer",
+diff --git a/core/java/android/app/IActivityManager.aidl b/core/java/android/app/IActivityManager.aidl
+index 7ca833c8ceef..d6cdbdf2297e 100644
+--- a/core/java/android/app/IActivityManager.aidl
++++ b/core/java/android/app/IActivityManager.aidl
+@@ -78,10 +78,6 @@ import android.os.WorkSource;
+ import android.service.voice.IVoiceInteractionSession;
+ import android.view.RemoteAnimationDefinition;
+ import android.view.RemoteAnimationAdapter;
+-import com.android.internal.app.HiddenNotificationInfo;
+-import com.android.internal.app.IAppLockStateListener;
+-import com.android.internal.app.IAppSessionListener;
+-import com.android.internal.app.IHiddenNotificationListener;
+ import com.android.internal.app.IVoiceInteractor;
+ import com.android.internal.os.IResultReceiver;
+ import com.android.internal.policy.IKeyguardDismissCallback;
+@@ -1078,43 +1074,6 @@ interface IActivityManager {
+     String getSpoofTrickyStoreKeyBox();
+     String getSpoofTrickyStorePatch();
+ 
+-    boolean isSandboxAppLocked(String packageName, int userId);
+-    int getSandboxAppLockState(String packageName, int userId);
+-    boolean isSandboxPackageHidden(String packageName, int userId);
+-    boolean isSandboxPackageHiddenFromLauncher(String packageName, int userId);
+-    void addSandboxLockedApp(String packageName, int userId);
+-    void removeSandboxLockedApp(String packageName, int userId);
+-    void setSandboxPackageHidden(String packageName, boolean hidden, int userId);
+-    void setSandboxPackageHiddenFromLauncher(String packageName, boolean hidden, int userId);
+-    List<String> getSandboxLockedPackages(int userId);
+-    List<String> getSandboxHiddenPackages(int userId);
+-    List<String> getSandboxHiddenFromLauncherPackages(int userId);
+-    List<String> getSandboxLockablePackages(int userId);
+-    boolean isSandboxPackageLockable(String packageName, int userId);
+-    void unlockSandboxApp(String packageName, int userId);
+-    void promptSandboxUnlock(String packageName, int userId);
+-    void registerSandboxAppLockStateListener(in IAppLockStateListener listener);
+-    void unregisterSandboxAppLockStateListener(in IAppLockStateListener listener);
+-    void registerSandboxAppSessionListener(in IAppSessionListener listener);
+-    void unregisterSandboxAppSessionListener(in IAppSessionListener listener);
+-    void registerSandboxHiddenNotificationListener(in IHiddenNotificationListener listener);
+-    void unregisterSandboxHiddenNotificationListener(in IHiddenNotificationListener listener);
+-    List<HiddenNotificationInfo> getSandboxHiddenNotifications();
+-    void onSandboxHiddenNotificationPosted(in HiddenNotificationInfo info);
+-    void onSandboxHiddenNotificationRemoved(String key);
+-    boolean isSandboxPackageSandboxed(String packageName, int userId);
+-    void addSandboxPackage(String packageName, int userId);
+-    void removeSandboxPackage(String packageName, int userId);
+-    List<String> getSandboxPackages(int userId);
+-    void setSandboxRestrictedGids(String packageName, in int[] gids, int userId);
+-    int[] getSandboxRestrictedGids(String packageName, int userId);
+-    boolean isSandboxDataIsolationEnabled(String packageName, int userId);
+-    void setSandboxDataIsolationEnabled(String packageName, boolean enabled, int userId);
+-    boolean isSandboxSpoofSettingEnabled(String packageName, String settingKey, int userId);
+-    void setSandboxSpoofSettingEnabled(String packageName, String settingKey, boolean enabled, int userId);
+-    List<String> getSandboxEnabledSpoofSettings(String packageName, int userId);
+-    String getSandboxSpoofedSetting(String callingPackage, String settingName, int userId);
+-
+     /**
+      *  Should disable touch if three fingers swipe enabled
+      */
+diff --git a/core/java/android/app/SystemServiceRegistry.java b/core/java/android/app/SystemServiceRegistry.java
+index 7cb569496c6e..10af8ce74a5b 100644
+--- a/core/java/android/app/SystemServiceRegistry.java
++++ b/core/java/android/app/SystemServiceRegistry.java
+@@ -1053,13 +1053,6 @@ public final class SystemServiceRegistry {
+                 return new AppOpsManager(ctx, service);
+             }});
+ 
+-        registerService(Context.AX_SANDBOX_SERVICE, AxSandboxManager.class,
+-                new CachedServiceFetcher<AxSandboxManager>() {
+-            @Override
+-            public AxSandboxManager createService(ContextImpl ctx) {
+-                return new AxSandboxManager(ctx.getOuterContext());
+-            }});
+-
+         registerService(Context.CAMERA_SERVICE, CameraManager.class,
+                 new CachedServiceFetcher<CameraManager>() {
+             @Override
+diff --git a/core/java/android/app/TaskInfo.java b/core/java/android/app/TaskInfo.java
+index 3c0f57bba53e..6215256009e3 100644
+--- a/core/java/android/app/TaskInfo.java
++++ b/core/java/android/app/TaskInfo.java
+@@ -444,11 +444,6 @@ public class TaskInfo {
+     @Deprecated
+     public boolean isAppBubble;
+ 
+-    /**
+-     * @hide
+-     */
+-    public boolean isTopAppLocked;
+-
+     /**
+      * The top activity's main window frame if it doesn't match the top activity bounds.
+      * {@code null}, otherwise.
+@@ -773,7 +768,6 @@ public class TaskInfo {
+         topActivityMainWindowFrame = source.readTypedObject(Rect.CREATOR);
+         isAppBubble = source.readBoolean();
+         isInteractive = source.readBoolean();
+-        isTopAppLocked = source.readBoolean();
+     }
+ 
+     /**
+@@ -836,7 +830,6 @@ public class TaskInfo {
+         dest.writeTypedObject(topActivityMainWindowFrame, flags);
+         dest.writeBoolean(isAppBubble);
+         dest.writeBoolean(isInteractive);
+-        dest.writeBoolean(isTopAppLocked);
+     }
+ 
+     @Override
+@@ -891,7 +884,6 @@ public class TaskInfo {
+                 + " appCompatTaskInfo=" + appCompatTaskInfo
+                 + " topActivityMainWindowFrame=" + topActivityMainWindowFrame
+                 + " isAppBubble=" + isAppBubble
+-                + " isTopAppLocked=" + isTopAppLocked
+                 + "}";
+     }
+ }
+diff --git a/core/java/android/content/Context.java b/core/java/android/content/Context.java
+index 81dea1721e82..7b1a0ed39c3b 100644
+--- a/core/java/android/content/Context.java
++++ b/core/java/android/content/Context.java
+@@ -6316,11 +6316,6 @@ public abstract class Context {
+      */
+     public static final String APP_OPS_SERVICE = "appops";
+ 
+-    /**
+-     * @hide
+-     */
+-    public static final String AX_SANDBOX_SERVICE = "ax_sandbox";
+-
+     /**
+      * Use with {@link #getSystemService(String)} to retrieve a {@link android.app.role.RoleManager}
+      * for managing roles.
+diff --git a/core/java/com/android/internal/app/HiddenNotificationInfo.aidl b/core/java/com/android/internal/app/HiddenNotificationInfo.aidl
+deleted file mode 100644
+index 7965bff3eb66..000000000000
+--- a/core/java/com/android/internal/app/HiddenNotificationInfo.aidl
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/*
+- * Copyright (C) 2025-2026 AxionOS Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-package com.android.internal.app;
+-
+-parcelable HiddenNotificationInfo;
+diff --git a/core/java/com/android/internal/app/HiddenNotificationInfo.java b/core/java/com/android/internal/app/HiddenNotificationInfo.java
+deleted file mode 100644
+index 58a5afd0153e..000000000000
+--- a/core/java/com/android/internal/app/HiddenNotificationInfo.java
++++ /dev/null
+@@ -1,94 +0,0 @@
+-/*
+- * Copyright (C) 2025-2026 AxionOS
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-package com.android.internal.app;
+-
+-import android.app.PendingIntent;
+-import android.graphics.drawable.Icon;
+-import android.os.Parcel;
+-import android.os.Parcelable;
+-
+-/**
+- * @hide
+- */
+-public class HiddenNotificationInfo implements Parcelable {
+-    public final String key;
+-    public final String packageName;
+-    public final Icon appIcon;
+-    public final CharSequence title;
+-    public final CharSequence text;
+-    public final PendingIntent contentIntent;
+-    public final long postTime;
+-    public final int userId;
+-
+-    public HiddenNotificationInfo(
+-            String key,
+-            String packageName,
+-            Icon appIcon,
+-            CharSequence title,
+-            CharSequence text,
+-            PendingIntent contentIntent,
+-            long postTime,
+-            int userId) {
+-        this.key = key;
+-        this.packageName = packageName;
+-        this.appIcon = appIcon;
+-        this.title = title;
+-        this.text = text;
+-        this.contentIntent = contentIntent;
+-        this.postTime = postTime;
+-        this.userId = userId;
+-    }
+-
+-    protected HiddenNotificationInfo(Parcel in) {
+-        key = in.readString();
+-        packageName = in.readString();
+-        appIcon = in.readParcelable(Icon.class.getClassLoader(), Icon.class);
+-        title = in.readCharSequence();
+-        text = in.readCharSequence();
+-        contentIntent = in.readParcelable(PendingIntent.class.getClassLoader(), PendingIntent.class);
+-        postTime = in.readLong();
+-        userId = in.readInt();
+-    }
+-
+-    @Override
+-    public void writeToParcel(Parcel dest, int flags) {
+-        dest.writeString(key);
+-        dest.writeString(packageName);
+-        dest.writeParcelable(appIcon, flags);
+-        dest.writeCharSequence(title);
+-        dest.writeCharSequence(text);
+-        dest.writeParcelable(contentIntent, flags);
+-        dest.writeLong(postTime);
+-        dest.writeInt(userId);
+-    }
+-
+-    @Override
+-    public int describeContents() {
+-        return 0;
+-    }
+-
+-    public static final Creator<HiddenNotificationInfo> CREATOR = new Creator<HiddenNotificationInfo>() {
+-        @Override
+-        public HiddenNotificationInfo createFromParcel(Parcel in) {
+-            return new HiddenNotificationInfo(in);
+-        }
+-
+-        @Override
+-        public HiddenNotificationInfo[] newArray(int size) {
+-            return new HiddenNotificationInfo[size];
+-        }
+-    };
+-}
+diff --git a/core/java/com/android/internal/app/IAppLockStateListener.aidl b/core/java/com/android/internal/app/IAppLockStateListener.aidl
+deleted file mode 100644
+index 3008571018a5..000000000000
+--- a/core/java/com/android/internal/app/IAppLockStateListener.aidl
++++ /dev/null
+@@ -1,8 +0,0 @@
+-package com.android.internal.app;
+-
+-/**
+- * @hide
+- */
+-oneway interface IAppLockStateListener {
+-    void onAppLockStateChanged(String packageName, boolean locked);
+-}
+diff --git a/core/java/com/android/internal/app/IAppSessionListener.aidl b/core/java/com/android/internal/app/IAppSessionListener.aidl
+deleted file mode 100644
+index 228478a8909f..000000000000
+--- a/core/java/com/android/internal/app/IAppSessionListener.aidl
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/*
+- * Copyright (C) 2025-2026 AxionOS
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-package com.android.internal.app;
+-
+-oneway interface IAppSessionListener {
+-    void onAppUnlocked(String packageName, int userId);
+-    void onAppLocked(String packageName, int userId);
+-}
+diff --git a/core/java/com/android/internal/app/IHiddenNotificationListener.aidl b/core/java/com/android/internal/app/IHiddenNotificationListener.aidl
+deleted file mode 100644
+index 8eb2659bfac3..000000000000
+--- a/core/java/com/android/internal/app/IHiddenNotificationListener.aidl
++++ /dev/null
+@@ -1,26 +0,0 @@
+-/*
+- * Copyright (C) 2025-2026 AxionOS
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-package com.android.internal.app;
+-
+-import com.android.internal.app.HiddenNotificationInfo;
+-
+-/**
+- * @hide
+- */
+-oneway interface IHiddenNotificationListener {
+-    void onHiddenNotificationPosted(in HiddenNotificationInfo info);
+-    void onHiddenNotificationRemoved(String key);
+-}
+diff --git a/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java b/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
+index e241d9b52586..9c69a45a7399 100644
+--- a/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
++++ b/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
+@@ -51,7 +51,6 @@ import android.annotation.SpecialUsers.CannotBeSpecialUser;
+ import android.annotation.UserIdInt;
+ import android.app.ActivityManager;
+ import android.app.AppGlobals;
+-import android.app.AxSandboxManager;
+ import android.app.backup.BackupManager;
+ import android.app.compat.CompatChanges;
+ import android.app.job.JobInfo;
+@@ -464,13 +463,6 @@ public class SettingsProvider extends ContentProvider {
+     public Bundle call(String method, String name, Bundle args) {
+         final @CanBeCURRENT @UserIdInt int requestingUserId = getRequestingUserId(args);
+         final int callingDeviceId = getDeviceId();
+-        if (method != null && method.startsWith("GET_")) {
+-            String spoofed = getSpoofedValue(name);
+-            if (spoofed != null) {
+-                return Bundle.forPair(Settings.NameValueTable.VALUE, spoofed);
+-            }
+-        }
+-
+         switch (method) {
+             case Settings.CALL_METHOD_GET_CONFIG -> {
+                 Setting setting = getConfigSetting(name);
+@@ -643,27 +635,6 @@ public class SettingsProvider extends ContentProvider {
+         return null;
+     }
+ 
+-    private String getSpoofedValue(String name) {
+-        String callingPackage = getCallingPackage();
+-        if (callingPackage == null) return null;
+-
+-        if (callingPackage.startsWith("com.android.")
+-                || callingPackage.startsWith("com.google.android.")) {
+-            return null;
+-        }
+-
+-        String settings = null;
+-        try {
+-            AxSandboxManager sandboxManager =
+-                    getContext().getSystemService(AxSandboxManager.class);
+-            if (sandboxManager != null) {
+-                settings = sandboxManager.getSpoofedSetting(callingPackage, name, UserHandle.getCallingUserId());
+-            }
+-        } catch (Exception e) {}
+-
+-        return settings;
+-    }
+-
+     @Override
+     public String getType(Uri uri) {
+         Arguments args = new Arguments(uri, null, null, true);
+@@ -689,19 +660,6 @@ public class SettingsProvider extends ContentProvider {
+             return new MatrixCursor(normalizedProjection, 0);
+         }
+ 
+-        if (args.name != null) {
+-            String spoofed = getSpoofedValue(args.name);
+-            if (spoofed != null) {
+-                synchronized (mLock) {
+-                    SettingsState state = mSettingsRegistry.getSettingsLocked(
+-                            SettingsState.SETTINGS_TYPE_GLOBAL, UserHandle.USER_SYSTEM, Context.DEVICE_ID_DEFAULT);
+-                    SettingsState.Setting s = state.new Setting(args.name, spoofed, true, null, null);
+-                    return packageSettingForQuery(s, normalizedProjection,
+-                            sReadableGlobalSettingsWithRedactedValue);
+-                }
+-            }
+-        }
+-
+         final int callingDeviceId = getDeviceId();
+         switch (args.table) {
+             case TABLE_GLOBAL -> {
+diff --git a/packages/SystemUI/src/com/android/systemui/dagger/FrameworkServicesModule.java b/packages/SystemUI/src/com/android/systemui/dagger/FrameworkServicesModule.java
+index e6fcc8838cab..2262123600de 100644
+--- a/packages/SystemUI/src/com/android/systemui/dagger/FrameworkServicesModule.java
++++ b/packages/SystemUI/src/com/android/systemui/dagger/FrameworkServicesModule.java
+@@ -22,7 +22,6 @@ import android.app.ActivityManager;
+ import android.app.ActivityTaskManager;
+ import android.app.AlarmManager;
+ import android.app.AppOpsManager;
+-import android.app.AxSandboxManager;
+ import android.app.IActivityManager;
+ import android.app.IActivityTaskManager;
+ import android.app.INotificationManager;
+@@ -879,13 +878,6 @@ public class FrameworkServicesModule {
+         return IPeopleManager.Stub.asInterface(ServiceManager.getService(Context.PEOPLE_SERVICE));
+     }
+ 
+-    @Provides
+-    @Singleton
+-    @Nullable
+-    static AxSandboxManager provideAxSandboxManager(Context context) {
+-        return context.getSystemService(AxSandboxManager.class);
+-    }
+-
+     @Provides
+     @Singleton
+     static ImsManager provideImsManager(Context context) {
+diff --git a/packages/SystemUI/src/com/android/systemui/dagger/SystemUICoreStartableModule.kt b/packages/SystemUI/src/com/android/systemui/dagger/SystemUICoreStartableModule.kt
+index 6c53a70b87df..032af99a6cad 100644
+--- a/packages/SystemUI/src/com/android/systemui/dagger/SystemUICoreStartableModule.kt
++++ b/packages/SystemUI/src/com/android/systemui/dagger/SystemUICoreStartableModule.kt
+@@ -72,8 +72,6 @@ import dagger.multibindings.ClassKey
+ import dagger.multibindings.IntoMap
+ import dagger.multibindings.IntoSet
+ 
+-import com.axion.applocker.AxAppLockerHelper
+-
+ /**
+  * DEPRECATED: DO NOT ADD THINGS TO THIS FILE. b/427499553
+  *
+@@ -340,10 +338,6 @@ abstract class SystemUICoreStartableModule {
+         keyGestureEventInitializer: SysUIKeyGestureEventInitializer
+     ): CoreStartable
+ 
+-    @Binds
+-    @IntoMap
+-    @ClassKey(AxAppLockerHelper::class)
+-    abstract fun bindAxAppLockerHelper(impl: AxAppLockerHelper): CoreStartable
+ 
+     @Binds
+     @IntoMap
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/external/CustomTile.java b/packages/SystemUI/src/com/android/systemui/qs/external/CustomTile.java
+index addd4b6bd6e3..5d35a69be910 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/external/CustomTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/external/CustomTile.java
+@@ -65,7 +65,6 @@ import com.android.systemui.qs.external.TileLifecycleManager.TileChangeListener;
+ import com.android.systemui.qs.logging.QSLogger;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
+ import com.android.systemui.settings.DisplayTracker;
+-import com.axion.applocker.AxAppLockerHelper;
+ 
+ import dagger.Lazy;
+ import dagger.assisted.Assisted;
+@@ -117,7 +116,6 @@ public class CustomTile extends QSTileImpl<State> implements TileChangeListener,
+     private int mServiceUid = Process.INVALID_UID;
+ 
+     private final IUriGrantsManager mIUriGrantsManager;
+-    private final AxAppLockerHelper mAxAppLockerHelper;
+ 
+     @AssistedInject
+     CustomTile(
+@@ -135,8 +133,7 @@ public class CustomTile extends QSTileImpl<State> implements TileChangeListener,
+             CustomTileStatePersister customTileStatePersister,
+             TileServices tileServices,
+             DisplayTracker displayTracker,
+-            IUriGrantsManager uriGrantsManager,
+-            AxAppLockerHelper axAppLockerHelper
++            IUriGrantsManager uriGrantsManager
+     ) {
+         super(host.get(), uiEventLogger, backgroundLooper, mainHandler, falsingManager,
+                 metricsLogger, statusBarStateController, activityStarter, qsLogger);
+@@ -153,7 +150,6 @@ public class CustomTile extends QSTileImpl<State> implements TileChangeListener,
+         mCustomTileStatePersister = customTileStatePersister;
+         mDisplayTracker = displayTracker;
+         mIUriGrantsManager = uriGrantsManager;
+-        mAxAppLockerHelper = axAppLockerHelper;
+     }
+ 
+     @Override
+@@ -418,12 +414,6 @@ public class CustomTile extends QSTileImpl<State> implements TileChangeListener,
+         if (mTile.getState() == Tile.STATE_UNAVAILABLE) {
+             return;
+         }
+-
+-        if (mAxAppLockerHelper.needsAuth(mComponent.getPackageName(), mUser)) {
+-            mAxAppLockerHelper.promptUnlock(mComponent.getPackageName(), mUser);
+-            return;
+-        }
+-
+         mExpandableClicked = expandable;
+         try {
+             if (DEBUG) Log.d(TAG, "Adding token");
+diff --git a/packages/SystemUI/src/com/android/systemui/shade/QuickSettingsControllerImpl.java b/packages/SystemUI/src/com/android/systemui/shade/QuickSettingsControllerImpl.java
+index 07c5a303f84f..b4f50d85f6f4 100644
+--- a/packages/SystemUI/src/com/android/systemui/shade/QuickSettingsControllerImpl.java
++++ b/packages/SystemUI/src/com/android/systemui/shade/QuickSettingsControllerImpl.java
+@@ -118,12 +118,6 @@ import com.android.systemui.util.ScrimUtils;
+ import com.android.systemui.util.kotlin.JavaAdapter;
+ import com.android.systemui.utils.windowmanager.WindowManagerProvider;
+ 
+-import com.axion.applocker.AxAppLockerHelper;
+-import com.android.systemui.statusbar.notification.row.ExpandableNotificationRow;
+-import com.android.systemui.statusbar.notification.collection.NotificationEntry;
+-import android.service.notification.StatusBarNotification;
+-import android.view.View;
+-
+ import lineageos.providers.LineageSettings;
+ 
+ import dalvik.annotation.optimization.NeverCompile;
+@@ -2565,14 +2559,4 @@ public class QuickSettingsControllerImpl implements QuickSettingsController, Dum
+         void onFlingQsWithoutClick(ValueAnimator animator, float qsExpansionHeight,
+                 float target, float vel);
+     }
+-
+-    public final void onAppLockerUpdated(String packageName) {
+-        NotificationStackScrollLayoutController controller = mNotificationStackScrollLayoutController;
+-        if (controller == null || controller.getView() == null) {
+-            return;
+-        }
+-
+-        NotificationStackScrollLayout view = controller.getView();
+-        view.post(() -> view.onAppLockerUpdate(packageName));
+-    }
+ }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/NotificationLockscreenUserManager.java b/packages/SystemUI/src/com/android/systemui/statusbar/NotificationLockscreenUserManager.java
+index 54f80e8657b3..fdcd39d1d616 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/NotificationLockscreenUserManager.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/NotificationLockscreenUserManager.java
+@@ -130,8 +130,6 @@ public interface NotificationLockscreenUserManager {
+      */
+     void removeNotificationStateChangedListener(NotificationStateChangedListener listener);
+ 
+-    default void onAppLockRefresh() {}
+-
+     /** Notified when the current user changes. */
+     interface UserChangedListener {
+         default void onUserChanged(int userId) {}
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/NotificationLockscreenUserManagerImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/NotificationLockscreenUserManagerImpl.java
+index 1f987076b13a..1358a9a863f5 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/NotificationLockscreenUserManagerImpl.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/NotificationLockscreenUserManagerImpl.java
+@@ -32,7 +32,6 @@ import static com.android.systemui.DejankUtils.whitelistIpcs;
+ import android.annotation.SuppressLint;
+ import android.annotation.UserIdInt;
+ import android.app.ActivityOptions;
+-import android.app.AxSandboxManager;
+ import android.app.KeyguardManager;
+ import android.app.admin.DevicePolicyManager;
+ import android.content.BroadcastReceiver;
+@@ -100,7 +99,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
+ import java.util.concurrent.atomic.AtomicLong;
+ 
+ import javax.inject.Inject;
+-import com.axion.applocker.AxAppLockerHelper;
+ 
+ /**
+  * Handles keeping track of the current user, profiles, and various things related to hiding
+@@ -318,7 +316,6 @@ public class NotificationLockscreenUserManagerImpl implements
+     protected ContentObserver mSettingsObserver;
+ 
+     private final Lazy<DeviceUnlockedInteractor> mDeviceUnlockedInteractorLazy;
+-    private final AxAppLockerHelper mAxAppLockerHelper;
+ 
+     @Inject
+     public NotificationLockscreenUserManagerImpl(Context context,
+@@ -343,8 +340,7 @@ public class NotificationLockscreenUserManagerImpl implements
+             Lazy<DeviceUnlockedInteractor> deviceUnlockedInteractorLazy,
+             Lazy<KeyguardInteractor> keyguardInteractor,
+             Lazy<WifiRepository> wifiRepository,
+-            @Background CoroutineScope coroutineScope,
+-            AxAppLockerHelper axAppLockerHelper
++            @Background CoroutineScope coroutineScope
+     ) {
+         mContext = context;
+         mMainExecutor = mainExecutor;
+@@ -366,8 +362,6 @@ public class NotificationLockscreenUserManagerImpl implements
+         mKeyguardStateController = keyguardStateController;
+         mFeatureFlags = featureFlags;
+         mDeviceUnlockedInteractorLazy = deviceUnlockedInteractorLazy;
+-        mAxAppLockerHelper = axAppLockerHelper;
+-        mAxAppLockerHelper.addRefreshListener(this::notifyNotificationStateChanged);
+ 
+         mLockScreenUris.add(SHOW_LOCKSCREEN);
+         mLockScreenUris.add(SHOW_PRIVATE_LOCKSCREEN);
+@@ -732,13 +726,6 @@ public class NotificationLockscreenUserManagerImpl implements
+     public @RedactionType int getRedactionType(NotificationEntry ent) {
+         int userId = ent.getSbn().getUserId();
+ 
+-        if (ent.getSbn().getNotification().extras
+-                        .getBoolean(AxSandboxManager.EXTRA_NOTIFICATION_APP_LOCKED, false)
+-                && mAxAppLockerHelper.needsAuth(
+-                        ent.getSbn().getPackageName(), ent.getSbn().getUserId())) {
+-            return REDACTION_TYPE_PUBLIC;
+-        }
+-
+         boolean isCurrentUserRedactingNotifs =
+                 !userAllowsPrivateNotificationsInPublic(mCurrentUserId);
+         boolean isNotifForManagedProfile = mCurrentManagedProfiles.contains(userId);
+@@ -976,11 +963,6 @@ public class NotificationLockscreenUserManagerImpl implements
+         mNotifStateChangedListeners.remove(listener);
+     }
+ 
+-    @Override
+-    public void onAppLockRefresh() {
+-        notifyNotificationStateChanged();
+-    }
+-
+     private void notifyNotificationStateChanged() {
+         if (!Looper.getMainLooper().isCurrentThread()) {
+             for (NotificationStateChangedListener listener : mNotifStateChangedListeners) {
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/NotificationEntry.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/NotificationEntry.java
+index a3d486281f35..b16852627bf8 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/NotificationEntry.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/NotificationEntry.java
+@@ -1004,9 +1004,7 @@ public final class NotificationEntry extends ListEntry {
+      * @param deviceSensitive true if the device in general is sensitive right now
+      */
+     public void setSensitive(boolean sensitive, boolean deviceSensitive) {
+-        if (getRow() != null) {
+-            getRow().setSensitive(sensitive, deviceSensitive);
+-        }
++        getRow().setSensitive(sensitive, deviceSensitive);
+         if (sensitive != mSensitive.getValue()) {
+             mSensitive.setValue(sensitive);
+             for (OnSensitivityChangedListener listener :
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/SensitiveContentCoordinator.kt b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/SensitiveContentCoordinator.kt
+index d2bcadf66976..a73e671b4339 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/SensitiveContentCoordinator.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/collection/coordinator/SensitiveContentCoordinator.kt
+@@ -16,7 +16,6 @@
+ 
+ package com.android.systemui.statusbar.notification.collection.coordinator
+ 
+-import android.app.AxSandboxManager
+ import android.app.Notification
+ import android.os.UserHandle
+ import com.android.app.tracing.coroutines.launchTraced as launch
+@@ -45,7 +44,6 @@ import com.android.systemui.statusbar.notification.collection.listbuilder.plugga
+ import com.android.systemui.statusbar.policy.KeyguardStateController
+ import com.android.systemui.statusbar.policy.SensitiveNotificationProtectionController
+ import com.android.systemui.user.domain.interactor.SelectedUserInteractor
+-import com.axion.applocker.AxAppLockerHelper
+ import dagger.Binds
+ import dagger.Module
+ import javax.inject.Inject
+@@ -78,7 +76,6 @@ constructor(
+         SensitiveNotificationProtectionController,
+     private val deviceEntryInteractor: DeviceEntryInteractor,
+     private val sceneInteractor: SceneInteractor,
+-    private val axAppLockerHelper: AxAppLockerHelper,
+     @Application private val scope: CoroutineScope,
+ ) :
+     Invalidator("SensitiveContentInvalidator"),
+@@ -104,10 +101,6 @@ constructor(
+             }
+         }
+ 
+-    private val onAppLockStateChanged = Runnable {
+-        invalidateList("applock-state-changed")
+-    }
+-
+     override fun attach(pipeline: NotifPipeline) {
+         if (!SceneContainerFlag.isEnabled) {
+             dynamicPrivacyController.addListener(this)
+@@ -117,7 +110,6 @@ constructor(
+                 onSensitiveStateChanged
+             )
+         }
+-        axAppLockerHelper.addRefreshListener(onAppLockStateChanged)
+         pipeline.addOnBeforeRenderListListener(this)
+         pipeline.addPreRenderInvalidator(this)
+         if (screenshareNotificationHiding()) {
+@@ -219,19 +211,10 @@ constructor(
+                 screenshareNotificationHiding() &&
+                     sensitiveNotificationProtectionController.shouldProtectNotification(entry)
+ 
+-            val isAppLocked =
+-                entry.sbn.notification.extras.getBoolean(
+-                    AxSandboxManager.EXTRA_NOTIFICATION_APP_LOCKED,
+-                    false,
+-                ) &&
+-                    axAppLockerHelper.needsAuth(entry.sbn.packageName, entry.sbn.user.identifier)
+             val needsRedaction =
+-                isAppLocked || lockscreenUserManager.getRedactionType(entry) != REDACTION_TYPE_NONE
++                lockscreenUserManager.getRedactionType(entry) != REDACTION_TYPE_NONE
+             val isSensitive = userPublic && needsRedaction
+-            entry.setSensitive(
+-                isSensitive || shouldProtectNotification,
+-                isAppLocked || deviceSensitive,
+-            )
++            entry.setSensitive(isSensitive || shouldProtectNotification, deviceSensitive)
+             if (screenshareNotificationHiding()) {
+                 entry.row?.setPublicExpanderVisible(!shouldProtectNotification)
+             }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
+index 25430d8984d4..dfd2f426274a 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRow.java
+@@ -31,7 +31,6 @@ import android.animation.Animator;
+ import android.animation.AnimatorListenerAdapter;
+ import android.animation.ObjectAnimator;
+ import android.animation.ValueAnimator.AnimatorUpdateListener;
+-import android.app.AxSandboxManager;
+ import android.app.Notification;
+ import android.content.Context;
+ import android.content.res.Configuration;
+@@ -49,7 +48,6 @@ import android.os.Bundle;
+ import android.os.SystemClock;
+ import android.os.Trace;
+ import android.os.UserHandle;
+-import android.service.notification.StatusBarNotification;
+ import android.text.TextUtils;
+ import android.util.AttributeSet;
+ import android.util.FloatProperty;
+@@ -149,8 +147,6 @@ import com.android.systemui.util.DumpUtilsKt;
+ import com.android.systemui.util.ListenerSet;
+ import com.android.wm.shell.shared.animation.PhysicsAnimator;
+ 
+-import com.axion.applocker.AxAppLockerHelper;
+-
+ import java.io.PrintWriter;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+@@ -211,7 +207,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+     private RowContentBindStage mRowContentBindStage;
+     private PeopleNotificationIdentifier mPeopleNotificationIdentifier;
+     private NotificationActivityStarter mNotificationActivityStarter;
+-    private AxAppLockerHelper mAxAppLockerHelper;
+     private MetricsLogger mMetricsLogger;
+     private NotificationChildrenContainerLogger mChildrenContainerLogger;
+     private ColorUpdateLogger mColorUpdateLogger;
+@@ -408,10 +403,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+     }
+ 
+     private void toggleExpansionState(View v, boolean shouldLogExpandClickMetric) {
+-        if (doesNotificationNeedAuth() && !isOnKeyguard()) {
+-            promptAppUnlock();
+-            return;
+-        }
+         if ((isBundle()
+                 || (!shouldShowPublic() && (!mIsMinimized || isExpanded()) && isGroupRoot()))
+                 && !NTForbiddenSwipeDownQSController.get(mContext).getForbiddenSwipeDownQS()) {
+@@ -456,32 +447,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+         }
+     }
+ 
+-    private StatusBarNotification getAppLockSbn() {
+-        return mEntryAdapter != null ? mEntryAdapter.getSbn() : null;
+-    }
+-
+-    private boolean isNotificationAppLocked() {
+-        StatusBarNotification sbn = getAppLockSbn();
+-        if (sbn == null) return false;
+-        if (!sbn.getNotification().extras
+-                .getBoolean(AxSandboxManager.EXTRA_NOTIFICATION_APP_LOCKED, false)) {
+-            return false;
+-        }
+-        return mAxAppLockerHelper.needsAuth(sbn.getPackageName(), sbn.getUserId());
+-    }
+-
+-    private boolean doesNotificationNeedAuth() {
+-        StatusBarNotification sbn = getAppLockSbn();
+-        if (sbn == null) return false;
+-        return mAxAppLockerHelper.needsAuth(sbn.getPackageName(), sbn.getUserId());
+-    }
+-
+-    private void promptAppUnlock() {
+-        StatusBarNotification sbn = getAppLockSbn();
+-        if (sbn == null) return;
+-        mAxAppLockerHelper.promptUnlock(sbn.getPackageName(), sbn.getUserId());
+-    }
+-
+     private boolean mKeepInParentForDismissAnimation;
+     private boolean mRemoved;
+     public static final FloatProperty<ExpandableNotificationRow> TRANSLATE_CONTENT =
+@@ -2205,8 +2170,7 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+             NotificationActivityStarter notificationActivityStarter,
+             NotificationUiEligibilityChecker notificationUiEligibilityChecker,
+             Optional<AutomationNotificationBackgroundProvider>
+-                    automationNotificationBackgroundProvider,
+-            AxAppLockerHelper axAppLockerHelper) {
++                    automationNotificationBackgroundProvider) {
+         mEntryAdapter = entryAdapter;
+         mIsBundle = entryAdapter instanceof BundleEntryAdapter;
+         if (isBundle()) {
+@@ -2218,7 +2182,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+         mAppName = appName;
+         mRebindingTracker = notificationRebindingTracker;
+         mNotificationActivityStarter = notificationActivityStarter;
+-        mAxAppLockerHelper = axAppLockerHelper;
+         if (mMenuRow == null) {
+             mMenuRow = new NotificationMenuRow(
+                     mContext, peopleNotificationIdentifier, mNotificationActivityStarter);
+@@ -3187,7 +3150,7 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+         if (mGuts != null && mGuts.isExposed()) {
+             return mGuts.getIntrinsicHeight();
+         }
+-        if ((mSensitive && mHideSensitiveForIntrinsicHeight) || isNotificationAppLocked()) {
++        if (mSensitive && mHideSensitiveForIntrinsicHeight) {
+             return getMinHeight();
+         }
+         if (mIsSummaryWithChildren) {
+@@ -3195,10 +3158,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+         }
+         if (isChildInGroup() && !isGroupExpanded()) {
+             return mPrivateLayout.getMinHeight();
+-        } else if ((isChildInGroup() && !isGroupExpanded())) {
+-            return mPrivateLayout.getMinHeight();
+-        } else if (isNotificationAppLocked()) {
+-            return getMinHeight();
+         }
+ 
+         if (canShowHeadsUp() && isHeadsUpState()) {
+@@ -3461,20 +3420,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+             // Just request the correct layout, even if the height hasn't changed
+             getShowingLayout().requestSelectLayout(/* needsAnimation= */ true);
+         }
+-        updateAppLockedShowingState();
+-    }
+-
+-    private void updateAppLockedShowingState() {
+-        boolean wasPublic = mShowingPublic;
+-        mShowingPublic = (mSensitive && mHideSensitiveForIntrinsicHeight)
+-                || isNotificationAppLocked();
+-        if (wasPublic != mShowingPublic) {
+-            if (mShowingPublicInitialized) {
+-                mPublicLayout.setVisibility(mShowingPublic ? View.VISIBLE : View.INVISIBLE);
+-                updateChildrenVisibility();
+-            }
+-            notifyHeightChanged(/* needsAnimation= */ true, "ENR.updateAppLockedShowingState");
+-        }
+     }
+ 
+     /** Sets whether this notification row should show the notification expander or not */
+@@ -3507,7 +3452,7 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+             return;
+         }
+         boolean oldShowingPublic = mShowingPublic;
+-        mShowingPublic = (mSensitive && hideSensitive) || isNotificationAppLocked();
++        mShowingPublic = mSensitive && hideSensitive;
+         boolean isShowingLayoutNotChanged = mShowingPublic == oldShowingPublic;
+         if (mShowingPublicInitialized && isShowingLayoutNotChanged) {
+             return;
+@@ -3623,9 +3568,6 @@ public class ExpandableNotificationRow extends ActivatableNotificationView
+     }
+ 
+     private boolean shouldShowPublic() {
+-        if (isNotificationAppLocked()) {
+-            return true;
+-        }
+         return mSensitive && mHideSensitiveForIntrinsicHeight;
+     }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowController.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowController.java
+index 82ab547ad0ac..7456e365184e 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowController.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/ExpandableNotificationRowController.java
+@@ -69,7 +69,6 @@ import com.android.systemui.statusbar.policy.dagger.RemoteInputViewSubcomponent;
+ import com.android.systemui.util.ScrimUtils;
+ import com.android.systemui.util.time.SystemClock;
+ import com.android.systemui.window.domain.interactor.WindowRootViewBlurInteractor;
+-import com.axion.applocker.AxAppLockerHelper;
+ 
+ import com.google.android.msdl.data.model.MSDLToken;
+ import com.google.android.msdl.domain.MSDLPlayer;
+@@ -130,7 +129,6 @@ public class ExpandableNotificationRowController implements NotifViewController
+     private final NotificationUiEligibilityChecker mNotificationUiEligibilityChecker;
+     private final Optional<AutomationNotificationBackgroundProvider>
+             mAutomationNotificationBackgroundProvider;
+-    private final AxAppLockerHelper mAxAppLockerHelper;
+     private final Context mContext;
+ 
+     @VisibleForTesting
+@@ -299,8 +297,7 @@ public class ExpandableNotificationRowController implements NotifViewController
+             NotificationActivityStarter notificationActivityStarter,
+             NotificationUiEligibilityChecker notificationUiEligibilityChecker,
+             Optional<AutomationNotificationBackgroundProvider>
+-                    automationNotificationBackgroundProvider,
+-            AxAppLockerHelper axAppLockerHelper) {
++                    automationNotificationBackgroundProvider) {
+         mView = view;
+         mContext = context;
+         mListContainer = listContainer;
+@@ -341,7 +338,6 @@ public class ExpandableNotificationRowController implements NotifViewController
+         mNotificationActivityStarter = notificationActivityStarter;
+         mNotificationUiEligibilityChecker = notificationUiEligibilityChecker;
+         mAutomationNotificationBackgroundProvider = automationNotificationBackgroundProvider;
+-        mAxAppLockerHelper = axAppLockerHelper;
+     }
+ 
+     String loadsGutsAppName(Context context, PipelineEntry pipelineEntry) {
+@@ -407,8 +403,7 @@ public class ExpandableNotificationRowController implements NotifViewController
+                 mBundleInteractionLogger,
+                 mNotificationActivityStarter,
+                 mNotificationUiEligibilityChecker,
+-                mAutomationNotificationBackgroundProvider,
+-                mAxAppLockerHelper);
++                mAutomationNotificationBackgroundProvider);
+         mView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+         if (mAllowLongPress) {
+             if (mFeatureFlags.isEnabled(
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/stack/NotificationStackScrollLayout.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/stack/NotificationStackScrollLayout.java
+index e6cfcfa50f67..2e757e32fc08 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/stack/NotificationStackScrollLayout.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/stack/NotificationStackScrollLayout.java
+@@ -145,9 +145,6 @@ import com.android.systemui.util.ListenerSet;
+ import com.android.systemui.util.state.DownstreamObservableState;
+ import com.android.systemui.util.state.ObservableState;
+ 
+-import com.axion.applocker.AxAppLockerHelper;
+-import android.service.notification.StatusBarNotification;
+-
+ import com.google.errorprone.annotations.CompileTimeConstant;
+ 
+ import kotlin.Unit;
+@@ -7657,23 +7654,4 @@ public class NotificationStackScrollLayout
+             Log.v(TAG, logMsg);
+         }
+     }
+-
+-    public void onAppLockerUpdate(String packageName) {
+-        boolean hideSensitive = mAmbientState.isHideSensitive();
+-        int childCount = getChildCount();
+-        for (int i = 0; i < childCount; i++) {
+-            ExpandableView child = getChildAtIndex(i);
+-            if (child instanceof ExpandableNotificationRow row) {
+-                StatusBarNotification sbn = row.getEntryAdapter() != null
+-                        ? row.getEntryAdapter().getSbn() : null;
+-                if (sbn == null) continue;
+-                if (packageName != null && !packageName.equals(sbn.getPackageName())) {
+-                    continue;
+-                }
+-                row.setHideSensitive(hideSensitive, false, 0, 0);
+-                onChildHeightChanged(child, true, "applocker-update");
+-            }
+-        }
+-        updateContentHeight();
+-    }
+ }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarNotificationActivityStarter.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarNotificationActivityStarter.java
+index dffd9e7f305e..4d063cb3f02a 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarNotificationActivityStarter.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarNotificationActivityStarter.java
+@@ -25,7 +25,6 @@ import static com.android.systemui.statusbar.phone.ActivityStarterUtilsKt.create
+ import android.annotation.SuppressLint;
+ import android.app.ActivityManager;
+ import android.app.ActivityOptions;
+-import android.app.AxSandboxManager;
+ import android.app.KeyguardManager;
+ import android.app.Notification;
+ import android.app.PendingIntent;
+@@ -92,8 +91,6 @@ import com.android.systemui.statusbar.policy.KeyguardStateController;
+ import com.android.systemui.wmshell.BubblesManager;
+ import com.android.wm.shell.shared.bubbles.logging.BubbleLog;
+ 
+-import com.axion.applocker.AxAppLockerHelper;
+-
+ import dagger.Lazy;
+ 
+ import kotlinx.coroutines.CoroutineScope;
+@@ -167,7 +164,6 @@ public class StatusBarNotificationActivityStarter implements NotificationActivit
+     private final UserTracker mUserTracker;
+     private final FrameworkStatsLogWrapper mFrameworkStatsLogWrapper;
+     private final OnUserInteractionCallback mOnUserInteractionCallback;
+-    private final AxAppLockerHelper mAxAppLockerHelper;
+ 
+     private boolean mIsCollapsingToShowActivityOverLockscreen;
+ 
+@@ -209,8 +205,7 @@ public class StatusBarNotificationActivityStarter implements NotificationActivit
+             LaunchFullScreenIntentProvider launchFullScreenIntentProvider,
+             PowerInteractor powerInteractor,
+             UserTracker userTracker,
+-            FrameworkStatsLogWrapper frameworkStatsLogWrapper,
+-            AxAppLockerHelper axAppLockerHelper) {
++            FrameworkStatsLogWrapper frameworkStatsLogWrapper) {
+         mContext = context;
+         mContextInteractor = contextInteractor;
+         mMainThreadHandler = mainThreadHandler;
+@@ -247,7 +242,6 @@ public class StatusBarNotificationActivityStarter implements NotificationActivit
+         mPowerInteractor = powerInteractor;
+         mUserTracker = userTracker;
+         mFrameworkStatsLogWrapper = frameworkStatsLogWrapper;
+-        mAxAppLockerHelper = axAppLockerHelper;
+ 
+         launchFullScreenIntentProvider.registerListener(entry -> launchFullScreenIntent(entry));
+     }
+@@ -290,10 +284,6 @@ public class StatusBarNotificationActivityStarter implements NotificationActivit
+         mLogger.logStartingActivityFromClick(entry, row.isHeadsUpState(),
+                 mKeyguardStateController.isVisible(),
+                 mNotificationShadeWindowController.getPanelExpanded());
+-        if (shouldOpenLockedShadeForAppLockedNotification(entry, row)) {
+-            openLockedShadeForAppLockedNotification(entry, row);
+-            return;
+-        }
+         OnKeyguardDismissedAction action =
+                 (intent, isActivityIntent, animate, showOverTheLockScreen) ->
+                         performActionOnKeyguardDismissed(entry, row, intent, isActivityIntent,
+@@ -301,23 +291,6 @@ public class StatusBarNotificationActivityStarter implements NotificationActivit
+         performActionAfterKeyguardDismissed(entry, action);
+     }
+ 
+-    private boolean shouldOpenLockedShadeForAppLockedNotification(
+-            NotificationEntry entry,
+-            ExpandableNotificationRow row) {
+-        StatusBarNotification sbn = entry.getSbn();
+-        return mKeyguardStateController.isShowing()
+-                && row.isOnKeyguard()
+-                && sbn.getNotification().extras.getBoolean(
+-                        AxSandboxManager.EXTRA_NOTIFICATION_APP_LOCKED, false)
+-                && mAxAppLockerHelper.needsAuth(sbn.getPackageName(), sbn.getUserId());
+-    }
+-
+-    private void openLockedShadeForAppLockedNotification(
+-            NotificationEntry entry,
+-            ExpandableNotificationRow row) {
+-        mPresenter.onExpandClicked(row, row.getEntryAdapter(), true);
+-    }
+-
+     private void performActionAfterKeyguardDismissed(NotificationEntry entry,
+             OnKeyguardDismissedAction action) {
+         if (mRemoteInputManager.isRemoteInputActive(entry)) {
+diff --git a/packages/SystemUI/src/com/axion/applocker/AxAppLockerHelper.kt b/packages/SystemUI/src/com/axion/applocker/AxAppLockerHelper.kt
+deleted file mode 100644
+index 5ef27fc3b0e0..000000000000
+--- a/packages/SystemUI/src/com/axion/applocker/AxAppLockerHelper.kt
++++ /dev/null
+@@ -1,198 +0,0 @@
+-/*
+- * Copyright (C) 2025-2026 AxionOS
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-package com.axion.applocker
+-
+-import android.app.AxSandboxManager
+-import android.app.AxSandboxManager.AppLockState
+-import android.os.SystemClock
+-import android.os.UserHandle
+-import android.util.Log
+-import com.android.internal.app.IAppLockStateListener
+-import com.android.internal.app.IAppSessionListener
+-import com.android.systemui.CoreStartable
+-import com.android.systemui.dagger.SysUISingleton
+-import com.android.systemui.dagger.qualifiers.Main
+-import com.android.systemui.shade.QuickSettingsControllerImpl
+-import com.android.systemui.shade.ShadeController
+-import com.android.systemui.statusbar.policy.KeyguardStateController
+-import dagger.Lazy
+-import java.util.Collections
+-import java.util.concurrent.ConcurrentHashMap
+-import java.util.concurrent.CopyOnWriteArrayList
+-import java.util.concurrent.Executor
+-import javax.inject.Inject
+-
+-@SysUISingleton
+-class AxAppLockerHelper @Inject constructor(
+-    private val qsController: Lazy<QuickSettingsControllerImpl>,
+-    private val shadeController: Lazy<ShadeController>,
+-    private val keyguardStateController: KeyguardStateController,
+-    private val sandboxManager: AxSandboxManager?,
+-    @Main private val mainExecutor: Executor,
+-) : CoreStartable {
+-
+-    companion object {
+-        private const val TAG = "AxAppLockerHelper"
+-        private const val PENDING_EXPIRY_MS = 15_000L
+-        private fun sessionKey(userId: Int, packageName: String): String = "$userId:$packageName"
+-    }
+-
+-    @Volatile private var listenersRegistered = false
+-    private val hasLockCache = ConcurrentHashMap<String, Boolean>()
+-    private val sessionAuthCache = ConcurrentHashMap<String, Boolean>()
+-    private val refreshListeners = CopyOnWriteArrayList<Runnable>()
+-    private val notifUnlocks = Collections.newSetFromMap(ConcurrentHashMap<String, Boolean>())
+-    private val pendingNotifOnly = ConcurrentHashMap<String, Long>()
+-
+-    private val keyguardCallback = object : KeyguardStateController.Callback {
+-        override fun onKeyguardShowingChanged() {
+-            if (keyguardStateController.isShowing) {
+-                notifUnlocks.clear()
+-                pendingNotifOnly.clear()
+-                sessionAuthCache.clear()
+-                mainExecutor.execute { refreshState() }
+-            }
+-        }
+-    }
+-
+-    private val lockStateListener = object : IAppLockStateListener.Stub() {
+-        override fun onAppLockStateChanged(packageName: String, locked: Boolean) {
+-            if (packageName.isBlank()) return
+-            hasLockCache[packageName] = locked
+-            clearSessionCacheFor(packageName)
+-            if (!locked) {
+-                val suffix = ":$packageName"
+-                notifUnlocks.removeAll { it.endsWith(suffix) }
+-                pendingNotifOnly.keys.removeAll { it.endsWith(suffix) }
+-            }
+-            mainExecutor.execute {
+-                qsController.get().onAppLockerUpdated(packageName)
+-                refreshState()
+-            }
+-        }
+-    }
+-
+-    private val sessionListener = object : IAppSessionListener.Stub() {
+-        override fun onAppUnlocked(packageName: String, userId: Int) {
+-            if (packageName.isBlank()) return
+-            val key = sessionKey(userId, packageName)
+-            sessionAuthCache[key] = false
+-            val pendingTs = pendingNotifOnly.remove(key)
+-            val now = SystemClock.elapsedRealtime()
+-            val notifOnly = pendingTs != null && now - pendingTs < PENDING_EXPIRY_MS
+-            if (notifOnly) notifUnlocks.add(key)
+-            mainExecutor.execute {
+-                if (notifOnly) {
+-                    shadeController.get().animateExpandShade()
+-                }
+-                qsController.get().onAppLockerUpdated(packageName)
+-                refreshState()
+-            }
+-        }
+-
+-        override fun onAppLocked(packageName: String, userId: Int) {
+-            if (packageName.isBlank()) return
+-            val key = sessionKey(userId, packageName)
+-            pendingNotifOnly.remove(key)
+-            if (!notifUnlocks.contains(key)) {
+-                sessionAuthCache[key] = true
+-            }
+-            mainExecutor.execute {
+-                qsController.get().onAppLockerUpdated(packageName)
+-                refreshState()
+-            }
+-        }
+-    }
+-
+-    fun addRefreshListener(listener: Runnable) {
+-        refreshListeners.addIfAbsent(listener)
+-    }
+-
+-    fun removeRefreshListener(listener: Runnable) {
+-        refreshListeners.remove(listener)
+-    }
+-
+-    private fun refreshState() {
+-        refreshListeners.forEach { it.run() }
+-    }
+-
+-    private fun clearSessionCacheFor(packageName: String) {
+-        sessionAuthCache.keys.removeAll { it.endsWith(":$packageName") }
+-    }
+-
+-    private fun registerListeners() {
+-        if (listenersRegistered) return
+-        val manager = sandboxManager ?: return
+-        try {
+-            manager.registerAppLockStateListener(lockStateListener)
+-            manager.registerAppSessionListener(sessionListener)
+-            listenersRegistered = true
+-        } catch (e: RuntimeException) {
+-            Log.w(TAG, "Failed to register listeners", e)
+-        }
+-    }
+-
+-    override fun start() {
+-        keyguardStateController.addCallback(keyguardCallback)
+-        registerListeners()
+-    }
+-
+-    fun getState(packageName: String): AppLockState = getState(packageName, UserHandle.USER_SYSTEM)
+-
+-    fun getState(packageName: String, userId: Int): AppLockState {
+-        if (packageName.isBlank()) return AppLockState.NONE
+-        val manager = sandboxManager ?: return AppLockState.NONE
+-        try {
+-            return manager.getAppLockState(packageName, userId)
+-        } catch (e: RuntimeException) {
+-            Log.w(TAG, "getState failed", e)
+-            return AppLockState.NONE
+-        }
+-    }
+-
+-    fun hasAppLock(packageName: String, userId: Int = UserHandle.USER_SYSTEM): Boolean {
+-        if (packageName.isBlank()) return false
+-        val cacheKey = "$packageName:$userId"
+-        hasLockCache[cacheKey]?.let { return it }
+-        val hasLock = getState(packageName, userId).hasAppLock()
+-        hasLockCache[cacheKey] = hasLock
+-        return hasLock
+-    }
+-
+-    fun needsAuth(packageName: String, userId: Int): Boolean {
+-        if (packageName.isBlank()) return false
+-        if (!hasAppLock(packageName, userId)) return false
+-        val key = sessionKey(userId, packageName)
+-        if (notifUnlocks.contains(key)) return false
+-        sessionAuthCache[key]?.let { return it }
+-        val needsAuth = getState(packageName, userId).needsAuth()
+-        sessionAuthCache[key] = needsAuth
+-        return needsAuth
+-    }
+-
+-    fun promptUnlock(packageName: String, userId: Int) {
+-        val manager = sandboxManager ?: return
+-        val key = sessionKey(userId, packageName)
+-        pendingNotifOnly[key] = SystemClock.elapsedRealtime()
+-        shadeController.get().collapseShade()
+-        try {
+-            manager.promptUnlock(packageName, userId)
+-        } catch (e: RuntimeException) {
+-            pendingNotifOnly.remove(key)
+-            Log.e(TAG, "Failed to prompt unlock", e)
+-        }
+-    }
+-}
+diff --git a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+index 90694b507f4d..ca079f8b1d8c 100644
+--- a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
++++ b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+@@ -224,7 +224,6 @@ import com.android.server.policy.WindowManagerPolicy;
+ import com.android.server.statusbar.StatusBarManagerInternal;
+ import com.android.server.utils.Slogf;
+ import com.android.server.wm.ActivityTaskManagerInternal;
+-import com.android.server.wm.AxSandboxService;
+ import com.android.server.wm.WindowManagerInternal;
+ import com.android.settingslib.RestrictedLockUtils;
+ 
+@@ -1535,14 +1534,6 @@ public class AccessibilityManagerService extends IAccessibilityManager.Stub
+             final int resolvedUserId = mSecurityPolicy
+                     .resolveCallingUserIdEnforcingPermissionsLocked(userId);
+ 
+-            final int callingUid = Binder.getCallingUid();
+-            String[] clientPackages = mPackageManager.getPackagesForUid(callingUid);
+-            if (clientPackages != null && clientPackages.length > 0) {
+-                if (AxSandboxService.get().isPackageSandboxed(clientPackages[0], resolvedUserId)) {
+-                    return IntPair.of(0, 0);
+-                }
+-            }
+-
+             AccessibilityUserState userState = getUserStateLocked(resolvedUserId);
+             // Support a process moving from the default device to a single virtual
+             // device.
+@@ -1862,9 +1853,6 @@ public class AccessibilityManagerService extends IAccessibilityManager.Stub
+             final List<AccessibilityServiceInfo> result = new ArrayList<>(serviceCount);
+             for (int i = 0; i < serviceCount; ++i) {
+                 final AccessibilityServiceConnection service = services.get(i);
+-                if (AxSandboxService.get().isPackageSandboxed(service.getComponentName().getPackageName(), userState.mUserId)) {
+-                    continue;
+-                }
+                 if ((service.mFeedbackType & feedbackType) != 0
+                         || feedbackType == AccessibilityServiceInfo.FEEDBACK_ALL_MASK) {
+                     result.add(service.getServiceInfo());
+diff --git a/services/core/Android.bp b/services/core/Android.bp
+index fe18a6674353..0999d8cd101f 100644
+--- a/services/core/Android.bp
++++ b/services/core/Android.bp
+@@ -136,7 +136,6 @@ java_library_static {
+         ":android.hardware.tv.hdmi.connection-V1-java-source",
+         ":android.hardware.tv.hdmi.earc-V1-java-source",
+         ":android.hardware.tv.mediaquality-V2-java-source",
+-        ":ax_sandbox_server_sources",
+         ":statslog-art-java-gen",
+         ":statslog-contexthub-java-gen",
+         ":statslog-crashrecovery-java-gen",
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index f9283df601df..440580cb32a7 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -460,13 +460,9 @@ import com.android.internal.annotations.CompositeRWLock;
+ import com.android.internal.annotations.GuardedBy;
+ import com.android.internal.annotations.SystemServerLock;
+ import com.android.internal.annotations.VisibleForTesting;
+-import com.android.internal.app.HiddenNotificationInfo;
+-import com.android.internal.app.IAppLockStateListener;
+-import com.android.internal.app.IAppSessionListener;
+ import com.android.internal.app.IAppOpsActiveCallback;
+ import com.android.internal.app.IAppOpsCallback;
+ import com.android.internal.app.IAppOpsService;
+-import com.android.internal.app.IHiddenNotificationListener;
+ import com.android.internal.app.ProcessMap;
+ import com.android.internal.app.SystemUserHomeActivity;
+ import com.android.internal.app.procstats.ProcessState;
+@@ -558,7 +554,6 @@ import com.android.server.wm.ActivityMetricsLaunchObserver;
+ import com.android.server.wm.ActivityServiceConnectionsHolder;
+ import com.android.server.wm.ActivityTaskManagerInternal;
+ import com.android.server.wm.ActivityTaskManagerService;
+-import com.android.server.wm.AxSandboxService;
+ import com.android.server.wm.WindowManagerInternal;
+ import com.android.server.wm.WindowManagerService;
+ import com.android.server.wm.WindowProcessController;
+@@ -21300,187 +21295,6 @@ public class ActivityManagerService extends IActivityManager.Stub
+         return service != null ? service.getTrickyStorePatch() : null;
+     }
+ 
+-    @Override
+-    public boolean isSandboxAppLocked(String packageName, int userId) {
+-        return AxSandboxService.getInstance().isAppLocked(packageName, userId);
+-    }
+-
+-    @Override
+-    public int getSandboxAppLockState(String packageName, int userId) {
+-        return AxSandboxService.getInstance().getAppLockState(packageName, userId);
+-    }
+-
+-    @Override
+-    public boolean isSandboxPackageHidden(String packageName, int userId) {
+-        return AxSandboxService.getInstance().isPackageHidden(packageName, userId);
+-    }
+-
+-    @Override
+-    public boolean isSandboxPackageHiddenFromLauncher(String packageName, int userId) {
+-        return AxSandboxService.getInstance().isPackageHiddenFromLauncher(packageName, userId);
+-    }
+-
+-    @Override
+-    public void addSandboxLockedApp(String packageName, int userId) {
+-        AxSandboxService.getInstance().addLockedApp(packageName, userId);
+-    }
+-
+-    @Override
+-    public void removeSandboxLockedApp(String packageName, int userId) {
+-        AxSandboxService.getInstance().removeLockedApp(packageName, userId);
+-    }
+-
+-    @Override
+-    public void setSandboxPackageHidden(String packageName, boolean hidden, int userId) {
+-        AxSandboxService.getInstance().setPackageHidden(packageName, hidden, userId);
+-    }
+-
+-    @Override
+-    public void setSandboxPackageHiddenFromLauncher(String packageName, boolean hidden, int userId) {
+-        AxSandboxService.getInstance().setPackageHiddenFromLauncher(packageName, hidden, userId);
+-    }
+-
+-    @Override
+-    public List<String> getSandboxLockedPackages(int userId) {
+-        return AxSandboxService.getInstance().getLockedPackages(userId);
+-    }
+-
+-    @Override
+-    public List<String> getSandboxHiddenPackages(int userId) {
+-        return AxSandboxService.getInstance().getHiddenPackages(userId);
+-    }
+-
+-    @Override
+-    public List<String> getSandboxHiddenFromLauncherPackages(int userId) {
+-        return AxSandboxService.getInstance().getHiddenFromLauncherPackages(userId);
+-    }
+-
+-    @Override
+-    public List<String> getSandboxLockablePackages(int userId) {
+-        return AxSandboxService.getInstance().getLockablePackages(userId);
+-    }
+-
+-    @Override
+-    public boolean isSandboxPackageLockable(String packageName, int userId) {
+-        return AxSandboxService.getInstance().isPackageLockable(packageName, userId);
+-    }
+-
+-    @Override
+-    public void unlockSandboxApp(String packageName, int userId) {
+-        AxSandboxService.getInstance().unlockApp(packageName, userId);
+-    }
+-
+-    @Override
+-    public void promptSandboxUnlock(String packageName, int userId) {
+-        AxSandboxService.getInstance().promptUnlock(packageName, userId);
+-    }
+-
+-    @Override
+-    public void registerSandboxAppLockStateListener(IAppLockStateListener listener) {
+-        AxSandboxService.getInstance().registerAppLockStateListener(listener);
+-    }
+-
+-    @Override
+-    public void unregisterSandboxAppLockStateListener(IAppLockStateListener listener) {
+-        AxSandboxService.getInstance().unregisterAppLockStateListener(listener);
+-    }
+-
+-    @Override
+-    public void registerSandboxAppSessionListener(IAppSessionListener listener) {
+-        AxSandboxService.getInstance().registerAppSessionListener(listener);
+-    }
+-
+-    @Override
+-    public void unregisterSandboxAppSessionListener(IAppSessionListener listener) {
+-        AxSandboxService.getInstance().unregisterAppSessionListener(listener);
+-    }
+-
+-    @Override
+-    public void registerSandboxHiddenNotificationListener(IHiddenNotificationListener listener) {
+-        AxSandboxService.getInstance().registerHiddenNotificationListener(listener);
+-    }
+-
+-    @Override
+-    public void unregisterSandboxHiddenNotificationListener(IHiddenNotificationListener listener) {
+-        AxSandboxService.getInstance().unregisterHiddenNotificationListener(listener);
+-    }
+-
+-    @Override
+-    public List<HiddenNotificationInfo> getSandboxHiddenNotifications() {
+-        return AxSandboxService.getInstance().getHiddenNotifications();
+-    }
+-
+-    @Override
+-    public void onSandboxHiddenNotificationPosted(HiddenNotificationInfo info) {
+-        AxSandboxService.getInstance().onHiddenNotificationPosted(info);
+-    }
+-
+-    @Override
+-    public void onSandboxHiddenNotificationRemoved(String key) {
+-        AxSandboxService.getInstance().onHiddenNotificationRemoved(key);
+-    }
+-
+-    @Override
+-    public boolean isSandboxPackageSandboxed(String packageName, int userId) {
+-        return AxSandboxService.getInstance().isPackageSandboxed(packageName, userId);
+-    }
+-
+-    @Override
+-    public void addSandboxPackage(String packageName, int userId) {
+-        AxSandboxService.getInstance().addSandboxedPackage(packageName, userId);
+-    }
+-
+-    @Override
+-    public void removeSandboxPackage(String packageName, int userId) {
+-        AxSandboxService.getInstance().removeSandboxedPackage(packageName, userId);
+-    }
+-
+-    @Override
+-    public List<String> getSandboxPackages(int userId) {
+-        return AxSandboxService.getInstance().getSandboxedPackages(userId);
+-    }
+-
+-    @Override
+-    public void setSandboxRestrictedGids(String packageName, int[] gids, int userId) {
+-        AxSandboxService.getInstance().setRestrictedGids(packageName, gids, userId);
+-    }
+-
+-    @Override
+-    public int[] getSandboxRestrictedGids(String packageName, int userId) {
+-        return AxSandboxService.getInstance().getRestrictedGids(packageName, userId);
+-    }
+- 
+-    @Override
+-    public boolean isSandboxDataIsolationEnabled(String packageName, int userId) {
+-        return AxSandboxService.getInstance().isSandboxDataIsolationEnabled(packageName, userId);
+-    }
+- 
+-    @Override
+-    public void setSandboxDataIsolationEnabled(String packageName, boolean enabled, int userId) {
+-        AxSandboxService.getInstance().setSandboxDataIsolationEnabled(packageName, enabled, userId);
+-    }
+- 
+-    @Override
+-    public boolean isSandboxSpoofSettingEnabled(String packageName, String settingKey, int userId) {
+-        return AxSandboxService.getInstance().isSpoofSettingEnabled(packageName, settingKey, userId);
+-    }
+- 
+-    @Override
+-    public void setSandboxSpoofSettingEnabled(String packageName, String settingKey,
+-            boolean enabled, int userId) {
+-        AxSandboxService.getInstance().setSpoofSettingEnabled(packageName, settingKey, enabled, userId);
+-    }
+- 
+-    @Override
+-    public List<String> getSandboxEnabledSpoofSettings(String packageName, int userId) {
+-        return AxSandboxService.getInstance().getEnabledSpoofSettings(packageName, userId);
+-    }
+-
+-    @Override
+-    public String getSandboxSpoofedSetting(String callingPackage, String settingName, int userId) {
+-        return AxSandboxService.getInstance().getSpoofedSetting(callingPackage, settingName, userId);
+-    }
+-
+     // uid indexed collection of lists of ANR warning callback.
+     @GuardedBy("mAnrWarningCallbacks")
+     private final SparseArray<List<IAnrWarningCallback>> mAnrWarningCallbacks = new SparseArray<>();
+diff --git a/services/core/java/com/android/server/am/ProcessList.java b/services/core/java/com/android/server/am/ProcessList.java
+index 40bc65a2e226..d8e2cfaae067 100644
+--- a/services/core/java/com/android/server/am/ProcessList.java
++++ b/services/core/java/com/android/server/am/ProcessList.java
+@@ -186,7 +186,6 @@ import com.android.server.pm.pkg.AndroidPackage;
+ import com.android.server.pm.pkg.PackageStateInternal;
+ import com.android.server.privatecompute.PccSandboxManagerInternal;
+ import com.android.server.wm.ActivityServiceConnectionsHolder;
+-import com.android.server.wm.AxSandboxService;
+ import com.android.server.wm.WindowManagerService;
+ import com.android.server.wm.WindowProcessController;
+ 
+@@ -1904,29 +1903,6 @@ public final class ProcessList extends ProcessListInternal
+ 
+                 gids = computeGidsForProcess(mountExternal, uid, permGids, externalStorageAccess);
+             }
+-            if (gids != null) {
+-                try {
+-                    int[] restrictedGids = AxSandboxService.get()
+-                            .getRestrictedGids(app.info.packageName, UserHandle.getUserId(app.uid));
+-                    if (restrictedGids != null && restrictedGids.length > 0) {
+-                        java.util.ArrayList<Integer> filtered = new java.util.ArrayList<>();
+-                        for (int gid : gids) {
+-                            boolean restricted = false;
+-                            for (int rg : restrictedGids) {
+-                                if (gid == rg) { restricted = true; break; }
+-                            }
+-                            if (!restricted) filtered.add(gid);
+-                        }
+-                        if (filtered.size() != gids.length) {
+-                            gids = new int[filtered.size()];
+-                            for (int i = 0; i < filtered.size(); i++) gids[i] = filtered.get(i);
+-                        }
+-                    }
+-                } catch (Exception e) {
+-                    Slog.w(TAG_PROCESSES, "Failed to apply GID restrictions for "
+-                            + app.info.packageName, e);
+-                }
+-            }
+             app.setMountMode(mountExternal);
+             checkSlow(startUptime, "startProcess: building args");
+             if (app.getWindowProcessController().isFactoryTestProcess()) {
+@@ -2515,15 +2491,8 @@ public final class ProcessList extends ProcessListInternal
+ 
+     private boolean needsStorageDataIsolation(StorageManagerInternal storageManagerInternal,
+             ProcessRecord app) {
+-        boolean sandboxIsolation = false;
+-        try {
+-            sandboxIsolation = AxSandboxService.get()
+-                    .isSandboxDataIsolationEnabled(app.info.packageName, UserHandle.getUserId(app.uid));
+-        } catch (Exception e) {
+-            // ignore
+-        }
+         final int mountMode = app.getMountMode();
+-        return (mVoldAppDataIsolationEnabled || sandboxIsolation) && UserHandle.isApp(app.uid)
++        return mVoldAppDataIsolationEnabled && UserHandle.isApp(app.uid)
+                 && !storageManagerInternal.isExternalStorageService(app.uid)
+                 // Special mounting mode doesn't need to have data isolation as they won't
+                 // access /mnt/user anyway.
+@@ -2552,19 +2521,11 @@ public final class ProcessList extends ProcessListInternal
+             Map<String, Pair<String, Long>> pkgDataInfoMap;
+             Map<String, Pair<String, Long>> allowlistedAppDataInfoMap;
+             boolean bindMountAppStorageDirs = false;
+-            boolean sandboxDataIsolation = false;
+-            try {
+-                sandboxDataIsolation = AxSandboxService.get()
+-                        .isSandboxDataIsolationEnabled(app.info.packageName, UserHandle.getUserId(app.uid));
+-            } catch (Exception e) {
+-                // ignore
+-            }
+-            boolean bindMountAppsData = (mAppDataIsolationEnabled || sandboxDataIsolation)
++            boolean bindMountAppsData = mAppDataIsolationEnabled
+                     && (UserHandle.isApp(app.uid) || UserHandle.isIsolated(app.uid)
+                         || app.isSdkSandbox
+                         || (enablePccFrameworkSupport() && Process.isPrivateComputeCoreUid(uid)))
+-                    && (sandboxDataIsolation
+-                        || mPlatformCompat.isChangeEnabled(APP_DATA_DIRECTORY_ISOLATION, app.info));
++                    && mPlatformCompat.isChangeEnabled(APP_DATA_DIRECTORY_ISOLATION, app.info);
+ 
+             // Get all packages belongs to the same shared uid. sharedPackages is empty array
+             // if it doesn't have shared uid.
+diff --git a/services/core/java/com/android/server/compat/PlatformCompat.java b/services/core/java/com/android/server/compat/PlatformCompat.java
+index 59b24f7da8d4..6e72ff73652d 100644
+--- a/services/core/java/com/android/server/compat/PlatformCompat.java
++++ b/services/core/java/com/android/server/compat/PlatformCompat.java
+@@ -57,7 +57,6 @@ import com.android.internal.compat.IOverrideValidator;
+ import com.android.internal.compat.IPlatformCompat;
+ import com.android.internal.util.DumpUtils;
+ import com.android.server.LocalServices;
+-import com.android.server.wm.AxSandboxService;
+ 
+ import java.io.FileDescriptor;
+ import java.io.PrintWriter;
+@@ -185,12 +184,6 @@ public class PlatformCompat extends IPlatformCompat.Stub {
+         // fetches.
+         CompatChange c = mCompatConfig.getCompatChange(changeId);
+ 
+-        if (changeId == 143937733L && appInfo != null) {
+-            if (AxSandboxService.get().isPackageSandboxed(appInfo.packageName, UserHandle.getUserId(appInfo.uid))) {
+-                return true;
+-            }
+-        }
+-
+         boolean enabled = mCompatConfig.isChangeEnabled(c, appInfo);
+         int state = enabled ? ChangeReporter.STATE_ENABLED : ChangeReporter.STATE_DISABLED;
+         if (appInfo != null) {
+diff --git a/services/core/java/com/android/server/inputmethod/InputMethodManagerService.java b/services/core/java/com/android/server/inputmethod/InputMethodManagerService.java
+index 5db5f6a95f17..e299c6c90f7e 100644
+--- a/services/core/java/com/android/server/inputmethod/InputMethodManagerService.java
++++ b/services/core/java/com/android/server/inputmethod/InputMethodManagerService.java
+@@ -192,7 +192,6 @@ import com.android.server.inputmethod.InputMethodSubtypeSwitchingController.ImeS
+ import com.android.server.pm.UserManagerInternal;
+ import com.android.server.statusbar.StatusBarManagerInternal;
+ import com.android.server.utils.PriorityDump;
+-import com.android.server.wm.AxSandboxService;
+ import com.android.server.wm.WindowManagerInternal;
+ 
+ import lineageos.hardware.LineageHardwareManager;
+@@ -1839,19 +1838,7 @@ public final class InputMethodManagerService implements IInputMethodManagerImpl.
+         synchronized (ImfLock.class) {
+             selectedImeId = bindingController.getSelectedImeId();
+         }
+-        InputMethodInfo originalImi = InputMethodSettingsRepository.get(userId).getMethodMap().get(selectedImeId);
+-        final int callingUid = Binder.getCallingUid();
+-        final int callingUserId = UserHandle.getUserId(callingUid);
+-        String[] clientPackages = mContext.getPackageManager().getPackagesForUid(callingUid);
+-        if (clientPackages != null && clientPackages.length > 0) {
+-            if (AxSandboxService.get().isPackageSandboxed(clientPackages[0], callingUserId)) {
+-                 final var settings = InputMethodSettingsRepository.get(userId);
+-                 for (InputMethodInfo imi : settings.getMethodList()) {
+-                     if (imi.isSystem()) return imi;
+-                 }
+-            }
+-        }
+-        return originalImi;
++        return InputMethodSettingsRepository.get(userId).getMethodMap().get(selectedImeId);
+     }
+ 
+     @BinderThread
+@@ -6077,38 +6064,6 @@ public final class InputMethodManagerService implements IInputMethodManagerImpl.
+                 && selectedImeComponent.getPackageName().equals(targetPkgName)) {
+             return true;
+         }
+-        if (AxSandboxService.get().isPackageSandboxed(targetPkgName, userId)) {
+-            if (!UserHandle.isCore(callingUid)) {
+-                String[] packages = mContext.getPackageManager().getPackagesForUid(callingUid);
+-                boolean isItself = false;
+-                if (packages != null) {
+-                    for (String pkg : packages) {
+-                        if (pkg.equals(targetPkgName)) {
+-                            isItself = true;
+-                            break;
+-                        }
+-                    }
+-                }
+-                if (!isItself) return false;
+-            }
+-        }
+-
+-        String[] callingPackages = mContext.getPackageManager().getPackagesForUid(callingUid);
+-        if (callingPackages != null && callingPackages.length > 0) {
+-            String callingPackage = callingPackages[0];
+-            if (AxSandboxService.get().isPackageSandboxed(callingPackage, userId)) {
+-                if (callingPackage.equals(targetPkgName)) {
+-                    return true;
+-                }
+-                for (InputMethodInfo imi : settings.getMethodList()) {
+-                    if (imi.getPackageName().equals(targetPkgName)) {
+-                        return imi.isSystem();
+-                    }
+-                }
+-                return false;
+-            }
+-        }
+-
+         final boolean canAccess = !mPackageManagerInternal.filterAppAccess(
+                 targetPkgName, callingUid, userId);
+         if (DEBUG && !canAccess) {
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index 76470b13c51a..c7997ff263a9 100644
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -231,7 +231,6 @@ import android.app.AppGlobals;
+ import android.app.AppLockInternal;
+ import android.app.AppOpsManager;
+ import android.app.AutomaticZenRule;
+-import android.app.AxSandboxManager;
+ import android.app.IActivityManager;
+ import android.app.IBinderSession;
+ import android.app.ICallNotificationEventCallback;
+@@ -257,7 +256,6 @@ import android.app.RemoteServiceException.BadUserInitiatedJobNotificationExcepti
+ import android.app.StatsManager;
+ import android.app.UriGrantsManager;
+ import android.app.ZenBypassingApp;
+-import com.android.internal.app.HiddenNotificationInfo;
+ import android.app.admin.DevicePolicyManagerInternal;
+ import android.app.backup.BackupManager;
+ import android.app.backup.BackupRestoreEventLogger;
+@@ -439,7 +437,6 @@ import com.android.server.uri.UriGrantsManagerInternal;
+ import com.android.server.utils.Slogf;
+ import com.android.server.utils.quota.MultiRateLimiter;
+ import com.android.server.wm.ActivityTaskManagerInternal;
+-import com.android.server.wm.AxSandboxService;
+ import com.android.server.wm.BackgroundActivityStartCallback;
+ import com.android.server.wm.WindowManagerInternal;
+ 
+@@ -9276,19 +9273,6 @@ public class NotificationManagerService extends SystemService {
+                     SmallHash.hash(Objects.hashCode(tag) ^ id));
+         }
+ 
+-        if (AxSandboxService.get().isPackageHidden(pkg, userId)) {
+-            try {
+-                String key = pkg + "|" + (tag != null ? tag : "") + "|" + id;
+-                AxSandboxService.get().onHiddenNotificationRemoved(key);
+-                if (DBG) {
+-                    Slog.d(TAG, "Removed hidden app notification: " + key);
+-                }
+-                return;
+-            } catch (Exception e) {
+-                Slog.w(TAG, "Failed to remove hidden app notification: " + pkg, e);
+-            }
+-        }
+-
+         cancelNotification(uid, callingPid, pkg, tag, id, 0,
+                 FlagChecker.mustNotHave(mustNotHaveFlags),
+                 false, userId, REASON_APP_CANCEL, null);
+@@ -9378,27 +9362,6 @@ public class NotificationManagerService extends SystemService {
+                 callingUid, incomingUserId, true, false, "enqueueNotification", pkg);
+         final UserHandle user = UserHandle.of(userId);
+ 
+-        final boolean isHiddenApp = AxSandboxService.get().isPackageHidden(pkg, userId);
+-        if (isHiddenApp) {
+-            try {
+-                String key = pkg + "|" + (tag != null ? tag : "") + "|" + id;
+-                Icon appIcon = notification.getSmallIcon();
+-                CharSequence title = notification.extras.getCharSequence(Notification.EXTRA_TITLE);
+-                CharSequence text = notification.extras.getCharSequence(Notification.EXTRA_TEXT);
+-                PendingIntent contentIntent = notification.contentIntent;
+-                long postTime = System.currentTimeMillis();
+-
+-                HiddenNotificationInfo info = new HiddenNotificationInfo(
+-                        key, pkg, appIcon, title, text, contentIntent, postTime, userId);
+-
+-                AxSandboxService.get().onHiddenNotificationPosted(info);
+-                Slog.d(TAG, "Redirected notification from hidden app: " + pkg);
+-                return true;
+-            } catch (Exception e) {
+-                Slog.w(TAG, "Failed to redirect hidden app notification: " + pkg, e);
+-            }
+-        }
+-
+         // Can throw a SecurityException if the calling uid doesn't have permission to post
+         // as "pkg"
+         int notificationUid = INVALID_UID;
+@@ -9511,11 +9474,6 @@ public class NotificationManagerService extends SystemService {
+         fixNotificationWithChannel(notification, channel, notificationUid, pkg);
+ 
+         final NotificationRecord r = new NotificationRecord(getContext(), n, channel);
+-        if (AxSandboxService.get().hasAppLock(pkg, userId)) {
+-            notification.extras.putBoolean(AxSandboxManager.EXTRA_NOTIFICATION_APP_LOCKED, true);
+-        } else {
+-            notification.extras.remove(AxSandboxManager.EXTRA_NOTIFICATION_APP_LOCKED);
+-        }
+         r.setIsAppImportanceLocked(mPermissionHelper.isPermissionUserSet(pkg, userId));
+         r.setPostSilently(postSilently);
+         r.setFlagBubbleRemoved(false);
+diff --git a/services/core/java/com/android/server/pm/AppsFilterBase.java b/services/core/java/com/android/server/pm/AppsFilterBase.java
+index 8e9de4d90e33..b700c5364828 100644
+--- a/services/core/java/com/android/server/pm/AppsFilterBase.java
++++ b/services/core/java/com/android/server/pm/AppsFilterBase.java
+@@ -43,8 +43,6 @@ import com.android.server.om.OverlayReferenceMapper;
+ import com.android.server.pm.pkg.AndroidPackage;
+ import com.android.server.pm.pkg.PackageStateInternal;
+ import com.android.server.pm.pkg.SharedUserApi;
+-import com.android.internal.pm.pkg.component.ParsedActivity;
+-import com.android.internal.pm.pkg.component.ParsedIntentInfo;
+ import com.android.server.pm.snapshot.PackageDataSnapshot;
+ import com.android.server.utils.SnapshotCache;
+ import com.android.server.utils.Watched;
+diff --git a/services/core/java/com/android/server/pm/ComputerEngine.java b/services/core/java/com/android/server/pm/ComputerEngine.java
+index 0995c0eb7b48..484aef11f0f9 100644
+--- a/services/core/java/com/android/server/pm/ComputerEngine.java
++++ b/services/core/java/com/android/server/pm/ComputerEngine.java
+@@ -101,7 +101,6 @@ import android.content.pm.Signature;
+ import android.content.pm.SigningDetails;
+ import android.content.pm.SigningInfo;
+ import android.content.pm.UserInfo;
+-import android.app.ActivityManagerInternal;
+ import android.content.pm.UserPackage;
+ import android.content.pm.VersionedPackage;
+ import android.os.Binder;
+@@ -146,9 +145,7 @@ import com.android.internal.util.IndentingPrintWriter;
+ import com.android.internal.util.Preconditions;
+ import com.android.modules.utils.TypedXmlSerializer;
+ import com.android.server.LocalManagerRegistry;
+-import com.android.server.LocalServices;
+ import com.android.server.ondeviceintelligence.OnDeviceIntelligenceManagerLocal;
+-import com.android.server.pm.InstallSource;
+ import com.android.server.pm.parsing.PackageInfoUtils;
+ import com.android.server.pm.parsing.pkg.AndroidPackageUtils;
+ import com.android.server.pm.permission.PermissionManagerServiceInternal;
+@@ -170,7 +167,6 @@ import com.android.server.utils.WatchedLongSparseArray;
+ import com.android.server.utils.WatchedSparseBooleanArray;
+ import com.android.server.utils.WatchedSparseIntArray;
+ import com.android.server.wm.ActivityTaskManagerInternal;
+-import com.android.server.wm.AxSandboxService;
+ 
+ import libcore.util.EmptyArray;
+ 
+@@ -500,173 +496,6 @@ public class ComputerEngine implements Computer {
+         mService = args.service;
+     }
+ 
+-    private static final Set<String> PACKAGES_SHOULD_NOT_HIDE = Set.of(
+-            "android",
+-            "android.media",
+-            "android.uid.system",
+-            "android.uid.shell",
+-            "android.uid.systemui",
+-            "com.android.permissioncontroller",
+-            "com.android.providers.downloads",
+-            "com.android.providers.downloads.ui",
+-            "com.android.providers.media",
+-            "com.android.providers.media.module",
+-            "com.android.providers.settings",
+-            "com.google.android.webview",
+-            "com.google.android.providers.media.module"
+-    );
+-    
+-    private ActivityManagerInternal sActivityManagerInternal = null;
+-    
+-    private ActivityManagerInternal getAmInternal() {
+-        if (sActivityManagerInternal == null) {
+-            sActivityManagerInternal = LocalServices.getService(ActivityManagerInternal.class);
+-        }
+-        return sActivityManagerInternal;
+-    }
+-    
+-    private boolean isSystemReady() {
+-        final ActivityManagerInternal ami = getAmInternal();
+-        if (ami == null || !ami.isBooted()) {
+-            return false;
+-        }
+-        return true;
+-    }
+-
+-    private boolean shouldHideFromCaller(int callingUid, String targetPackage, int targetUserId) {
+-        if (!isSystemReady()) return false;
+-
+-        if (targetPackage == null) return false;
+-
+-        if (!AxSandboxService.get().isPackageHidden(targetPackage, targetUserId)) return false;
+-
+-        if (PACKAGES_SHOULD_NOT_HIDE.contains(targetPackage)) return false;
+-
+-        if (Process.isIsolated(callingUid) || Process.isSdkSandboxUid(callingUid)) {
+-            return false;
+-        }
+-
+-        if (callingUid == Process.SYSTEM_UID || callingUid == Process.ROOT_UID) {
+-            return false;
+-        }
+-
+-        String callingPkg = null;
+-        int callingPid = Binder.getCallingPid();
+-        
+-        final ActivityManagerInternal ami = getAmInternal();
+-        if (ami != null) {
+-            callingPkg = ami.getPackageNameByPid(callingPid);
+-        }
+-
+-        if (callingPkg == null || TextUtils.isEmpty(callingPkg)) {
+-            return false;
+-        }
+-
+-        if (PACKAGES_SHOULD_NOT_HIDE.contains(callingPkg)) return false;
+-
+-        if (AxSandboxService.BLACKLISTED_PACKAGES.contains(callingPkg)) return false;
+-
+-        if (callingPkg.equals(targetPackage)) return false;
+-
+-        return true;
+-    }
+-
+-    private static final int SPOOF_INSTALL_DISABLED = 0;
+-    private static final int SPOOF_INSTALL_USER = 1;
+-    private static final int SPOOF_INSTALL_SYSTEM = 2;
+-    private static final String VENDING_PACKAGE = "com.android.vending";
+-
+-    private int shouldSpoofInstallSource(int callingUid, String targetPackage, int targetUserId) {
+-        if (!isSystemReady() || targetPackage == null) {
+-            return SPOOF_INSTALL_DISABLED;
+-        }
+-        if (!AxSandboxService.get().isPackageHidden(targetPackage, targetUserId)) {
+-            return SPOOF_INSTALL_DISABLED;
+-        }
+-        if (callingUid == Process.SYSTEM_UID || callingUid == Process.ROOT_UID) {
+-            return SPOOF_INSTALL_DISABLED;
+-        }
+-        if (Process.isIsolated(callingUid) || Process.isSdkSandboxUid(callingUid)) {
+-            return SPOOF_INSTALL_DISABLED;
+-        }
+-
+-        String callingPkg = null;
+-        final ActivityManagerInternal ami = getAmInternal();
+-        if (ami != null) {
+-            callingPkg = ami.getPackageNameByPid(Binder.getCallingPid());
+-        }
+-        if (callingPkg == null || AxSandboxService.BLACKLISTED_PACKAGES.contains(callingPkg) || callingPkg.equals(targetPackage)) {
+-            return SPOOF_INSTALL_DISABLED;
+-        }
+-
+-        final PackageStateInternal ps = mSettings.getPackage(targetPackage);
+-        if (ps != null && ps.isSystem()) {
+-            return SPOOF_INSTALL_SYSTEM;
+-        }
+-        return SPOOF_INSTALL_USER;
+-    }
+-
+-    private final boolean isAppDetached(String packageName, int userId) {
+-        if (!isSystemReady()) return false;
+-
+-        if (packageName == null || TextUtils.isEmpty(packageName)) {
+-            return false;
+-        }
+-
+-        if (!AxSandboxService.get().isPackageSandboxed(packageName, userId)) {
+-            return false;
+-        }
+-
+-        final int callingUid = Binder.getCallingUid();
+-
+-        String callingPackage = null;
+-        int callingPid = Binder.getCallingPid();
+-        final ActivityManagerInternal ami = getAmInternal();
+-        if (ami != null) {
+-            callingPackage = ami.getPackageNameByPid(callingPid);
+-        }
+-
+-        if (callingPackage == null || TextUtils.isEmpty(callingPackage)) {
+-            return false;
+-        }
+-
+-        boolean isFinsky = callingPackage.contains("com.android.vending");
+-
+-        if (isFinsky) return true;
+-
+-        if (packageName == null || TextUtils.isEmpty(packageName)) {
+-            return false;
+-        }
+-
+-        if (callingPackage.contains(packageName)) return false;
+-
+-        if (packageName.contains("youtube")
+-            || packageName.contains("microg")
+-            || packageName.contains("revanced")
+-            || packageName.contains("gms")) {
+-            return false;
+-        }
+-
+-        return !isCallerSystem(callingUid)
+-            && !Process.isIsolated(callingUid)
+-            && !Process.isSdkSandboxUid(callingUid);
+-    }
+-
+-    private final boolean isCallerSystem(int callingUid) {
+-        if (isSystemOrRootOrShell(callingUid)) {
+-            return true;
+-        }
+-        final SettingBase callingPs = mSettings.getSettingBase(UserHandle.getAppId(callingUid));
+-        if (callingPs == null) return false;
+-        final int callingFlags = callingPs.getFlags();
+-        if (((callingFlags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM)
+-                || ((callingFlags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
+-                        == ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) {
+-            return true;
+-        }
+-        return false;
+-    }
+-
+     @Override
+     public int getVersion() {
+         return mVersion;
+@@ -1176,8 +1005,6 @@ public class ComputerEngine implements Computer {
+ 
+     public final ApplicationInfo getApplicationInfo(String packageName,
+             @PackageManager.ApplicationInfoFlagsBits long flags, int userId) {
+-        if (isAppDetached(packageName, userId)) return null;
+-        if (shouldHideFromCaller(Binder.getCallingUid(), packageName, userId)) return null;
+         return getApplicationInfoInternal(packageName, flags, Binder.getCallingUid(), userId);
+     }
+ 
+@@ -1191,8 +1018,6 @@ public class ComputerEngine implements Computer {
+             @PackageManager.ApplicationInfoFlagsBits long flags,
+             int filterCallingUid, int userId) {
+         if (!mUserManager.exists(userId)) return null;
+-        if (isAppDetached(packageName, userId)) return null;
+-        if (shouldHideFromCaller(filterCallingUid, packageName, userId)) return null;
+         flags = updateFlagsForApplication(flags, userId);
+ 
+         if (!isRecentsAccessingChildProfiles(Binder.getCallingUid(), userId)) {
+@@ -1204,13 +1029,6 @@ public class ComputerEngine implements Computer {
+         return getApplicationInfoInternalBody(packageName, flags, filterCallingUid, userId);
+     }
+ 
+-    public List<ApplicationInfo> recreateApplicationList(
+-            int callingUid, Context context, int userId, List<ApplicationInfo> list) {
+-        List<ApplicationInfo> appList = new ArrayList<>(list);
+-        appList.removeIf(info -> isAppDetached(info.packageName, userId));
+-        return appList;
+-    }
+-
+     protected ApplicationInfo getApplicationInfoInternalBody(String packageName,
+             @PackageManager.ApplicationInfoFlagsBits long flags,
+             int filterCallingUid, int userId) {
+@@ -1436,11 +1254,6 @@ public class ComputerEngine implements Computer {
+         final boolean blockInstant = intent.isWebIntent() && areWebInstantAppsDisabled(userId);
+         for (int i = resolveInfos.size() - 1; i >= 0; i--) {
+             final ResolveInfo info = resolveInfos.get(i);
+-            if (info.activityInfo != null
+-                    && shouldHideFromCaller(filterCallingUid, info.activityInfo.packageName, userId)) {
+-                resolveInfos.remove(i);
+-                continue;
+-            }
+             if (info.activityInfo != null && AppsFilterBase.shouldHideFromUid(
+                     this, filterCallingUid, info.activityInfo.packageName)) {
+                 resolveInfos.remove(i);
+@@ -1917,8 +1730,6 @@ public class ComputerEngine implements Computer {
+ 
+     public final PackageInfo getPackageInfo(String packageName,
+             @PackageManager.PackageInfoFlagsBits long flags, int userId) {
+-        if (isAppDetached(packageName, userId)) return null;
+-        if (shouldHideFromCaller(Binder.getCallingUid(), packageName, userId)) return null;
+         return getPackageInfoInternal(packageName, PackageManager.VERSION_CODE_HIGHEST,
+                 flags, Binder.getCallingUid(), userId);
+     }
+@@ -1932,7 +1743,6 @@ public class ComputerEngine implements Computer {
+     public final PackageInfo getPackageInfoInternal(String packageName, long versionCode,
+             long flags, int filterCallingUid, int userId) {
+         if (!mUserManager.exists(userId)) return null;
+-        if (shouldHideFromCaller(filterCallingUid, packageName, userId)) return null;
+         flags = updateFlagsForPackage(flags, userId);
+         enforceCrossUserPermission(Binder.getCallingUid(), userId,
+                 false /* requireFullPermission */, false /* checkShell */, "get package info");
+@@ -2119,7 +1929,6 @@ public class ComputerEngine implements Computer {
+                 }
+             }
+         }
+-        list.removeIf(info -> isAppDetached(info.packageName, userId));
+         return new PackageInfoList(list);
+     }
+ 
+@@ -2899,9 +2708,6 @@ public class ComputerEngine implements Computer {
+         final boolean callerIsInstantApp = instantAppPkgName != null;
+         final boolean packageArchivedForUser = ps != null && PackageArchiver.isArchived(
+                 ps.getUserStateOrDefault(userId));
+-        if (ps != null && isAppDetached(ps.getPackageName(), userId)) {
+-            return true;
+-        }
+         // Don't treat hiddenUntilInstalled as an uninstalled state, phone app needs to access
+         // these hidden application details to customize carrier apps. Also, allowing the system
+         // caller accessing to application across users.
+@@ -4983,7 +4789,6 @@ public class ComputerEngine implements Computer {
+     private void addPackageHoldingPermissions(ArrayList<PackageInfo> list, PackageStateInternal ps,
+             String[] permissions, boolean[] tmp, @PackageManager.PackageInfoFlagsBits long flags,
+             int userId) {
+-        if (shouldHideFromCaller(Binder.getCallingUid(), ps.getPackageName(), userId)) return;
+         int numMatch = 0;
+         for (int i=0; i<permissions.length; i++) {
+             final String permission = permissions[i];
+@@ -5071,9 +4876,6 @@ public class ComputerEngine implements Computer {
+                     if (shouldFilterApplication(ps, callingUid, userId)) {
+                         continue;
+                     }
+-                    if (shouldHideFromCaller(callingUid, ps.getPackageName(), userId)) {
+-                        continue;
+-                    }
+                     ai = PackageInfoUtils.generateApplicationInfo(ps.getPkg(), effectiveFlags,
+                             ps.getUserStateOrDefault(userId), userId, ps);
+                     if (ai != null) {
+@@ -5105,9 +4907,6 @@ public class ComputerEngine implements Computer {
+                 if (shouldFilterApplication(packageState, callingUid, userId)) {
+                     continue;
+                 }
+-                if (shouldHideFromCaller(callingUid, packageState.getPackageName(), userId)) {
+-                    continue;
+-                }
+                 ApplicationInfo ai = PackageInfoUtils.generateApplicationInfo(pkg, flags,
+                         packageState.getUserStateOrDefault(userId), userId, packageState);
+                 if (ai != null) {
+@@ -5117,7 +4916,7 @@ public class ComputerEngine implements Computer {
+             }
+         }
+ 
+-        return recreateApplicationList(callingUid, mContext, userId, list);
++        return list;
+     }
+ 
+     @Nullable
+@@ -5477,9 +5276,6 @@ public class ComputerEngine implements Computer {
+     @Override
+     public String getInstallerPackageName(@NonNull String packageName, @UserIdInt int userId) {
+         final int callingUid = Binder.getCallingUid();
+-        int spoofResult = shouldSpoofInstallSource(callingUid, packageName, userId);
+-        if (spoofResult == SPOOF_INSTALL_USER) return VENDING_PACKAGE;
+-        if (spoofResult == SPOOF_INSTALL_SYSTEM) return null;
+         final InstallSource installSource = getInstallSource(packageName, callingUid, userId);
+         if (installSource == null) {
+             throw new IllegalArgumentException("Unknown package: " + packageName);
+@@ -5538,20 +5334,6 @@ public class ComputerEngine implements Computer {
+         enforceCrossUserPermission(callingUid, userId, false /* requireFullPermission */,
+                 false /* checkShell */, "getInstallSourceInfo");
+ 
+-        int spoofResult = shouldSpoofInstallSource(callingUid, packageName, userId);
+-        if (spoofResult == SPOOF_INSTALL_USER) {
+-            return new InstallSourceInfo(
+-                    VENDING_PACKAGE, null, VENDING_PACKAGE,
+-                    VENDING_PACKAGE, VENDING_PACKAGE,
+-                    android.content.pm.PackageInstaller.PACKAGE_SOURCE_STORE);
+-        }
+-        if (spoofResult == SPOOF_INSTALL_SYSTEM) {
+-            return new InstallSourceInfo(
+-                    null, null, null,
+-                    null, null,
+-                    android.content.pm.PackageInstaller.PACKAGE_SOURCE_UNSPECIFIED);
+-        }
+-
+         String installerPackageName;
+         String initiatingPackageName;
+         String originatingPackageName;
+@@ -5931,9 +5713,6 @@ public class ComputerEngine implements Computer {
+         if (pkg == null) {
+             return false;
+         }
+-        if (shouldSpoofInstallSource(callingUid, pkg.getPackageName(), UserHandle.getUserId(callingUid)) != SPOOF_INSTALL_DISABLED) {
+-            return false;
+-        }
+         final PackageStateInternal packageState = getPackageStateInternal(pkg.getPackageName());
+         if (packageState == null) {
+             return false;
+diff --git a/services/core/java/com/android/server/pm/CrossProfileDomainInfo.java b/services/core/java/com/android/server/pm/CrossProfileDomainInfo.java
+index b4564f5f3e56..3313e7234a19 100644
+--- a/services/core/java/com/android/server/pm/CrossProfileDomainInfo.java
++++ b/services/core/java/com/android/server/pm/CrossProfileDomainInfo.java
+@@ -48,12 +48,4 @@ public final class CrossProfileDomainInfo {
+                 + ", targetUserId= " + mTargetUserId
+                 + '}';
+     }
+-
+-    public ResolveInfo getResolveInfo() {
+-        return mResolveInfo;
+-    }
+-
+-    public int getTargetUserId() {
+-        return mTargetUserId;
+-    }
+ }
+diff --git a/services/core/java/com/android/server/pm/LauncherAppsService.java b/services/core/java/com/android/server/pm/LauncherAppsService.java
+index 84f1b64d2fdc..7f023d991939 100644
+--- a/services/core/java/com/android/server/pm/LauncherAppsService.java
++++ b/services/core/java/com/android/server/pm/LauncherAppsService.java
+@@ -132,7 +132,6 @@ import com.android.server.pm.pkg.AndroidPackage;
+ import com.android.server.pm.pkg.ArchiveState;
+ import com.android.server.pm.pkg.PackageStateInternal;
+ import com.android.server.wm.ActivityTaskManagerInternal;
+-import com.android.server.wm.AxSandboxService;
+ 
+ import java.io.DataInputStream;
+ import java.io.FileDescriptor;
+@@ -1046,22 +1045,6 @@ public class LauncherAppsService extends SystemService {
+                     callingUid, user.getIdentifier());
+             final int numResolveInfos = apps.size();
+             List<LauncherActivityInfoInternal> results = new ArrayList<>();
+-
+-            String callingPackage = mActivityManagerInternal.getPackageNameByPid(Binder.getCallingPid());
+-            boolean isCallerSandboxApp = callingPackage != null
+-                && callingPackage.contains(AxSandboxService.SANDBOX_PACKAGE);
+-
+-            List<String> hiddenPkgs = Collections.emptyList();
+-            List<String> launcherHiddenPkgs = Collections.emptyList();
+-            if (!isCallerSandboxApp) {
+-                try {
+-                    hiddenPkgs = AxSandboxService.get().getHiddenPackages(user.getIdentifier());
+-                    launcherHiddenPkgs = AxSandboxService.get().getHiddenFromLauncherPackages(user.getIdentifier());
+-                } catch (Exception e) {
+-                    Slog.e(TAG, "Failed to retrieve hidden package lists from AxSandboxService", e);
+-                }
+-            }
+-
+             for (int i = 0; i < numResolveInfos; i++) {
+                 final ResolveInfo ri = apps.get(i);
+                 final String packageName = ri.activityInfo.packageName;
+@@ -1069,12 +1052,6 @@ public class LauncherAppsService extends SystemService {
+                     // should not happen
+                     continue;
+                 }
+-
+-                if (!isCallerSandboxApp && (hiddenPkgs.contains(packageName)
+-                        || launcherHiddenPkgs.contains(packageName))) {
+-                    continue;
+-                }
+-
+                 final IncrementalStatesInfo incrementalStatesInfo =
+                         mPackageManagerInternal.getIncrementalStatesInfo(packageName, callingUid,
+                                 user.getIdentifier());
+diff --git a/services/core/java/com/android/server/uri/UriGrantsManagerService.java b/services/core/java/com/android/server/uri/UriGrantsManagerService.java
+index 1a18acf5960a..895781c5d2b6 100644
+--- a/services/core/java/com/android/server/uri/UriGrantsManagerService.java
++++ b/services/core/java/com/android/server/uri/UriGrantsManagerService.java
+@@ -1350,8 +1350,7 @@ public class UriGrantsManagerService extends IUriGrantsManager.Stub implements
+         final int callingAppId = UserHandle.getAppId(callingUid);
+         if ((callingAppId == SYSTEM_UID) || (callingAppId == ROOT_UID)) {
+             if ("com.android.settings.files".equals(grantUri.uri.getAuthority())
+-                    || "com.android.settings.module_licenses".equals(grantUri.uri.getAuthority())
+-                    || "com.android.axion.sandbox.vault".equals(grantUri.uri.getAuthority())) {
++                    || "com.android.settings.module_licenses".equals(grantUri.uri.getAuthority())) {
+                 // Exempted authority for
+                 // 1. cropping user photos and sharing a generated license html
+                 //    file in Settings app
+diff --git a/services/core/java/com/android/server/wm/ActivityRecord.java b/services/core/java/com/android/server/wm/ActivityRecord.java
+index b8f636ad5a7a..6846d6a53f72 100644
+--- a/services/core/java/com/android/server/wm/ActivityRecord.java
++++ b/services/core/java/com/android/server/wm/ActivityRecord.java
+@@ -2425,10 +2425,6 @@ final class ActivityRecord extends WindowToken {
+     private int getStartingWindowType(boolean newTask, boolean taskSwitch, boolean processRunning,
+             boolean allowTaskSnapshot, boolean activityCreated, boolean activityAllDrawn,
+             TaskSnapshot snapshot) {
+-        boolean isAppLockerActivity = AxSandboxService.get().isAppLockerActivity(this.intent.getComponent());
+-        if (AxSandboxService.get().isAppLocked(this) || isAppLockerActivity) {
+-            return (isAppLockerActivity || processRunning) ? STARTING_WINDOW_TYPE_NONE : STARTING_WINDOW_TYPE_SPLASH_SCREEN;
+-        }
+         // A special case that a new activity is launching to an existing task which is moving to
+         // front. If the launching activity is the one that started the task, it could be a
+         // trampoline that will be always created and finished immediately. Then give a chance to
+@@ -3527,9 +3523,6 @@ final class ActivityRecord extends WindowToken {
+      */
+     private void finishActivityResults(int resultCode, Intent resultData,
+             NeededUriGrants resultGrants) {
+-        if (AxSandboxService.get().checkUnlockApp(this, resultCode, resultData)) {
+-            resultTo = null;
+-        }
+         // Send the result if needed
+         if (resultTo != null) {
+             if (DEBUG_RESULTS) {
+@@ -4338,7 +4331,6 @@ final class ActivityRecord extends WindowToken {
+      * finishing or has no saved state or crashed many times, it will also be removed from history.
+      */
+     void handleAppDied() {
+-        AxSandboxService.get().onAppDied(packageName, mUserId);
+         final boolean remove;
+         if (Process.isSdkSandboxUid(getUid())) {
+             // Sandbox activities are created for SDKs run in the sandbox process, when the sandbox
+@@ -4715,9 +4707,6 @@ final class ActivityRecord extends WindowToken {
+             }
+             return true;
+         } else if (fromActivity.mStartingData != null) {
+-            if (AxSandboxService.get().isAppLockerActivity(this.intent.getComponent())) {
+-                return false;
+-            }
+             if (fromActivity.mStartingData instanceof SnapshotStartingData
+                     && (!isStartingOrientationCompatible(fromActivity)
+                     || !(((SnapshotStartingData) fromActivity.mStartingData).isValid()))) {
+@@ -6446,9 +6435,7 @@ final class ActivityRecord extends WindowToken {
+             throw new IllegalStateException("Request to stop a finishing activity: " + this);
+         }
+         if (isNoHistory()) {
+-            if (AxSandboxService.get().isAppLocked(this)) {
+-                Slog.d(TAG_STATES, "AppLocker: Skip no-history finish for locked app " + this);
+-            } else if (!task.shouldSleepActivities()) {
++            if (!task.shouldSleepActivities()) {
+                 ProtoLog.d(WM_DEBUG_STATES, "no-history finish of %s", this);
+                 if (finishIfPossible("stop-no-history", false /* oomAdj */)
+                         != FINISH_RESULT_CANCELLED) {
+@@ -9149,12 +9136,6 @@ final class ActivityRecord extends WindowToken {
+                 return false;
+             }
+         }
+-
+-        if (AxSandboxService.get().isAppLocked(this)
+-            || AxSandboxService.get().isAppLockerActivity(this.intent.getComponent())) {
+-            return false;
+-        }
+-
+         return true;
+     }
+ 
+diff --git a/services/core/java/com/android/server/wm/ActivityStarter.java b/services/core/java/com/android/server/wm/ActivityStarter.java
+index 5be137ee1b22..b0b270ebb1ba 100644
+--- a/services/core/java/com/android/server/wm/ActivityStarter.java
++++ b/services/core/java/com/android/server/wm/ActivityStarter.java
+@@ -153,7 +153,6 @@ import com.android.server.power.ShutdownCheckPoints;
+ import com.android.server.statusbar.StatusBarManagerInternal;
+ import com.android.server.uri.NeededUriGrants;
+ import com.android.server.wm.ActivityMetricsLogger.LaunchingState;
+-import com.android.server.wm.AxSandboxService;
+ import com.android.server.wm.BackgroundActivityStartController.BalVerdict;
+ import com.android.server.wm.LaunchParamsController.LaunchParams;
+ import com.android.server.wm.TaskFragment.EmbeddingCheckResult;
+@@ -908,22 +907,6 @@ class ActivityStarter {
+ 
+                 final long origId = Binder.clearCallingIdentity();
+                 try {
+-                    if (mRequest.intent != null && mRequest.intent.getComponent() != null) {
+-                        String targetPkg = mRequest.intent.getComponent().getPackageName();
+-                        String callerPkg = mRequest.callingPackage;
+-                        int targetUserId = mRequest.userId;
+-                        if (targetPkg != null
+-                                && AxSandboxService.get().isPackageHidden(targetPkg, targetUserId)
+-                                && !AxSandboxService.BLACKLISTED_PACKAGES.contains(callerPkg)
+-                                && !targetPkg.equals(callerPkg)) {
+-                            int callerUid = mRequest.callingUid;
+-                            if (callerUid != android.os.Process.SYSTEM_UID
+-                                    && callerUid != android.os.Process.ROOT_UID) {
+-                                return ActivityManager.START_CLASS_NOT_FOUND;
+-                            }
+-                        }
+-                    }
+-
+                     res = resolveToHeavyWeightSwitcherIfNeeded();
+                     if (res != START_SUCCESS) {
+                         return res;
+diff --git a/services/core/java/com/android/server/wm/ActivityTaskSupervisor.java b/services/core/java/com/android/server/wm/ActivityTaskSupervisor.java
+index e0ea4cba670f..03f5591dba6a 100644
+--- a/services/core/java/com/android/server/wm/ActivityTaskSupervisor.java
++++ b/services/core/java/com/android/server/wm/ActivityTaskSupervisor.java
+@@ -1903,10 +1903,6 @@ public class ActivityTaskSupervisor implements RecentTasks.Callbacks {
+             }
+             mBalController.checkActivityAllowedToClearTask(
+                             task, callingUid, callingPid, callerActivityClassName);
+-            final AxSandboxService sandboxService = AxSandboxService.get();
+-            if (sandboxService != null) {
+-                sandboxService.removeTask(task, reason);
+-            }
+             final GameSpaceService gameSpaceService =
+                     LocalServices.getService(GameSpaceService.class);
+             if (gameSpaceService != null) {
+@@ -3023,9 +3019,6 @@ public class ActivityTaskSupervisor implements RecentTasks.Callbacks {
+                     moveHomeTaskForward = false;
+                 }
+ 
+-                AxSandboxService.get().clearUnlockedApp();
+-                AxSandboxService.get().lockTopApp(task, "startActivityFromRecents");
+-
+                 if (moveHomeTaskForward) {
+                     // We always want to return to the home activity instead of the recents
+                     // activity from whatever is started from the recents activity, so move
+diff --git a/services/core/java/com/android/server/wm/DisplayContent.java b/services/core/java/com/android/server/wm/DisplayContent.java
+index 1e5d8989a22a..2fd6bb844ba7 100644
+--- a/services/core/java/com/android/server/wm/DisplayContent.java
++++ b/services/core/java/com/android/server/wm/DisplayContent.java
+@@ -4536,9 +4536,6 @@ class DisplayContent extends RootDisplayArea implements WindowManagerPolicy.Disp
+             if (newTask != null) newTask.onAppFocusChanged(true);
+         }
+ 
+-        if (mDisplayId == DEFAULT_DISPLAY && newFocus != null) {
+-            AxSandboxService.get().onAppFocusChanged(newFocus, newTask);
+-        }
+ 
+         if (newFocus != null && isDefaultDisplay) {
+             final GameSpaceService gameSpaceService =
+diff --git a/services/core/java/com/android/server/wm/KeyguardController.java b/services/core/java/com/android/server/wm/KeyguardController.java
+index 91241a3097a3..21a4f97a9164 100644
+--- a/services/core/java/com/android/server/wm/KeyguardController.java
++++ b/services/core/java/com/android/server/wm/KeyguardController.java
+@@ -278,10 +278,6 @@ class KeyguardController {
+             scheduleGoingAwayTimeout(displayId);
+         }
+ 
+-        if (displayId == DEFAULT_DISPLAY && keyguardChanged) {
+-            AxSandboxService.get().setKeyguardDoneLocked(!keyguardShowing);
+-        }
+-
+         // Update the sleep token first such that ensureActivitiesVisible has correct sleep token
+         // state when evaluating visibilities.
+         updateKeyguardSleepToken();
+diff --git a/services/core/java/com/android/server/wm/RecentTasks.java b/services/core/java/com/android/server/wm/RecentTasks.java
+index 4340e5897db9..8a21fc03864d 100644
+--- a/services/core/java/com/android/server/wm/RecentTasks.java
++++ b/services/core/java/com/android/server/wm/RecentTasks.java
+@@ -2132,7 +2132,6 @@ class RecentTasks {
+         if (!getTasksAllowed) {
+             Task.trimIneffectiveInfo(tr, rti);
+         }
+-        AxSandboxService.get().isTopAppLocked(rti, tr.effectiveUid);
+         return rti;
+     }
+ 
+diff --git a/services/core/java/com/android/server/wm/Task.java b/services/core/java/com/android/server/wm/Task.java
+index 862be26d1d67..7fea3a9fd5b7 100644
+--- a/services/core/java/com/android/server/wm/Task.java
++++ b/services/core/java/com/android/server/wm/Task.java
+@@ -2346,7 +2346,6 @@ class Task extends TaskFragment {
+ 
+         if (prevWindowingMode != getWindowingMode()) {
+             taskDisplayArea.onRootTaskWindowingModeChanged(this);
+-            AxSandboxService.get().onWindowingModeChanged(this, prevWindowingMode);
+         }
+ 
+         if (!isOrganized() && !getRequestedOverrideBounds().isEmpty() && mDisplayContent != null) {
+diff --git a/services/core/java/com/android/server/wm/TaskFragment.java b/services/core/java/com/android/server/wm/TaskFragment.java
+index 4444b8e1f427..d84d8882a586 100644
+--- a/services/core/java/com/android/server/wm/TaskFragment.java
++++ b/services/core/java/com/android/server/wm/TaskFragment.java
+@@ -719,10 +719,6 @@ class TaskFragment extends WindowContainer<WindowContainer> {
+             getTask().touchActiveTime();
+         }
+ 
+-        if (AxSandboxService.get().checkLockApp(mResumedActivity, r)) {
+-            return;
+-        }
+-
+         final ActivityRecord prevR = mResumedActivity;
+         mResumedActivity = r;
+         final ActivityRecord topResumed = mTaskSupervisor.updateTopResumedActivityIfNeeded(reason);
+@@ -1449,9 +1445,6 @@ class TaskFragment extends WindowContainer<WindowContainer> {
+             pausing |= startPausing(mTaskSupervisor.mUserLeaving, false /* uiSleeping */,
+                     next, "resumeTopActivity");
+         }
+-        if (AxSandboxService.get().checkLockApp(prev, next)) {
+-            return true;
+-        }
+         if (pausing) {
+             ProtoLog.v(WM_DEBUG_STATES, "resumeTopActivity: Skip resume: need to"
+                     + " start pausing");
+diff --git a/services/core/java/com/android/server/wm/Transition.java b/services/core/java/com/android/server/wm/Transition.java
+index 7a6b12e07d3a..3bd9b9cd7fc7 100644
+--- a/services/core/java/com/android/server/wm/Transition.java
++++ b/services/core/java/com/android/server/wm/Transition.java
+@@ -1774,9 +1774,6 @@ class Transition implements BLASTSyncEngine.TransactionReadyListener {
+                     mController.mAtm.mRootWindowContainer.getDisplayContent(mRecentsDisplayId);
+             dc.getInputMonitor().setActiveRecents(null /* task */, null /* layer */);
+             dc.getInputMonitor().updateInputWindowsLw(false /* force */);
+-            if (mRecentsDisplayId == DEFAULT_DISPLAY) {
+-                AxSandboxService.get().clearUnlockedApp(dc.mFocusedApp);
+-            }
+         }
+         if (mTransientLaunches != null) {
+             for (int i = mTransientLaunches.size() - 1; i >= 0; --i) {
+diff --git a/services/java/com/android/server/SystemServer.java b/services/java/com/android/server/SystemServer.java
+index 1c9435a367f8..d110e5182682 100644
+--- a/services/java/com/android/server/SystemServer.java
++++ b/services/java/com/android/server/SystemServer.java
+@@ -328,7 +328,6 @@ import com.android.server.wallpapereffectsgeneration.WallpaperEffectsGenerationM
+ import com.android.server.wearable.WearableSensingManagerService;
+ import com.android.server.webkit.WebViewUpdateService;
+ import com.android.server.wm.ActivityTaskManagerService;
+-import com.android.server.wm.AxSandboxService;
+ import com.android.server.wm.GameSpaceService;
+ import com.android.server.wm.WindowManagerGlobalLock;
+ import com.android.server.wm.WindowManagerService;
+@@ -1335,10 +1334,6 @@ public final class SystemServer implements Dumpable {
+         mSystemServiceManager.startService(ThermalManagerService.class);
+         t.traceEnd();
+ 
+-        t.traceBegin("StartAxSandboxService");
+-        mSystemServiceManager.startService(new AxSandboxService(mSystemContext, atm));
+-        t.traceEnd();
+-
+         // Now that the power manager has been started, let the activity manager
+         // initialize power management features.
+         t.traceBegin("InitPowerManagement");

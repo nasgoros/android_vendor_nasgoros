@@ -166,7 +166,7 @@ Modul ini memakai overlay produk untuk default skala animasi 0,5× dan blur
 nonaktif, serta nilai framework agar screensaver tidak berjalan otomatis. Patch framework-nya terdaftar
 di `patches/series.json`; terapkan sesudah sync dengan `patches/apply.py`. Default
 crDroid untuk Pulse ambient juga nonaktif, sedangkan Pulse visualizer pada trek
-dan cuaca layar kunci sudah memakai default nonaktif. Kontrol tetap tersedia agar
+sudah memakai default nonaktif (cuaca OmniJaws dihapus). Kontrol tetap tersedia agar
 pengguna dapat menyalakan fitur. Wallpaper live tetap dapat dipilih, hanya tidak
 dipaksa menjadi wallpaper bawaan. Default SettingsProvider tidak menimpa setelan
 yang sudah ada saat upgrade.

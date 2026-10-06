@@ -1,0 +1,151 @@
+diff --git a/res/xml/crdroid_settings_lockscreen.xml b/res/xml/crdroid_settings_lockscreen.xml
+index df2b4cb..8bbb979 100644
+--- a/res/xml/crdroid_settings_lockscreen.xml
++++ b/res/xml/crdroid_settings_lockscreen.xml
+@@ -68,59 +68,6 @@
+ 
+     </PreferenceCategory>
+ 
+-    <PreferenceCategory
+-        android:key="lockscreen_weather_category"
+-        android:title="@string/lockscreen_weather_category">
+-
+-        <Preference
+-            android:icon="@drawable/ic_weather_settings"
+-            android:title="@string/weather_settings_title"
+-            android:summary="@string/weather_settings_summary">
+-            <intent
+-                android:action="android.intent.action.MAIN"
+-                android:targetPackage="org.omnirom.omnijaws"
+-                android:targetClass="org.omnirom.omnijaws.SettingsActivity" />
+-        </Preference>
+-
+-        <com.crdroid.settings.preferences.SystemSettingSwitchPreference
+-            android:key="lockscreen_weather_enabled"
+-            android:icon="@drawable/ic_weather"
+-            android:title="@string/lockscreen_weather_title"
+-            android:summary="@string/lockscreen_weather_summary" />
+-
+-        <com.crdroid.settings.preferences.SystemSettingSwitchPreference
+-            android:key="lockscreen_weather_location"
+-            android:icon="@drawable/ic_map_marker"
+-            android:title="@string/lockscreen_weather_location_title"
+-            android:summary="@string/lockscreen_weather_location_summary"
+-            android:dependency="lockscreen_weather_enabled" />
+-
+-        <com.crdroid.settings.preferences.SystemSettingSwitchPreference
+-            android:key="lockscreen_weather_text"
+-            android:icon="@drawable/ic_weather_condition"
+-            android:title="@string/lockscreen_weather_text_title"
+-            android:summary="@string/lockscreen_weather_text_summary"
+-            android:defaultValue="true"
+-            android:dependency="lockscreen_weather_enabled" />
+-
+-        <com.crdroid.settings.preferences.SystemSettingSwitchPreference
+-            android:key="lockscreen_weather_wind_info"
+-            android:icon="@drawable/ic_weather_windy"
+-            android:title="@string/lockscreen_weather_wind_info_title"
+-            android:summary="@string/lockscreen_weather_wind_info_summary"
+-            android:defaultValue="false"
+-            android:dependency="lockscreen_weather_enabled" />
+-
+-        <com.crdroid.settings.preferences.SystemSettingSwitchPreference
+-            android:key="lockscreen_weather_humidity_info"
+-            android:icon="@drawable/ic_water_percent"
+-            android:title="@string/lockscreen_weather_humidity_info_title"
+-            android:summary="@string/lockscreen_weather_humidity_info_summary"
+-            android:defaultValue="false"
+-            android:dependency="lockscreen_weather_enabled" />
+-
+-    </PreferenceCategory>
+-
+     <PreferenceCategory
+         android:key="lockscreen_gestures_category"
+         android:title="@string/gestures_title">
+diff --git a/src/com/crdroid/settings/fragments/LockScreen.java b/src/com/crdroid/settings/fragments/LockScreen.java
+index 422699b..70f03dd 100644
+--- a/src/com/crdroid/settings/fragments/LockScreen.java
++++ b/src/com/crdroid/settings/fragments/LockScreen.java
+@@ -28,7 +28,6 @@ import androidx.preference.Preference.OnPreferenceChangeListener;
+ import androidx.preference.SwitchPreferenceCompat;
+ 
+ import com.android.internal.logging.nano.MetricsProto;
+-import com.android.internal.util.crdroid.OmniJawsClient;
+ import com.android.internal.util.crdroid.Utils;
+ 
+ import com.android.settings.R;
+@@ -55,7 +54,6 @@ public class LockScreen extends SettingsPreferenceFragment
+     private static final String LOCKSCREEN_INTERFACE_CATEGORY = "lockscreen_interface_category";
+     private static final String KEY_RIPPLE_EFFECT = "enable_ripple_effect";
+     private static final String KEY_SMARTSPACE = "lockscreen_smartspace_enabled";
+-    private static final String KEY_WEATHER = "lockscreen_weather_enabled";
+     private static final String KEY_UDFPS_ANIMATIONS = "udfps_recognizing_animation_preview";
+     private static final String KEY_UDFPS_ICONS = "udfps_icon_picker";
+ 
+@@ -67,7 +65,6 @@ public class LockScreen extends SettingsPreferenceFragment
+     private Preference mRippleEffect;
+ 
+     private SwitchPreferenceCompat mSmartspace;
+-    private SwitchPreferenceCompat mWeather;
+     private SwitchPreferenceCompat mFpSuccessVib;
+     private SwitchPreferenceCompat mFpErrorVib;
+ 
+@@ -108,20 +105,12 @@ public class LockScreen extends SettingsPreferenceFragment
+ 
+         mSmartspace = (SwitchPreferenceCompat) findPreference(KEY_SMARTSPACE);
+         mSmartspace.setOnPreferenceChangeListener(this);
+-
+-        mWeather = (SwitchPreferenceCompat) findPreference(KEY_WEATHER);
+-        mWeather.setOnPreferenceChangeListener(this);
+     }
+ 
+     @Override
+     public boolean onPreferenceChange(Preference preference, Object newValue) {
+         if (preference == mSmartspace) {
+             mSmartspace.setChecked((Boolean)newValue);
+-            updateWeatherSettings();
+-            SystemUtils.showSystemUiRestartDialog(getContext());
+-            return true;
+-        } else if (preference == mWeather) {
+-            mWeather.setChecked((Boolean)newValue);
+             SystemUtils.showSystemUiRestartDialog(getContext());
+             return true;
+         }
+@@ -145,37 +134,12 @@ public class LockScreen extends SettingsPreferenceFragment
+                 Settings.System.FP_SUCCESS_VIBRATE, 1, UserHandle.USER_CURRENT);
+         Settings.System.putIntForUser(resolver,
+                 Settings.System.LOCKSCREEN_ENABLE_POWER_MENU, 1, UserHandle.USER_CURRENT);
+-        Settings.System.putIntForUser(resolver,
+-                Settings.System.LOCKSCREEN_WEATHER_ENABLED, 0, UserHandle.USER_CURRENT);
+-        Settings.System.putIntForUser(resolver,
+-                Settings.System.LOCKSCREEN_WEATHER_LOCATION, 0, UserHandle.USER_CURRENT);
+-        Settings.System.putIntForUser(resolver,
+-                Settings.System.LOCKSCREEN_WEATHER_TEXT, 1, UserHandle.USER_CURRENT);
+-        Settings.System.putIntForUser(resolver,
+-                Settings.System.LOCKSCREEN_WEATHER_WIND_INFO, 0, UserHandle.USER_CURRENT);
+-        Settings.System.putIntForUser(resolver,
+-                Settings.System.LOCKSCREEN_WEATHER_HUMIDITY_INFO, 0, UserHandle.USER_CURRENT);
+         PulseSettings.reset(mContext);
+         MediaArtSettings.reset(mContext);
+         UdfpsAnimation.Companion.reset(mContext);
+         UdfpsIconPicker.Companion.reset(mContext);
+     }
+ 
+-    private void updateWeatherSettings() {
+-        if (mWeather == null || mSmartspace == null) return;
+-
+-        boolean weatherEnabled = OmniJawsClient.get().isOmniJawsEnabled(getContext());
+-        mWeather.setEnabled(!mSmartspace.isChecked() && weatherEnabled);
+-        mWeather.setSummary(!mSmartspace.isChecked() && weatherEnabled ? R.string.lockscreen_weather_summary :
+-            R.string.lockscreen_weather_enabled_info);
+-    }
+-
+-    @Override
+-    public void onResume() {
+-        super.onResume();
+-        updateWeatherSettings();
+-    }
+-
+     @Override
+     public int getMetricsCategory() {
+         return MetricsProto.MetricsEvent.CRDROID_SETTINGS;

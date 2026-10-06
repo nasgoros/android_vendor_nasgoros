@@ -4,12 +4,20 @@
     "patch": "frameworks_base/0001-nasgor-performance-defaults.patch"
   },
   {
+    "path": "frameworks/base",
+    "patch": "frameworks_base/0002-remove-axion-sandbox.patch"
+  },
+  {
+    "path": "frameworks/base",
+    "patch": "frameworks_base/0003-remove-omnijaws-weather.patch"
+  },
+  {
     "path": "packages/apps/crDroidSettings",
     "patch": "packages_apps_crDroidSettings/0001-nasgor-settings-and-performance.patch"
   },
   {
     "path": "packages/apps/crDroidSettings",
-    "patch": "packages_apps_crDroidSettings/0002-hide-weather-without-omnijaws.patch"
+    "patch": "packages_apps_crDroidSettings/0002-remove-omnijaws-weather.patch"
   },
   {
     "path": "packages/apps/Settings",
@@ -18,6 +26,10 @@
   {
     "path": "vendor/addons",
     "patch": "vendor_addons/0001-preserve-nasgor-bootanimation.patch"
+  },
+  {
+    "path": "vendor/addons",
+    "patch": "vendor_addons/0002-remove-axion-sandbox.patch"
   },
   {
     "path": "packages/overlays/Lineage",
@@ -30,5 +42,13 @@
   {
     "path": "build/soong",
     "patch": "build_soong/0001-allow-lmofreeform-bootclasspath.patch"
+  },
+  {
+    "path": "device/lineage/sepolicy",
+    "patch": "device_lineage_sepolicy/0001-remove-axion-sandbox.patch"
+  },
+  {
+    "path": "packages/services/QuickLook",
+    "patch": "packages_services_QuickLook/0001-remove-omnijaws-weather.patch"
   }
 ]

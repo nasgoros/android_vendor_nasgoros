@@ -115,28 +115,12 @@
       "reason": "Sidebar and freeform settings dependency"
     },
     {
-      "path": "packages/apps/Sandbox",
-      "repository": "crdroidandroid/android_packages_apps_Sandbox",
-      "revision": "149b72cbe1409501cb104f6e4e20e5ae316596f9",
-      "branch": "17.0",
-      "local_clone": "android_packages_apps_Sandbox",
-      "reason": "App sandbox framework service and settings"
-    },
-    {
       "path": "packages/services/QuickLook",
       "repository": "crdroidandroid/android_packages_services_QuickLook",
       "revision": "dda4e5a58d6f987abb3c19a7e73c639f02412d6a",
       "branch": "17.0",
       "local_clone": "android_packages_services_QuickLook",
       "reason": "Lockscreen smartspace dependency"
-    },
-    {
-      "path": "packages/services/OmniJaws",
-      "repository": "crdroidandroid/android_packages_services_OmniJaws",
-      "revision": "5422d818bd900d4e37a3745603c1d47920a0f968",
-      "branch": "17.0",
-      "local_clone": "android_packages_services_OmniJaws",
-      "reason": "Weather settings provider"
     },
     {
       "path": "packages/services/Telecomm",
@@ -185,22 +169,6 @@
       "branch": "17.0",
       "local_clone": "android_system_sepolicy",
       "reason": "Framework policy compatibility"
-    },
-    {
-      "path": "packages/apps/AppLocker",
-      "repository": "crdroidandroid/android_packages_apps_AppLocker",
-      "revision": "065f2f5553bcf297fe503b28ef15433447df92a5",
-      "branch": "17.0",
-      "local_clone": "android_packages_apps_AppLocker",
-      "reason": "App sandbox lock-screen dependency"
-    },
-    {
-      "path": "packages/resources/apps",
-      "repository": "crdroidandroid/android_packages_resources_apps",
-      "revision": "08e798a9bf8d4617eae05a390127e417c44baef4",
-      "branch": "16.0",
-      "local_clone": "android_packages_resources_apps",
-      "reason": "Weather provider resources, matching the upstream Android 17 manifest"
     },
     {
       "path": "packages/overlays/Lineage",
