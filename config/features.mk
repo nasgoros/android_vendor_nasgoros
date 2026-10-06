@@ -40,4 +40,4 @@ endif
 
 # Recovery-only feature implemented by the nasgorOS recovery fork.
 NASGOROS_WITH_RECOVERY_FILE_MANAGER ?= true
-PRODUCT_VENDOR_PROPERTIES += ro.nasgoros.recovery_file_manager=$(NASGOROS_WITH_RECOVERY_FILE_MANAGER)
+PRODUCT_PRODUCT_PROPERTIES += ro.nasgoros.recovery_file_manager=$(NASGOROS_WITH_RECOVERY_FILE_MANAGER)
