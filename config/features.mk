@@ -38,7 +38,7 @@ ifeq ($(NASGOROS_WITH_ZIMUX),true)
 $(call inherit-product, vendor/nasgoros/config/features/zimux.mk)
 endif
 
-# Android 9 style 2-button navigation as an extra System navigation choice.
+# Navigation: gesture navigation enabled by default.
 $(call inherit-product, vendor/nasgoros/config/features/navigation.mk)
 
 # No OTA updates (product decision): removes Updater and the System update entry.

@@ -8,7 +8,7 @@
      LineageSetupWizard normally enables gesture navigation during setup. NasgorOS
      replaces it with silent provisioning (NasgorProvision), so the gesture overlay is
      enabled by default here instead. It stays mutable: users can still switch to
-     3-button or 2-button navigation in Settings > System > Navigation.
+     3-button navigation in Settings > System > Navigation.
 
      Devices with hardware navigation keys can ship their own product overlay config.
 -->
