@@ -16,6 +16,7 @@ LOCAL_OVERRIDES_PACKAGES := \
     AudioFX \
     BasicDreams \
     BuiltInPrintService \
+    Canvas \
     DeskClock \
     EasterEgg \
     Etar \

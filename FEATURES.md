@@ -73,6 +73,7 @@ Removed with `LOCAL_OVERRIDES_PACKAGES` in `removed-packages/Android.mk` (module
 | `ExactCalculator` | Calculator | AOSP | none (user installs one) |
 | `Etar` | Calendar | LineageOS | none |
 | `DeskClock` | Clock / alarms | AOSP | none — **no alarm/timer app** until one is installed |
+| `Canvas` | Photo editor | LineageOS | none (added by LineageOS 2026-09-30; editor for Glimpse) |
 | `Glimpse` | Gallery | LineageOS | Zix Gallery (planned) |
 | `Gallery2` | Gallery (legacy) | AOSP | Zix Gallery (planned) |
 | `messaging` | Messages (SMS/MMS) | AOSP | none — **no SMS app** until one is installed |
