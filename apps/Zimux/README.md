@@ -1,13 +1,14 @@
 # Zimux
 
-NasgorOS ships the original signed Zimux v1.4.2 release as a regular app under
-`/product/app/Zimux`. Package: `com.zimux`; versionCode: 7; minSdk: 26;
+NasgorOS ships the original signed Zimux v1.4.3 release as a regular app under
+`/product/app/Zimux`. Package: `com.zimux`; versionCode: 8; minSdk: 26;
 targetSdk: 36. No platform signing, privileged permissions or automatic root grant
 are added. Users grant storage and other requested access through Android.
 
-- Release: https://github.com/wahyu6070/zimux/releases/tag/v1.4.2
-- Asset: `zimux-1.4.2.apk` (22,675,799 bytes)
-- SHA-256: `e4d01b960a3a9e0f4cc9ebe724e191ec9aea8860aab49ed66a637a66d679167c`
+- Release: https://github.com/wahyu6070/zimux/releases/tag/v1.4.3
+- Asset: `zimux-1.4.3.apk` (22,520,499 bytes)
+- SHA-256: `0a9a48ea74a6c20a2f78fa62d92e97b5d8fd814585c33c537c130c6099c6d9b7`
+- Signing certificate SHA-256: `702070cd1240f963878a7c9cb6e3baa6c604003e2dbca5f4b7945f1f39031260` (same as v1.4.2)
 - Disable inclusion: set `NASGOROS_WITH_ZIMUX=false` before inheriting the product.
 
 ## Packaging and updates

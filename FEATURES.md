@@ -132,7 +132,7 @@ Lora Browser Lite v1.5.4 dipasang sebagai aplikasi product biasa melalui
 
 ## Zimux bawaan
 
-Zimux v1.4.2 (`com.zimux`) disertakan melalui `config/features/zimux.mk` sebagai
+Zimux v1.4.3 (`com.zimux`) disertakan melalui `config/features/zimux.mk` sebagai
 aplikasi product biasa. Flag `NASGOROS_WITH_ZIMUX=false` mengecualikannya.
 APK bertanda tangan asli dan library native dibawa bersama; catatan update serta
 porting ada di [apps/Zimux/README.md](apps/Zimux/README.md). Belum diuji di HP.
