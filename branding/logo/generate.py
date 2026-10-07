@@ -47,8 +47,8 @@ def main():
     (HERE / "nasgor-os-logo-transparent.png").write_bytes(master)
     avatar = render("0 0 400 400", 1024, 1024, "#111821")
     (HERE / "nasgor-os-avatar-dark.png").write_bytes(avatar)
-    # Crop only transparent space for the 128dp x 80dp About ImageView.
-    about = render("0 68 400 250", 512, 320)
+    # Crop only transparent space for the 192dp x 120dp About ImageView.
+    about = render("0 68 400 250", 768, 480)
     (HERE / "nasgor-about-mark.png").write_bytes(about)
     if args.project_copy:
         args.project_copy.parent.mkdir(parents=True, exist_ok=True)
@@ -60,7 +60,7 @@ def main():
         output = args.settings_res / "drawable-nodpi" / "nasgor_about_mark.png"
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_bytes(about)
-    print("Exported plate logo: transparent/avatar 1024x1024, About 512x320")
+    print("Exported plate logo: transparent/avatar 1024x1024, About 768x480")
 
 
 if __name__ == "__main__":

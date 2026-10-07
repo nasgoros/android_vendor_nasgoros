@@ -21,6 +21,7 @@ every LineageOS device tree builds nasgorOS without modification.
 | `patches/apply.py` | Apply or verify nasgorOS adaptations after source synchronization |
 | `FEATURES.md` | Feature list, rebranded strings and **removed apps** |
 | [`branding/logo/`](branding/logo/README.md) | Nasgor OS PNG logo: dark profile avatar and transparent master for web/About |
+| [`branding/about-preview/`](branding/about-preview/README.md) | About design preview with both themes and adjustable text size; sample data |
 | [`bootanimation/`](bootanimation/README.md) | 2D fried-rice logo, animated steam/loading, Android ZIP and previews |
 | [`wallpapers/`](wallpapers/README.md) | Senja default home wallpaper: charcoal blue and soft amber |
 | `overlay/branding/` | Generated overlays renaming LineageOS → NasgorOS |

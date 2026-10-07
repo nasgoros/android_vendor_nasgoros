@@ -11,7 +11,7 @@ Nama merek ketika ditulis terpisah adalah **Nasgor OS**.
 | `proyek.png` | 1024×1024 | Master transparan; juga disalin ke `proyek.png` di root workspace sesuai permintaan |
 | `nasgor-os-logo-transparent.png` | 1024×1024 | Salinan master untuk website dan penggunaan umum |
 | `nasgor-os-avatar-dark.png` | 1024×1024 | Foto profil GitHub, SourceForge, Telegram dengan latar gelap; disalin sebagai `proyek-avatar.png` di root workspace |
-| `nasgor-about-mark.png` | 512×320 | Aset ringan untuk header Settings About, ruang transparan atas/bawah dikurangi |
+| `nasgor-about-mark.png` | 768×480 | Aset ringan untuk header Settings About, ruang transparan atas/bawah dikurangi |
 
 Pertahankan proporsi gambar. Avatar persegi juga dapat dipotong melingkar.
 Master transparan tetap memiliki alpha; jangan menambahkan latar putih untuk
@@ -31,10 +31,15 @@ Dari root workspace, gunakan environment dengan dependensi
 ```
 
 Resource Android adalah `res/drawable-nodpi/nasgor_about_mark.png`, ditampilkan
-128×80 dp dengan `fitCenter` oleh `res/layout/nasgor_about_header.xml`. Tidak ada
+192×120 dp dengan `fitCenter` oleh `res/layout/nasgor_about_header.xml`. Tidak ada
 tint atau latar pada gambar. Resource menggantikan ikon vektor huruf n lama.
 Header dipakai bersama oleh About phone, halaman versi OS (XML/Catalyst), dan
 About Nasgor OS di pengaturan crDroid.
+
+Header menampilkan logo dan nama merek di tengah, badge versi, kartu perangkat,
+serta kartu Android/RAM yang tersusun vertikal pada window sempit atau font besar.
+Warna latar, garis tepi, teks dan badge memiliki varian siang/malam. Pratinjau
+desain dengan data contoh tersedia di [About preview](../about-preview/index.html).
 
 Perubahan resource dan layout disimpan dalam
 `patches/packages_apps_Settings/0001-nasgor-branding-and-version.patch`.

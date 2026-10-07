@@ -39,9 +39,13 @@ Layanan backup inti, kamera, file picker, WebView dan provider crDroid tetap ada
 
 UI About memakai satu `NasgorAboutHeaderPreference` untuk About phone, versi
 firmware dan tab About NasgorOS. Angka OS/model/chipset/RAM dibaca dari perangkat,
-warna tersedia di `values` serta `values-night`, dan tidak ada polling atau gambar
-bitmap besar. Logo piring memakai PNG transparan 512×320 dari
-`branding/logo/generate.py`, ditampilkan 128×80 dp dengan `fitCenter`; sumbernya
+header menempatkan logo dan nama di tengah, versi di badge, lalu kartu perangkat
+terpisah dan ringkasan Android/RAM. Ringkasan berubah menjadi susunan vertikal
+ketika window kurang dari 360 dp atau font scale minimal 1,3; ukuran teks tidak
+dipaksa mengecil dan nilai panjang dapat membungkus ke baris berikutnya.
+Warna tersedia di `values` serta `values-night`, dan tidak ada polling atau gambar
+bitmap besar. Logo piring memakai PNG transparan 768×480 dari
+`branding/logo/generate.py`, ditampilkan 192×120 dp dengan `fitCenter`; sumbernya
 SVG yang sama dengan boot animasi. Pastikan `drawable-nodpi/nasgor_about_mark.png`
 terbawa pada patch, tanpa drawable vektor lama dengan nama yang sama.
 `LogoPreference.kt` menyediakan binding Catalyst agar tampilan baru
