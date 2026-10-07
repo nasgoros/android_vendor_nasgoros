@@ -5,8 +5,15 @@
 // permissions and activity lifecycle. Do not ship another welcome wizard.
 // A distinct module name is necessary: LineageSetupWizard overrides "Provision"
 // during product selection even when LineageSetupWizard itself is overridden.
+//
+// The APK is still installed under the stock AOSP name
+// (/system_ext/priv-app/Provision/Provision.apk). GApps installers such as
+// LiteGapps remove the AOSP Provision app by folder name when they add a Google
+// setup wizard; with a different folder name both setup apps stayed installed
+// and the Google/Pixel setup wizard crashed.
 override_android_app {
     name: "NasgorProvision",
     base: "Provision",
+    stem: "Provision",
     overrides: ["LineageSetupWizard"],
 }

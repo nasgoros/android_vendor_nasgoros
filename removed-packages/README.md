@@ -39,6 +39,12 @@ AOSP/Android 17 tetap ada. Lihat bagian "Removed crDroid features" di `FEATURES.
 untuk pengguna tersebut. Tidak ditambahkan service pemantau atau wizard baru.
 Konfigurasi memakai package, platform signing dan allowlist AOSP yang sama.
 
+APK-nya dipasang dengan **nama folder bawaan AOSP**: `/system_ext/priv-app/Provision/Provision.apk`
+(`stem: "Provision"`). Installer GApps (termasuk LiteGapps) menghapus `Provision`
+berdasarkan nama folder saat memasang setup wizard Google. Dengan nama folder lain
+(`NasgorProvision/`) aplikasi ini tidak terhapus dan Pixel Setup Wizard *force close*
+(dikonfirmasi user 2026-10-07: wizard berjalan normal setelah folder itu dihapus).
+
 Nama modul khusus diperlukan karena LineageSetupWizard mendeklarasikan override
 terhadap `Provision`. Menambahkan `Provision` biasa sambil meng-override wizard
 dapat membuat keduanya tersaring oleh pemilihan modul Android.
