@@ -1,6 +1,6 @@
-# Boot animation nasgor os
+# Boot animation Nasgor OS
 
-Logo nasi goreng 2D dengan telur, mentimun, dan cabai; tulisan **nasgor os** di
+Logo nasi goreng 2D dengan telur, mentimun, dan cabai; tulisan **Nasgor OS** di
 bawahnya. Latar hitam, uap naik perlahan, dan loading oranye–kuning bergerak
 bolak-balik. Logo dibuat sebagai vektor asli di `logo.svg` (Apache-2.0).
 

@@ -16,6 +16,7 @@ for the Android 18 / other-ROM workflow and `config/features.mk` for feature swi
 | Feature | Tier | Files | Upgrade notes |
 |---|---|---|---|
 | Version & `ro.nasgoros.*` props | 1 | `config/version.mk` | none |
+| Nasgor OS plate logo | 1 / 3 | `branding/logo/`, boot SVG, Settings patch | PNG master/avatar from boot illustration; compact transparent logo in the shared About header |
 | Output names `NasgorOS-<ver>-<date>-<type>-<device>.zip`, `NasgorOS-Recovery-<ver>-<date>.img` | 1 | `build/tasks/nasgoros.mk` | relies on `INTERNAL_OTA_PACKAGE_TARGET`, `INSTALLED_RECOVERYIMAGE_TARGET` |
 | 2D fried-rice boot animation, steam and loading loop | 1 | `bootanimation/`, `TARGET_BOOTANIMATION` in `config/features/bootanimation.mk` | uses LineageOS `TARGET_BOOTANIMATION` and AOSP `f` fade; regeneration and previews: [bootanimation/README.md](bootanimation/README.md) |
 | Senja default launcher wallpaper | 1 | `wallpapers/nasgor-senja.png`, `config/features/wallpaper.mk` | uses AOSP `ro.config.wallpaper` and a product asset; see [wallpapers/README.md](wallpapers/README.md) |

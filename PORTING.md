@@ -40,7 +40,11 @@ Layanan backup inti, kamera, file picker, WebView dan provider crDroid tetap ada
 UI About memakai satu `NasgorAboutHeaderPreference` untuk About phone, versi
 firmware dan tab About NasgorOS. Angka OS/model/chipset/RAM dibaca dari perangkat,
 warna tersedia di `values` serta `values-night`, dan tidak ada polling atau gambar
-bitmap besar. `LogoPreference.kt` menyediakan binding Catalyst agar tampilan baru
+bitmap besar. Logo piring memakai PNG transparan 512×320 dari
+`branding/logo/generate.py`, ditampilkan 128×80 dp dengan `fitCenter`; sumbernya
+SVG yang sama dengan boot animasi. Pastikan `drawable-nodpi/nasgor_about_mark.png`
+terbawa pada patch, tanpa drawable vektor lama dengan nama yang sama.
+`LogoPreference.kt` menyediakan binding Catalyst agar tampilan baru
 juga dipakai ketika layar firmware tidak lagi membaca XML. Key controller bawaan,
 IMEI, detail keamanan, build-number/developer options dan halaman legal dipertahankan.
 Saat upgrade, uji ukuran font besar, layar kecil, mode malam, dan jalur pencarian.

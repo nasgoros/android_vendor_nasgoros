@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright (C) 2026 The nasgorOS Project; SPDX-License-Identifier: Apache-2.0 -->
 <svg xmlns="http://www.w3.org/2000/svg" width="400" height="320" viewBox="0 0 400 320">
-  <title>nasgor os — nasi goreng dengan telur, cabai, dan mentimun</title>
+  <title>Nasgor OS — nasi goreng dengan telur, cabai, dan mentimun</title>
   <g stroke="#39251c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M31 231 C35 271 99 296 201 296 C300 296 366 270 370 231Z" fill="#a8beb5"/>
     <ellipse cx="200" cy="230" rx="173" ry="54" fill="#fff4d9"/>
