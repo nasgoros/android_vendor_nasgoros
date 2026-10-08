@@ -21,6 +21,10 @@ kernel 13 sp; semuanya mengikuti pengaturan ukuran teks sistem.
 Di Android, kartu metrik disusun vertikal jika window kurang
 dari 320 dp atau font scale minimal 1,3. Tinggi teks tetap mengikuti isi tanpa
 ellipsis atau pemaksaan ukuran font. Layout tidak memiliki animasi atau polling.
+Logo dan nama juga disusun vertikal pada ukuran tersebut agar nama ROM tetap
+terbaca. Badge maintainer berikon di kartu utama membaca `ro.nasgoros.maintainer`
+(fallback overlay maintainer, lalu tidak diketahui). Contoh nama pada preview
+tidak dipakai sebagai fallback dalam aplikasi.
 
 Snapshot dibaca sekali di background ketika header terpasang. Internal adalah
 kapasitas filesystem `/data`, bukan kapasitas flash yang diiklankan. CPU menghitung

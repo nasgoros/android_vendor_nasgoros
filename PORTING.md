@@ -40,7 +40,11 @@ Layanan backup inti, kamera, file picker, WebView dan provider crDroid tetap ada
 
 UI About memakai satu `NasgorAboutHeaderPreference` untuk About phone, versi
 firmware dan tab About NasgorOS. Header ringkas menyandingkan logo dan nama,
-badge versi, model dan chipset. Enam kartu berikon memuat RAM, penyimpanan internal,
+badge versi, model dan chipset.
+Nama maintainer tampil sebagai badge berikon di kartu utama, dari properti
+`ro.nasgoros.maintainer` yang diatur lewat `NASGOROS_MAINTAINER` di produk/env
+build (default `wahyu6070`), dengan fallback overlay lalu tidak diketahui.
+Enam kartu berikon memuat RAM, penyimpanan internal,
 core/clock CPU, nama/clock GPU, zRAM dan Android; kernel mendapat kartu selebar layar.
 RAM/internal punya bar persentase terpakai. Label/detail memakai 12 sp, nilai 18 sp,
 kernel 13 sp. Ringkasan berubah menjadi susunan vertikal

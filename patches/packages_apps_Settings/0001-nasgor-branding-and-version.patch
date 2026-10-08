@@ -1525,6 +1525,22 @@ index 0000000000..bed4d09859
 +<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="20dp" android:height="20dp" android:viewportWidth="24" android:viewportHeight="24">
 +    <path android:pathData="M4,4H20V20H4Z M7,8L10,11L7,14 M12,15H17" android:strokeColor="@color/nasgor_about_accent" android:strokeWidth="1.6" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000" />
 +</vector>
+diff --git a/res/drawable/nasgor_about_ic_maintainer.xml b/res/drawable/nasgor_about_ic_maintainer.xml
+new file mode 100644
+index 0000000000..225cab46c5
+--- /dev/null
++++ b/res/drawable/nasgor_about_ic_maintainer.xml
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="16dp" android:height="16dp"
++    android:viewportWidth="24" android:viewportHeight="24">
++    <path android:pathData="M16,7A4,4 0,1 1,8 7A4,4 0,1 1,16 7 M4,21V19A8,7 0,0 1,20 19V21"
++        android:strokeColor="@color/nasgor_about_accent" android:strokeWidth="1.6"
++        android:strokeLineCap="round" android:strokeLineJoin="round"
++        android:fillColor="#00000000" />
++</vector>
 diff --git a/res/drawable/nasgor_about_ic_memory.xml b/res/drawable/nasgor_about_ic_memory.xml
 new file mode 100644
 index 0000000000..ddf2ff87ff
@@ -1585,10 +1601,10 @@ index 0000000000..a2a798a1ef
 +</shape>
 diff --git a/res/layout/nasgor_about_header.xml b/res/layout/nasgor_about_header.xml
 new file mode 100644
-index 0000000000..029828cc25
+index 0000000000..b88bbbc3ed
 --- /dev/null
 +++ b/res/layout/nasgor_about_header.xml
-@@ -0,0 +1,67 @@
+@@ -0,0 +1,79 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
 +     SPDX-License-Identifier: Apache-2.0 -->
@@ -1599,13 +1615,16 @@ index 0000000000..029828cc25
 +    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
 +        android:orientation="vertical" android:padding="16dp"
 +        android:background="@drawable/nasgor_about_hero_background">
-+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
++        <LinearLayout android:id="@+id/nasgor_about_brand_row"
++            android:layout_width="match_parent" android:layout_height="wrap_content"
 +            android:orientation="horizontal" android:gravity="center_vertical">
-+            <ImageView android:layout_width="104dp" android:layout_height="65dp"
++            <ImageView android:id="@+id/nasgor_about_logo"
++                android:layout_width="104dp" android:layout_height="65dp"
 +                android:layout_marginEnd="12dp" android:src="@drawable/nasgor_about_mark"
 +                android:scaleType="fitCenter" android:contentDescription="@null"
 +                android:importantForAccessibility="no" />
-+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
++            <LinearLayout android:id="@+id/nasgor_about_brand_text"
++                android:layout_width="0dp" android:layout_height="wrap_content"
 +                android:layout_weight="1" android:orientation="vertical">
 +                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
 +                    android:text="@string/nasgor_about_brand" android:textSize="26sp"
@@ -1627,6 +1646,15 @@ index 0000000000..029828cc25
 +        <TextView android:id="@+id/nasgor_about_chipset" android:layout_width="match_parent"
 +            android:layout_height="wrap_content" android:layout_marginTop="3dp"
 +            android:textSize="12sp" android:textColor="@color/nasgor_about_secondary" />
++        <TextView android:id="@+id/nasgor_about_maintainer"
++            android:layout_width="wrap_content" android:layout_height="wrap_content"
++            android:layout_marginTop="10dp" android:textSize="12sp"
++            android:paddingStart="10dp" android:paddingEnd="10dp"
++            android:paddingTop="6dp" android:paddingBottom="6dp"
++            android:drawableStart="@drawable/nasgor_about_ic_maintainer"
++            android:drawablePadding="6dp"
++            android:background="@drawable/nasgor_about_version_background"
++            android:textColor="@color/nasgor_about_accent" />
 +    </LinearLayout>
 +    <GridLayout android:id="@+id/nasgor_about_metrics"
 +        android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -1658,10 +1686,10 @@ index 0000000000..029828cc25
 +</LinearLayout>
 diff --git a/res/layout/nasgor_about_spec_tile.xml b/res/layout/nasgor_about_spec_tile.xml
 new file mode 100644
-index 0000000000..624aacdfa9
+index 0000000000..ed69dea779
 --- /dev/null
 +++ b/res/layout/nasgor_about_spec_tile.xml
-@@ -0,0 +1,28 @@
+@@ -0,0 +1,30 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-License-Identifier: Apache-2.0 -->
 +<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -1688,17 +1716,20 @@ index 0000000000..624aacdfa9
 +        android:layout_width="match_parent" android:layout_height="4dp"
 +        android:layout_marginTop="10dp" android:max="100" android:indeterminate="false"
 +        android:progressDrawable="@drawable/nasgor_about_capacity_progress"
++        android:progressTint="@color/nasgor_about_accent"
++        android:progressBackgroundTint="@color/nasgor_about_outline"
 +        android:visibility="gone" android:importantForAccessibility="no" />
 +</LinearLayout>
 diff --git a/res/values-in/nasgor_about.xml b/res/values-in/nasgor_about.xml
 new file mode 100644
-index 0000000000..356941cd5a
+index 0000000000..1fbfab2d82
 --- /dev/null
 +++ b/res/values-in/nasgor_about.xml
-@@ -0,0 +1,31 @@
+@@ -0,0 +1,32 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-License-Identifier: Apache-2.0 -->
 +<resources>
++    <string name="nasgor_about_maintainer_value">Maintainer · %1$s</string>
 +    <string name="nasgor_about_device_label">Perangkat Anda</string>
 +    <string name="nasgor_about_chipset_value">Chipset · %1$s</string>
 +    <string name="nasgor_about_memory_label">RAM</string>
@@ -1747,10 +1778,10 @@ index 0000000000..cb6f0de4fd
 +</resources>
 diff --git a/res/values/nasgor_about.xml b/res/values/nasgor_about.xml
 new file mode 100644
-index 0000000000..2cec227bb4
+index 0000000000..30d50f8246
 --- /dev/null
 +++ b/res/values/nasgor_about.xml
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,43 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
 +     SPDX-License-Identifier: Apache-2.0 -->
@@ -1764,6 +1795,7 @@ index 0000000000..2cec227bb4
 +    <color name="nasgor_about_accent">#804416</color>
 +    <color name="nasgor_about_badge">#FFDFB3</color>
 +    <string name="nasgor_about_brand" translatable="false">Nasgor OS</string>
++    <string name="nasgor_about_maintainer_value">Maintainer · %1$s</string>
 +    <string name="nasgor_about_device_label">Your device</string>
 +    <string name="nasgor_about_chipset_value">Chipset · %1$s</string>
 +    <string name="nasgor_about_android_label" translatable="false">Android</string>
@@ -1872,16 +1904,17 @@ index 2387deb970..5803c0e3f2 100644
          <!--IP address -->
 diff --git a/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java b/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java
 new file mode 100644
-index 0000000000..41c7dd5297
+index 0000000000..4d040ee776
 --- /dev/null
 +++ b/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java
-@@ -0,0 +1,207 @@
+@@ -0,0 +1,232 @@
 +/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
 + * SPDX-License-Identifier: Apache-2.0 */
 +package com.android.settings.deviceinfo.aboutphone;
 +
 +import android.content.Context;
 +import android.content.res.Configuration;
++import android.content.res.Resources;
 +import android.os.Build;
 +import android.os.Handler;
 +import android.os.Looper;
@@ -1892,6 +1925,7 @@ index 0000000000..41c7dd5297
 +import android.view.ViewGroup;
 +import android.widget.GridLayout;
 +import android.widget.ImageView;
++import android.widget.LinearLayout;
 +import android.widget.ProgressBar;
 +import android.widget.TextView;
 +
@@ -1954,6 +1988,15 @@ index 0000000000..41c7dd5297
 +        setText(holder, R.id.nasgor_about_version,
 +                version.isEmpty() ? Build.VERSION.RELEASE : version);
 +        setText(holder, R.id.nasgor_about_device, Build.MODEL);
++        String maintainer = maintainer();
++        if (maintainer.isEmpty()) {
++            try {
++                maintainer = context.getString(R.string.build_maintainer_summary).trim();
++            } catch (Resources.NotFoundException ignored) { }
++        }
++        setText(holder, R.id.nasgor_about_maintainer,
++                context.getString(R.string.nasgor_about_maintainer_value,
++                        value(maintainer, context.getString(R.string.unknown))));
 +        String chipset = mInfo == null ? null : mInfo.chipset;
 +        if (chipset == null || chipset.isEmpty()) {
 +            chipset = Build.UNKNOWN.equals(Build.SOC_MODEL) ? Build.HARDWARE : Build.SOC_MODEL;
@@ -2021,6 +2064,20 @@ index 0000000000..41c7dd5297
 +    private static void arrangeMetrics(PreferenceViewHolder holder, Context context) {
 +        Configuration configuration = context.getResources().getConfiguration();
 +        int columns = configuration.screenWidthDp < 320 || configuration.fontScale >= 1.3f ? 1 : 2;
++        // Give the name full width at large font sizes instead of splitting letters.
++        LinearLayout brand = (LinearLayout) holder.findViewById(R.id.nasgor_about_brand_row);
++        brand.setOrientation(columns == 1 ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
++        View brandText = holder.findViewById(R.id.nasgor_about_brand_text);
++        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
++                columns == 1 ? ViewGroup.LayoutParams.MATCH_PARENT : 0,
++                ViewGroup.LayoutParams.WRAP_CONTENT, columns == 1 ? 0 : 1);
++        int brandGap = Math.round(12 * context.getResources().getDisplayMetrics().density);
++        textParams.topMargin = columns == 1 ? brandGap : 0;
++        brandText.setLayoutParams(textParams);
++        View logo = holder.findViewById(R.id.nasgor_about_logo);
++        LinearLayout.LayoutParams logoParams = (LinearLayout.LayoutParams) logo.getLayoutParams();
++        logoParams.setMarginEnd(columns == 1 ? 0 : brandGap);
++        logo.setLayoutParams(logoParams);
 +        GridLayout metrics = (GridLayout) holder.findViewById(R.id.nasgor_about_metrics);
 +        // Remove old explicit specs before reducing the number of columns on a reused view.
 +        for (int i = 0; i < metrics.getChildCount(); i++) {
