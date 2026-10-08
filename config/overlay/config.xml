@@ -5,13 +5,48 @@
 
      Installed as /product/overlay/config/config.xml (OverlayConfigParser).
 
-     LineageSetupWizard normally enables gesture navigation during setup. NasgorOS
-     replaces it with silent provisioning (NasgorProvision), so the gesture overlay is
-     enabled by default here instead. It stays mutable: users can still switch to
-     3-button navigation in Settings > System > Navigation.
+     Once this file exists, Android no longer treats android:isStatic overlays on
+     /product as default-enabled: every overlay not listed here becomes mutable and
+     disabled. So every static product overlay (auto-generated RROs from
+     PRODUCT_PACKAGE_OVERLAYS and runtime_resource_overlay modules) is listed below,
+     in their android:priority order; later entries win. The nasgoros build target
+     fails if a static product overlay is missing (tools/check-overlay-config.sh).
 
-     Devices with hardware navigation keys can ship their own product overlay config.
+     Gesture navigation is on by default (NasgorOS ships AOSP Provision instead of
+     LineageSetupWizard, which used to enable it). It stays mutable, so users can
+     still pick 3-button navigation in Settings.
 -->
 <config>
+    <overlay package="org.lineageos.aperture.frameworksbaseoverlay" enabled="true" mutable="false" />
+    <overlay package="org.lineageos.aperture.overlay.merlinx" enabled="true" mutable="false" />
+    <overlay package="android.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.avatarpicker.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.axion.axthemestore.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.axion.quicklook.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.devicediagnostics.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.dialer.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.emergency.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.imsserviceentitlement.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.inputmethod.latin.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.intentresolver.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.launcher3.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.managedprovisioning.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.phone.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.providers.settings.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.settings.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.storagemanager.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.systemui.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.nasgoros.settings.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="io.chaldeaprjkt.gamespace.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="org.lineageos.lineageparts.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="org.lineageos.lineagesettings.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="org.omnirom.omnistyle.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="org.protonaosp.deviceconfig.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="com.android.carrierconfig.overlay.mssi" enabled="true" mutable="false" />
+    <overlay package="com.android.documentsui.overlay" enabled="true" mutable="false" />
+    <overlay package="com.android.launcher3.overlay" enabled="true" mutable="false" />
+    <overlay package="com.android.networkstack.overlay" enabled="true" mutable="false" />
+    <overlay package="com.android.permissioncontroller.overlay" enabled="true" mutable="false" />
+    <overlay package="com.android.carrierconfig.overlay.mt6768" enabled="true" mutable="false" />
     <overlay package="com.android.internal.systemui.navbar.gestural" enabled="true" mutable="true" />
 </config>
