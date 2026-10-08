@@ -47,7 +47,7 @@ def main():
     (HERE / "nasgor-os-logo-transparent.png").write_bytes(master)
     avatar = render("0 0 400 400", 1024, 1024, "#111821")
     (HERE / "nasgor-os-avatar-dark.png").write_bytes(avatar)
-    # Crop only transparent space for the 192dp x 120dp About ImageView.
+    # Crop only transparent space for the compact About ImageView.
     about = render("0 68 400 250", 768, 480)
     (HERE / "nasgor-about-mark.png").write_bytes(about)
     if args.project_copy:

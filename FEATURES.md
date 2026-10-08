@@ -23,14 +23,14 @@ for the Android 18 / other-ROM workflow and `config/features.mk` for feature swi
 | "LineageOS" → "NasgorOS" in all locales | 1 | `overlay/branding/` (generated), `tools/gen-branding-overlay.py` | **re-run the generator after every rebase** and commit |
 | Minimal app selection and silent first boot | 1 | `removed-packages/`, `config/features/minimal-apps.mk`, `apps/Provision/`, `overlay/minimal/` | check module names, transitive overrides, backup defaults and AOSP Provision on upgrade |
 | Gesture navigation enabled by default | 1 | `config/overlay/config.xml` → `/product/overlay/config/config.xml`, `config/features/navigation.mk` | replaces LineageSetupWizard's navigation step (AOSP OverlayConfig); re-check overlay package name after upgrades |
-| About phone / Nasgor OS overview | 3 | Shared centered plate logo, version badge, device card and responsive Android/RAM tiles; Settings patch | XML + Catalyst bindings, real device values, light/dark palettes; [design preview](branding/about-preview/index.html) uses example data |
+| About phone / Nasgor OS overview | 3 | Compact plate logo, version badge, six icon cards (RAM, internal, CPU cores/clock, GPU name/clock, zRAM, Android), full-width kernel; Settings patch | XML + Catalyst, background device snapshot, RAM/storage usage bars, responsive text and light/dark palettes; [design preview](branding/about-preview/index.html) uses example data |
 | Settings hub and LineageParts entry routing | 2 | `packages/apps/NasgorSettings`, `config/features/settings.mk` | LineageParts part keys, component aliases and LineagePreferenceLib |
 | FPS info overlay (single switch, draggable, top-right default, no notification) | 2 | `packages/apps/NasgorSettings` (`performance/`, `nasgor-settings-sysconfig.xml`) | platform `registerTaskFpsCallback` and `TYPE_APPLICATION_OVERLAY`; relies on `allow-in-power-save` to run without a foreground notification |
 | Removed crDroid Axion Sandbox (app lock/hide/isolation/settings spoof) | 3 | `patches/frameworks_base/0002-remove-axion-sandbox.patch` (reverts crDroid commits 766dc51, 9d1d615, 2ddabbe, eec891c), `patches/vendor_addons/0002-remove-axion-sandbox.patch` (`sdk/ax_sandbox`), `patches/device_lineage_sepolicy/0001-remove-axion-sandbox.patch`; Sandbox/AppLocker dropped from manifest | **high**: touches AMS/PMS/WM/NMS/IME/A11y, `IActivityManager.aidl`, SystemUI. On a crDroid bump, regenerate by reverting the upstream Axion sandbox commits again. AOSP App Lock (`AppLockController`, `AppLockActivity`) is kept |
 | Removed OmniJaws weather | 3 | `patches/frameworks_base/0003-remove-omnijaws-weather.patch` (OmniJawsClient, QS tile, lock screen weather, `LOCKSCREEN_WEATHER_*` keys), `patches/packages_apps_crDroidSettings/0002-remove-omnijaws-weather.patch`, `patches/packages_services_QuickLook/0001-remove-omnijaws-weather.patch`; OmniJaws and `packages/resources/apps` dropped from manifest | medium: `WeatherImageView`/`WeatherTextView` remain as always-hidden stubs because ~70 crDroid clock layouts reference them; AOSP smartspace weather is untouched |
 | No OTA updates (Updater removed, System update entry hidden, no OTA maintainer fetch) | 1 | `config/features/no-ota.mk`, `no-ota/Android.mk`, `overlay/no-ota/`; Settings patch skips `fetchMaintainerFromOta` | check the Updater module name and `config_show_system_update_settings` on upgrade |
 | Recovery installer banner (version, security patch, maintainer, builder, LiteGapps hint) | 2 | `build/tools/nasgoros_banner.py`, called from the device `releasetools.py` `FullOTA_InstallBegin` | each new device's releasetools must call it; props `ro.nasgoros.{display.version,codename,maintainer,builder}` |
-| About phone hardware details (chipset, CPU clusters/clock, GPU, RAM, storage, display, battery) | 3 | Settings `NasgorHardwareCategory` in `patches/packages_apps_Settings/0001-*`; device prop `ro.nasgoros.chipset` | values read live; set `ro.nasgoros.chipset` per device for the marketing name |
+| About phone hardware details | 3 | Shared `NasgorHardwareInfo` reader and `NasgorHardwareCategory` in Settings patch; device prop `ro.nasgoros.chipset` | One-shot snapshot, cached EGL renderer; detailed CPU clusters, architecture, GPU API, display and battery remain below the cards; unavailable nodes never guessed |
 | Complete crDroid Settings customization sources | 3 | `ports/crdroid/`, `patches/`, `config/crdroid.mk`, manifest `snippets/nasgor-crdroid.xml` | pinned matching Settings, SystemUI, framework and provider sources; apply patches after sync and test the full ROM |
 
 ## Recovery file manager
@@ -94,8 +94,9 @@ The minimal selection additionally excludes `Seedvault`, `LocalContactsBackup`,
 and `LineageSetupWizard`. Camera, file manager, PDF printing, WebView and the
 selected crDroid feature providers remain installed. See
 [removed-packages/README.md](removed-packages/README.md) for effects, first-boot
-provisioning, and restoration steps; restoring the wizard requires removing
-`NasgorProvision` as well.
+provisioning, and restoration steps. First boot uses the stock AOSP `Provision`
+app; the `nasgoros/android_packages_apps_SetupWizard` fork only drops
+LineageSetupWizard's `overrides: ["Provision"]` (restore it if the wizard returns).
 
 ## Settings › NasgorOS
 

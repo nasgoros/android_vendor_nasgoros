@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # Gesture navigation on by default. LineageSetupWizard normally enables it during
-# setup; NasgorOS ships silent provisioning instead (NasgorProvision), so the
+# setup; NasgorOS ships AOSP Provision (silent provisioning) instead, so the
 # gestural overlay is default-enabled through AOSP's overlay config. It stays
 # mutable, so users can still pick 3-button navigation in Settings.
 #

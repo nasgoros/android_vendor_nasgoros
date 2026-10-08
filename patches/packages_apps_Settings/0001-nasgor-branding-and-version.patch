@@ -1454,6 +1454,18 @@ Ws$-+-N969{0T=YOI;2Vt7XE)F=A5tq
 literal 0
 HcmV?d00001
 
+diff --git a/res/drawable/nasgor_about_capacity_progress.xml b/res/drawable/nasgor_about_capacity_progress.xml
+new file mode 100644
+index 0000000000..28fa5325a2
+--- /dev/null
++++ b/res/drawable/nasgor_about_capacity_progress.xml
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:id="@android:id/background"><shape><corners android:radius="2dp" /><solid android:color="@color/nasgor_about_outline" /></shape></item>
++    <item android:id="@android:id/progress"><clip><shape><corners android:radius="2dp" /><solid android:color="@color/nasgor_about_accent" /></shape></clip></item>
++</layer-list>
 diff --git a/res/drawable/nasgor_about_hero_background.xml b/res/drawable/nasgor_about_hero_background.xml
 new file mode 100644
 index 0000000000..3a5d721f1d
@@ -1469,6 +1481,83 @@ index 0000000000..3a5d721f1d
 +        android:startColor="@color/nasgor_about_hero_start"
 +        android:endColor="@color/nasgor_about_hero_end" />
 +</shape>
+diff --git a/res/drawable/nasgor_about_ic_android.xml b/res/drawable/nasgor_about_ic_android.xml
+new file mode 100644
+index 0000000000..5ed46ffe9e
+--- /dev/null
++++ b/res/drawable/nasgor_about_ic_android.xml
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="20dp" android:height="20dp" android:viewportWidth="24" android:viewportHeight="24">
++    <path android:pathData="M5,10H19V19H5Z M8,6L6,3 M16,6L18,3 M5,10C5,3 19,3 19,10 M8,19V22 M16,19V22 M2,11V17 M22,11V17 M9,8H9.1 M15,8H15.1" android:strokeColor="@color/nasgor_about_accent" android:strokeWidth="1.6" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000" />
++</vector>
+diff --git a/res/drawable/nasgor_about_ic_cpu.xml b/res/drawable/nasgor_about_ic_cpu.xml
+new file mode 100644
+index 0000000000..d44d3b2000
+--- /dev/null
++++ b/res/drawable/nasgor_about_ic_cpu.xml
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="20dp" android:height="20dp" android:viewportWidth="24" android:viewportHeight="24">
++    <path android:pathData="M6,6H18V18H6Z M9,9H15V15H9Z M9,3V6 M15,3V6 M9,18V21 M15,18V21 M3,9H6 M3,15H6 M18,9H21 M18,15H21" android:strokeColor="@color/nasgor_about_accent" android:strokeWidth="1.6" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000" />
++</vector>
+diff --git a/res/drawable/nasgor_about_ic_gpu.xml b/res/drawable/nasgor_about_ic_gpu.xml
+new file mode 100644
+index 0000000000..73b8ebc5fb
+--- /dev/null
++++ b/res/drawable/nasgor_about_ic_gpu.xml
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="20dp" android:height="20dp" android:viewportWidth="24" android:viewportHeight="24">
++    <path android:pathData="M3,5H21V17H3Z M8,21H16 M12,17V21 M8,9L11,12L8,15 M14,14H17" android:strokeColor="@color/nasgor_about_accent" android:strokeWidth="1.6" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000" />
++</vector>
+diff --git a/res/drawable/nasgor_about_ic_kernel.xml b/res/drawable/nasgor_about_ic_kernel.xml
+new file mode 100644
+index 0000000000..bed4d09859
+--- /dev/null
++++ b/res/drawable/nasgor_about_ic_kernel.xml
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="20dp" android:height="20dp" android:viewportWidth="24" android:viewportHeight="24">
++    <path android:pathData="M4,4H20V20H4Z M7,8L10,11L7,14 M12,15H17" android:strokeColor="@color/nasgor_about_accent" android:strokeWidth="1.6" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000" />
++</vector>
+diff --git a/res/drawable/nasgor_about_ic_memory.xml b/res/drawable/nasgor_about_ic_memory.xml
+new file mode 100644
+index 0000000000..ddf2ff87ff
+--- /dev/null
++++ b/res/drawable/nasgor_about_ic_memory.xml
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="20dp" android:height="20dp" android:viewportWidth="24" android:viewportHeight="24">
++    <path android:pathData="M3,7H21V17H3Z M7,10V14 M11,10V14 M15,10V14 M6,17V20 M10,17V20 M14,17V20 M18,17V20" android:strokeColor="@color/nasgor_about_accent" android:strokeWidth="1.6" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000" />
++</vector>
+diff --git a/res/drawable/nasgor_about_ic_storage.xml b/res/drawable/nasgor_about_ic_storage.xml
+new file mode 100644
+index 0000000000..7ae0141685
+--- /dev/null
++++ b/res/drawable/nasgor_about_ic_storage.xml
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="20dp" android:height="20dp" android:viewportWidth="24" android:viewportHeight="24">
++    <path android:pathData="M4,5H20V19H4Z M4,14H20 M7,17H9 M16,17H17 M7,8H17" android:strokeColor="@color/nasgor_about_accent" android:strokeWidth="1.6" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000" />
++</vector>
+diff --git a/res/drawable/nasgor_about_ic_zram.xml b/res/drawable/nasgor_about_ic_zram.xml
+new file mode 100644
+index 0000000000..49f6d01044
+--- /dev/null
++++ b/res/drawable/nasgor_about_ic_zram.xml
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="20dp" android:height="20dp" android:viewportWidth="24" android:viewportHeight="24">
++    <path android:pathData="M4,4H20V8H4Z M4,16H20V20H4Z M8,10V14 M6,12L8,14L10,12 M16,14V10 M14,12L16,10L18,12" android:strokeColor="@color/nasgor_about_accent" android:strokeWidth="1.6" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillColor="#00000000" />
++</vector>
 diff --git a/res/drawable/nasgor_about_tile_background.xml b/res/drawable/nasgor_about_tile_background.xml
 new file mode 100644
 index 0000000000..d1f9b22997
@@ -1496,163 +1585,117 @@ index 0000000000..a2a798a1ef
 +</shape>
 diff --git a/res/layout/nasgor_about_header.xml b/res/layout/nasgor_about_header.xml
 new file mode 100644
-index 0000000000..18bdaa646c
+index 0000000000..029828cc25
 --- /dev/null
 +++ b/res/layout/nasgor_about_header.xml
-@@ -0,0 +1,147 @@
+@@ -0,0 +1,67 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
 +     SPDX-License-Identifier: Apache-2.0 -->
 +<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-+    android:layout_width="match_parent"
-+    android:layout_height="wrap_content"
-+    android:orientation="vertical"
-+    android:paddingStart="16dp"
-+    android:paddingEnd="16dp"
-+    android:paddingTop="8dp"
-+    android:paddingBottom="16dp">
-+
-+    <LinearLayout
-+        android:layout_width="match_parent"
-+        android:layout_height="wrap_content"
-+        android:background="@drawable/nasgor_about_hero_background"
-+        android:gravity="center_horizontal"
-+        android:orientation="vertical"
-+        android:paddingStart="20dp"
-+        android:paddingEnd="20dp"
-+        android:paddingTop="28dp"
-+        android:paddingBottom="28dp">
-+
-+        <ImageView
-+            android:layout_width="192dp"
-+            android:layout_height="120dp"
-+            android:src="@drawable/nasgor_about_mark"
-+            android:scaleType="fitCenter"
-+            android:contentDescription="@null"
-+            android:importantForAccessibility="no" />
-+
-+        <TextView
-+            android:layout_width="match_parent"
-+            android:layout_height="wrap_content"
-+            android:layout_marginTop="16dp"
-+            android:text="@string/nasgor_about_brand"
-+            android:gravity="center"
-+            android:textSize="34sp"
-+            android:fontFamily="sans-serif-medium"
-+            android:textColor="@color/nasgor_about_text"
-+            android:accessibilityHeading="true" />
-+
-+        <TextView
-+            android:id="@+id/nasgor_about_version"
-+            android:layout_width="wrap_content"
-+            android:layout_height="wrap_content"
-+            android:layout_marginTop="12dp"
-+            android:background="@drawable/nasgor_about_version_background"
-+            android:paddingStart="16dp"
-+            android:paddingEnd="16dp"
-+            android:paddingTop="8dp"
-+            android:paddingBottom="8dp"
-+            android:gravity="center"
-+            android:textSize="14sp"
-+            android:fontFamily="sans-serif-medium"
-+            android:textColor="@color/nasgor_about_accent" />
-+    </LinearLayout>
-+
-+    <LinearLayout
-+        android:layout_width="match_parent"
-+        android:layout_height="wrap_content"
-+        android:layout_marginTop="12dp"
-+        android:background="@drawable/nasgor_about_tile_background"
-+        android:orientation="vertical"
-+        android:padding="20dp">
-+
-+        <TextView
-+            android:layout_width="match_parent"
-+            android:layout_height="wrap_content"
-+            android:text="@string/nasgor_about_device_label"
-+            android:textSize="13sp"
-+            android:textColor="@color/nasgor_about_accent" />
-+
-+        <TextView
-+            android:id="@+id/nasgor_about_device"
-+            android:layout_width="match_parent"
-+            android:layout_height="wrap_content"
-+            android:layout_marginTop="8dp"
-+            android:textSize="24sp"
-+            android:fontFamily="sans-serif-medium"
++    android:layout_width="match_parent" android:layout_height="wrap_content"
++    android:orientation="vertical" android:paddingStart="16dp" android:paddingEnd="16dp"
++    android:paddingTop="8dp" android:paddingBottom="16dp">
++    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
++        android:orientation="vertical" android:padding="16dp"
++        android:background="@drawable/nasgor_about_hero_background">
++        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
++            android:orientation="horizontal" android:gravity="center_vertical">
++            <ImageView android:layout_width="104dp" android:layout_height="65dp"
++                android:layout_marginEnd="12dp" android:src="@drawable/nasgor_about_mark"
++                android:scaleType="fitCenter" android:contentDescription="@null"
++                android:importantForAccessibility="no" />
++            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
++                android:layout_weight="1" android:orientation="vertical">
++                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
++                    android:text="@string/nasgor_about_brand" android:textSize="26sp"
++                    android:fontFamily="sans-serif-medium" android:textColor="@color/nasgor_about_text"
++                    android:accessibilityHeading="true" />
++                <TextView android:id="@+id/nasgor_about_version"
++                    android:layout_width="wrap_content" android:layout_height="wrap_content"
++                    android:layout_marginTop="6dp" android:textSize="12sp"
++                    android:background="@drawable/nasgor_about_version_background"
++                    android:paddingStart="10dp" android:paddingEnd="10dp"
++                    android:paddingTop="4dp" android:paddingBottom="4dp"
++                    android:fontFamily="sans-serif-medium" android:textColor="@color/nasgor_about_accent" />
++            </LinearLayout>
++        </LinearLayout>
++        <TextView android:id="@+id/nasgor_about_device" android:layout_width="match_parent"
++            android:layout_height="wrap_content" android:layout_marginTop="12dp"
++            android:textSize="18sp" android:fontFamily="sans-serif-medium"
 +            android:textColor="@color/nasgor_about_text" />
-+
-+        <TextView
-+            android:id="@+id/nasgor_about_chipset"
-+            android:layout_width="match_parent"
-+            android:layout_height="wrap_content"
-+            android:layout_marginTop="6dp"
-+            android:textSize="14sp"
-+            android:textColor="@color/nasgor_about_secondary" />
++        <TextView android:id="@+id/nasgor_about_chipset" android:layout_width="match_parent"
++            android:layout_height="wrap_content" android:layout_marginTop="3dp"
++            android:textSize="12sp" android:textColor="@color/nasgor_about_secondary" />
 +    </LinearLayout>
-+
-+    <LinearLayout
-+        android:id="@+id/nasgor_about_metrics"
-+        android:layout_width="match_parent"
-+        android:layout_height="wrap_content"
-+        android:layout_marginTop="12dp"
-+        android:orientation="horizontal"
-+        android:baselineAligned="false">
-+
-+        <LinearLayout
-+            android:layout_width="0dp"
-+            android:layout_height="wrap_content"
-+            android:layout_weight="1"
-+            android:background="@drawable/nasgor_about_tile_background"
-+            android:orientation="vertical"
-+            android:padding="20dp">
-+            <TextView
-+                android:layout_width="match_parent"
-+                android:layout_height="wrap_content"
-+                android:text="@string/nasgor_about_android_label"
-+                android:textSize="13sp"
++    <GridLayout android:id="@+id/nasgor_about_metrics"
++        android:layout_width="match_parent" android:layout_height="wrap_content"
++        android:layout_marginTop="8dp" android:columnCount="2" android:useDefaultMargins="false">
++        <include android:id="@+id/nasgor_card_memory" layout="@layout/nasgor_about_spec_tile" />
++        <include android:id="@+id/nasgor_card_storage" layout="@layout/nasgor_about_spec_tile" />
++        <include android:id="@+id/nasgor_card_cpu" layout="@layout/nasgor_about_spec_tile" />
++        <include android:id="@+id/nasgor_card_gpu" layout="@layout/nasgor_about_spec_tile" />
++        <include android:id="@+id/nasgor_card_zram" layout="@layout/nasgor_about_spec_tile" />
++        <include android:id="@+id/nasgor_card_android" layout="@layout/nasgor_about_spec_tile" />
++    </GridLayout>
++    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
++        android:orientation="vertical" android:layout_marginTop="8dp" android:padding="14dp"
++        android:background="@drawable/nasgor_about_tile_background">
++        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
++            android:orientation="horizontal" android:gravity="center_vertical">
++            <ImageView android:layout_width="18dp" android:layout_height="18dp"
++                android:src="@drawable/nasgor_about_ic_kernel" android:layout_marginEnd="6dp"
++                android:contentDescription="@null" android:importantForAccessibility="no" />
++            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
++                android:text="@string/nasgor_about_kernel_label" android:textSize="12sp"
 +                android:textColor="@color/nasgor_about_secondary" />
-+            <TextView
-+                android:id="@+id/nasgor_about_android"
-+                android:layout_width="match_parent"
-+                android:layout_height="wrap_content"
-+                android:layout_marginTop="8dp"
-+                android:textSize="26sp"
-+                android:fontFamily="sans-serif-medium"
-+                android:textColor="@color/nasgor_about_accent" />
 +        </LinearLayout>
-+
-+        <LinearLayout
-+            android:layout_width="0dp"
-+            android:layout_height="wrap_content"
-+            android:layout_weight="1"
-+            android:layout_marginStart="12dp"
-+            android:background="@drawable/nasgor_about_tile_background"
-+            android:orientation="vertical"
-+            android:padding="20dp">
-+            <TextView
-+                android:layout_width="match_parent"
-+                android:layout_height="wrap_content"
-+                android:text="@string/nasgor_about_memory_label"
-+                android:textSize="13sp"
-+                android:textColor="@color/nasgor_about_secondary" />
-+            <TextView
-+                android:id="@+id/nasgor_about_memory"
-+                android:layout_width="match_parent"
-+                android:layout_height="wrap_content"
-+                android:layout_marginTop="8dp"
-+                android:textSize="26sp"
-+                android:fontFamily="sans-serif-medium"
-+                android:textColor="@color/nasgor_about_accent" />
-+        </LinearLayout>
++        <TextView android:id="@+id/nasgor_about_kernel" android:layout_width="match_parent"
++            android:layout_height="wrap_content" android:layout_marginTop="8dp"
++            android:textSize="13sp" android:fontFamily="monospace"
++            android:textColor="@color/nasgor_about_text" />
 +    </LinearLayout>
++</LinearLayout>
+diff --git a/res/layout/nasgor_about_spec_tile.xml b/res/layout/nasgor_about_spec_tile.xml
+new file mode 100644
+index 0000000000..624aacdfa9
+--- /dev/null
++++ b/res/layout/nasgor_about_spec_tile.xml
+@@ -0,0 +1,28 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- SPDX-License-Identifier: Apache-2.0 -->
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent" android:layout_height="wrap_content"
++    android:minHeight="112dp" android:orientation="vertical" android:padding="14dp"
++    android:background="@drawable/nasgor_about_tile_background">
++    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
++        android:orientation="horizontal" android:gravity="center_vertical">
++        <ImageView android:id="@+id/nasgor_spec_icon" android:layout_width="18dp"
++            android:layout_height="18dp" android:layout_marginEnd="6dp"
++            android:contentDescription="@null" android:importantForAccessibility="no" />
++        <TextView android:id="@+id/nasgor_spec_label" android:layout_width="0dp"
++            android:layout_weight="1" android:layout_height="wrap_content"
++            android:textSize="12sp" android:textColor="@color/nasgor_about_secondary" />
++    </LinearLayout>
++    <TextView android:id="@+id/nasgor_spec_value" android:layout_width="match_parent"
++        android:layout_height="wrap_content" android:layout_marginTop="8dp"
++        android:textSize="18sp" android:fontFamily="sans-serif-medium"
++        android:textColor="@color/nasgor_about_text" />
++    <TextView android:id="@+id/nasgor_spec_detail" android:layout_width="match_parent"
++        android:layout_height="wrap_content" android:layout_marginTop="4dp"
++        android:textSize="12sp" android:textColor="@color/nasgor_about_secondary" />
++    <ProgressBar android:id="@+id/nasgor_spec_meter" style="?android:attr/progressBarStyleHorizontal"
++        android:layout_width="match_parent" android:layout_height="4dp"
++        android:layout_marginTop="10dp" android:max="100" android:indeterminate="false"
++        android:progressDrawable="@drawable/nasgor_about_capacity_progress"
++        android:visibility="gone" android:importantForAccessibility="no" />
 +</LinearLayout>
 diff --git a/res/values-in/nasgor_about.xml b/res/values-in/nasgor_about.xml
 new file mode 100644
-index 0000000000..b8a284f811
+index 0000000000..356941cd5a
 --- /dev/null
 +++ b/res/values-in/nasgor_about.xml
-@@ -0,0 +1,20 @@
+@@ -0,0 +1,31 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-License-Identifier: Apache-2.0 -->
 +<resources>
@@ -1672,6 +1715,17 @@ index 0000000000..b8a284f811
 +    <string name="nasgor_hw_battery">Kapasitas baterai</string>
 +    <string name="nasgor_hw_cores">%1$d inti</string>
 +    <string name="nasgor_hw_governor">Governor: %1$s</string>
++    <string name="nasgor_about_loading">Memuat…</string>
++    <string name="nasgor_about_storage_label">Internal</string>
++    <string name="nasgor_about_zram_label">zRAM</string>
++    <string name="nasgor_about_kernel_label">Kernel</string>
++    <string name="nasgor_about_available">%1$s tersedia</string>
++    <string name="nasgor_about_max_clock">Maks. %1$s</string>
++    <string name="nasgor_about_clock_unavailable">Clock tidak tersedia</string>
++    <string name="nasgor_about_zram_disabled">Nonaktif</string>
++    <string name="nasgor_about_zram_configured">Kapasitas swap terkompresi</string>
++    <string name="nasgor_about_zram_physical">%1$s RAM fisik</string>
++    <string name="nasgor_about_android_detail">Versi Android</string>
 +</resources>
 diff --git a/res/values-night/nasgor_about.xml b/res/values-night/nasgor_about.xml
 new file mode 100644
@@ -1693,10 +1747,10 @@ index 0000000000..cb6f0de4fd
 +</resources>
 diff --git a/res/values/nasgor_about.xml b/res/values/nasgor_about.xml
 new file mode 100644
-index 0000000000..b9ba3cf9d3
+index 0000000000..2cec227bb4
 --- /dev/null
 +++ b/res/values/nasgor_about.xml
-@@ -0,0 +1,31 @@
+@@ -0,0 +1,42 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
 +     SPDX-License-Identifier: Apache-2.0 -->
@@ -1727,6 +1781,17 @@ index 0000000000..b9ba3cf9d3
 +    <string name="nasgor_hw_battery">Battery capacity</string>
 +    <string name="nasgor_hw_cores">%1$d cores</string>
 +    <string name="nasgor_hw_governor">Governor: %1$s</string>
++    <string name="nasgor_about_loading">Loading…</string>
++    <string name="nasgor_about_storage_label">Internal</string>
++    <string name="nasgor_about_zram_label">zRAM</string>
++    <string name="nasgor_about_kernel_label">Kernel</string>
++    <string name="nasgor_about_available">%1$s available</string>
++    <string name="nasgor_about_max_clock">Max. %1$s</string>
++    <string name="nasgor_about_clock_unavailable">Clock unavailable</string>
++    <string name="nasgor_about_zram_disabled">Inactive</string>
++    <string name="nasgor_about_zram_configured">Compressed swap capacity</string>
++    <string name="nasgor_about_zram_physical">%1$s physical RAM</string>
++    <string name="nasgor_about_android_detail">Android version</string>
 +</resources>
 diff --git a/res/xml/firmware_version.xml b/res/xml/firmware_version.xml
 index 07a782b8db..f270186f4f 100644
@@ -1807,23 +1872,27 @@ index 2387deb970..5803c0e3f2 100644
          <!--IP address -->
 diff --git a/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java b/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java
 new file mode 100644
-index 0000000000..00a3de0abb
+index 0000000000..41c7dd5297
 --- /dev/null
 +++ b/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java
-@@ -0,0 +1,86 @@
+@@ -0,0 +1,207 @@
 +/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
 + * SPDX-License-Identifier: Apache-2.0 */
 +package com.android.settings.deviceinfo.aboutphone;
 +
-+import android.app.ActivityManager;
 +import android.content.Context;
 +import android.content.res.Configuration;
 +import android.os.Build;
++import android.os.Handler;
++import android.os.Looper;
 +import android.os.SystemProperties;
 +import android.text.format.Formatter;
 +import android.util.AttributeSet;
++import android.view.View;
 +import android.view.ViewGroup;
-+import android.widget.LinearLayout;
++import android.widget.GridLayout;
++import android.widget.ImageView;
++import android.widget.ProgressBar;
 +import android.widget.TextView;
 +
 +import androidx.preference.Preference;
@@ -1831,14 +1900,47 @@ index 0000000000..00a3de0abb
 +
 +import com.android.settings.R;
 +
-+/** Shared, lightweight overview for About phone, firmware and About NasgorOS. */
++import java.util.Locale;
++
++/** Compact, one-shot hardware overview shared by all Nasgor OS About screens. */
 +public final class NasgorAboutHeaderPreference extends Preference {
++    private final Handler mMain = new Handler(Looper.getMainLooper());
++    private NasgorHardwareInfo mInfo;
++    private int mGeneration;
++
 +    public NasgorAboutHeaderPreference(Context context, AttributeSet attrs) {
 +        super(context, attrs);
 +        setLayoutResource(R.layout.nasgor_about_header);
 +        setSelectable(false);
 +        setPersistent(false);
 +        setIconSpaceReserved(false);
++    }
++
++    @Override
++    public void onAttached() {
++        super.onAttached();
++        final int generation = ++mGeneration;
++        final Context app = getContext().getApplicationContext();
++        new Thread(() -> {
++            NasgorHardwareInfo result;
++            try {
++                result = NasgorHardwareInfo.read(app, null);
++            } catch (RuntimeException ignored) {
++                result = new NasgorHardwareInfo();
++            }
++            final NasgorHardwareInfo snapshot = result;
++            mMain.post(() -> {
++                if (generation != mGeneration) return;
++                mInfo = snapshot;
++                notifyChanged();
++            });
++        }, "NasgorAboutSnapshot").start();
++    }
++
++    @Override
++    public void onDetached() {
++        ++mGeneration;
++        super.onDetached();
 +    }
 +
 +    @Override
@@ -1849,46 +1951,130 @@ index 0000000000..00a3de0abb
 +        Context context = getContext();
 +        arrangeMetrics(holder, context);
 +        String version = displayVersion();
-+        if (version.isEmpty()) version = Build.VERSION.RELEASE;
-+        setText(holder, R.id.nasgor_about_version, version);
++        setText(holder, R.id.nasgor_about_version,
++                version.isEmpty() ? Build.VERSION.RELEASE : version);
 +        setText(holder, R.id.nasgor_about_device, Build.MODEL);
-+        String chipset = Build.UNKNOWN.equals(Build.SOC_MODEL) ? Build.HARDWARE : Build.SOC_MODEL;
++        String chipset = mInfo == null ? null : mInfo.chipset;
++        if (chipset == null || chipset.isEmpty()) {
++            chipset = Build.UNKNOWN.equals(Build.SOC_MODEL) ? Build.HARDWARE : Build.SOC_MODEL;
++        }
 +        setText(holder, R.id.nasgor_about_chipset,
 +                context.getString(R.string.nasgor_about_chipset_value, chipset));
-+        setText(holder, R.id.nasgor_about_android, Build.VERSION.RELEASE);
-+        ActivityManager manager = context.getSystemService(ActivityManager.class);
-+        ActivityManager.MemoryInfo memory = new ActivityManager.MemoryInfo();
-+        if (manager != null) manager.getMemoryInfo(memory);
-+        setText(holder, R.id.nasgor_about_memory, memory.totalMem > 0
-+                ? Formatter.formatShortFileSize(context, memory.totalMem)
-+                : context.getString(R.string.unknown));
++        String unavailable = context.getString(mInfo == null
++                ? R.string.nasgor_about_loading : R.string.unknown);
++        NasgorHardwareInfo info = mInfo == null ? new NasgorHardwareInfo() : mInfo;
++
++        tile(holder, R.id.nasgor_card_memory, R.drawable.nasgor_about_ic_memory,
++                R.string.nasgor_about_memory_label,
++                size(context, info.memoryTotal, unavailable),
++                available(context, info.memoryTotal, info.memoryAvailable),
++                usedPercent(info.memoryTotal, info.memoryAvailable));
++        tile(holder, R.id.nasgor_card_storage, R.drawable.nasgor_about_ic_storage,
++                R.string.nasgor_about_storage_label,
++                size(context, info.storageTotal, unavailable),
++                available(context, info.storageTotal, info.storageAvailable),
++                usedPercent(info.storageTotal, info.storageAvailable));
++        tile(holder, R.id.nasgor_card_cpu, R.drawable.nasgor_about_ic_cpu,
++                R.string.nasgor_hw_cpu,
++                info.cpuCoreCount > 0 ? context.getString(R.string.nasgor_hw_cores,
++                        info.cpuCoreCount) : unavailable,
++                maxClock(context, info.cpuMaxKhz * 1000), -1);
++        tile(holder, R.id.nasgor_card_gpu, R.drawable.nasgor_about_ic_gpu,
++                R.string.nasgor_hw_gpu, value(info.gpu, unavailable),
++                maxClock(context, info.gpuMaxHz), -1);
++
++        String zram = info.zramCapacity >= 0
++                ? Formatter.formatShortFileSize(context, info.zramCapacity) : unavailable;
++        String zramDetail = null;
++        if (info.zramCapacity >= 0) {
++            if (info.zramCapacity == 0 || Boolean.FALSE.equals(info.zramActive)) {
++                zramDetail = context.getString(R.string.nasgor_about_zram_disabled);
++            } else if (info.zramPhysical >= 0) {
++                zramDetail = context.getString(R.string.nasgor_about_zram_physical,
++                        Formatter.formatShortFileSize(context, info.zramPhysical));
++            } else {
++                zramDetail = context.getString(R.string.nasgor_about_zram_configured);
++            }
++        }
++        tile(holder, R.id.nasgor_card_zram, R.drawable.nasgor_about_ic_zram,
++                R.string.nasgor_about_zram_label, zram, zramDetail, -1);
++        tile(holder, R.id.nasgor_card_android, R.drawable.nasgor_about_ic_android,
++                R.string.nasgor_about_android_label, Build.VERSION.RELEASE,
++                context.getString(R.string.nasgor_about_android_detail), -1);
++        setText(holder, R.id.nasgor_about_kernel, value(info.kernel, unavailable));
 +    }
 +
-+    /** Keep all values readable in narrow windows and with accessibility font sizes. */
++    private void tile(PreferenceViewHolder holder, int id, int icon, int label,
++            String value, String detail, int percent) {
++        View tile = holder.findViewById(id);
++        ((ImageView) tile.findViewById(R.id.nasgor_spec_icon)).setImageResource(icon);
++        ((TextView) tile.findViewById(R.id.nasgor_spec_label)).setText(label);
++        ((TextView) tile.findViewById(R.id.nasgor_spec_value)).setText(value);
++        TextView summary = tile.findViewById(R.id.nasgor_spec_detail);
++        summary.setText(detail);
++        summary.setVisibility(detail == null || detail.isEmpty() ? View.GONE : View.VISIBLE);
++        ProgressBar meter = tile.findViewById(R.id.nasgor_spec_meter);
++        meter.setVisibility(percent < 0 ? View.GONE : View.VISIBLE);
++        if (percent >= 0) meter.setProgress(percent);
++    }
++
 +    private static void arrangeMetrics(PreferenceViewHolder holder, Context context) {
 +        Configuration configuration = context.getResources().getConfiguration();
-+        boolean stacked = configuration.screenWidthDp < 360 || configuration.fontScale >= 1.3f;
-+        LinearLayout metrics = (LinearLayout) holder.findViewById(R.id.nasgor_about_metrics);
-+        metrics.setOrientation(stacked ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
-+        int gap = Math.round(12 * context.getResources().getDisplayMetrics().density);
++        int columns = configuration.screenWidthDp < 320 || configuration.fontScale >= 1.3f ? 1 : 2;
++        GridLayout metrics = (GridLayout) holder.findViewById(R.id.nasgor_about_metrics);
++        // Remove old explicit specs before reducing the number of columns on a reused view.
 +        for (int i = 0; i < metrics.getChildCount(); i++) {
-+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-+                    stacked ? ViewGroup.LayoutParams.MATCH_PARENT : 0,
-+                    ViewGroup.LayoutParams.WRAP_CONTENT, stacked ? 0 : 1);
-+            params.setMarginStart(!stacked && i > 0 ? gap : 0);
-+            params.topMargin = stacked && i > 0 ? gap : 0;
++            metrics.getChildAt(i).setLayoutParams(new GridLayout.LayoutParams());
++        }
++        metrics.setColumnCount(columns);
++        int gap = Math.round(8 * context.getResources().getDisplayMetrics().density);
++        for (int i = 0; i < metrics.getChildCount(); i++) {
++            int column = i % columns;
++            GridLayout.LayoutParams params = new GridLayout.LayoutParams(
++                    GridLayout.spec(i / columns, GridLayout.FILL),
++                    GridLayout.spec(column, 1f));
++            params.width = 0;
++            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
++            params.setMarginStart(column > 0 ? gap / 2 : 0);
++            params.setMarginEnd(column < columns - 1 ? gap / 2 : 0);
++            params.topMargin = i >= columns ? gap : 0;
 +            metrics.getChildAt(i).setLayoutParams(params);
 +        }
 +    }
 +
-+    /** "17.0 Minimalist": product properties cannot hold spaces, so join the parts. */
++    private static String available(Context context, long total, long available) {
++        return total > 0 && available >= 0 ? context.getString(R.string.nasgor_about_available,
++                Formatter.formatShortFileSize(context, available)) : null;
++    }
++
++    private static String size(Context context, long bytes, String fallback) {
++        return bytes > 0 ? Formatter.formatShortFileSize(context, bytes) : fallback;
++    }
++
++    private static String maxClock(Context context, long hz) {
++        if (hz <= 0) return context.getString(R.string.nasgor_about_clock_unavailable);
++        String clock = hz >= 1_000_000_000L
++                ? String.format(Locale.getDefault(), "%.2f GHz", hz / 1_000_000_000.0)
++                : String.format(Locale.getDefault(), "%.0f MHz", hz / 1_000_000.0);
++        return context.getString(R.string.nasgor_about_max_clock, clock);
++    }
++
++    private static int usedPercent(long total, long available) {
++        if (total <= 0 || available < 0) return -1;
++        return (int) Math.round(100.0 * (1 - Math.min(total, available) / (double) total));
++    }
++
++    private static String value(String value, String fallback) {
++        return value == null || value.isEmpty() ? fallback : value;
++    }
++
++    /** Product properties cannot contain spaces; join version and codename for display. */
 +    public static String displayVersion() {
 +        String version = SystemProperties.get("ro.nasgoros.display.version", "");
 +        String codename = SystemProperties.get("ro.nasgoros.codename", "");
 +        return codename.isEmpty() || version.isEmpty() ? version : version + " " + codename;
 +    }
 +
-+    /** Maintainer name from the build; underscores stand for spaces. */
 +    public static String maintainer() {
 +        return SystemProperties.get("ro.nasgoros.maintainer", "").replace('_', ' ').trim();
 +    }
@@ -1899,54 +2085,32 @@ index 0000000000..00a3de0abb
 +}
 diff --git a/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareCategory.java b/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareCategory.java
 new file mode 100644
-index 0000000000..1ece465361
+index 0000000000..67bfdd4cf6
 --- /dev/null
 +++ b/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareCategory.java
-@@ -0,0 +1,305 @@
+@@ -0,0 +1,88 @@
 +/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
 + * SPDX-License-Identifier: Apache-2.0 */
 +package com.android.settings.deviceinfo.aboutphone;
 +
-+import android.app.ActivityManager;
 +import android.content.Context;
-+import android.opengl.EGL14;
-+import android.opengl.EGLConfig;
-+import android.opengl.EGLContext;
-+import android.opengl.EGLDisplay;
-+import android.opengl.EGLSurface;
-+import android.opengl.GLES20;
-+import android.os.Build;
-+import android.os.Environment;
 +import android.os.Handler;
 +import android.os.Looper;
-+import android.os.StatFs;
-+import android.os.SystemProperties;
-+import android.text.format.Formatter;
 +import android.util.AttributeSet;
 +import android.view.Display;
 +
 +import androidx.preference.Preference;
 +import androidx.preference.PreferenceCategory;
 +
-+import com.android.internal.os.PowerProfile;
 +import com.android.settings.R;
 +
-+import java.io.BufferedReader;
-+import java.io.FileReader;
-+import java.io.IOException;
-+import java.util.ArrayList;
-+import java.util.LinkedHashMap;
-+import java.util.List;
-+import java.util.Locale;
-+import java.util.Map;
-+
 +/**
-+ * "Hardware" section of About phone: chipset, CPU clusters and clocks, GPU,
-+ * memory, storage, display and battery. Values are read from the device on a
++ * Extra hardware details: CPU clusters, architecture, graphics API, display
++ * and battery. Values are read from the device on a
 + * background thread; anything unreadable is shown as unknown, never guessed.
 + */
 +public final class NasgorHardwareCategory extends PreferenceCategory {
-+    private static volatile Info sCache;
++    private static volatile NasgorHardwareInfo sCache;
 +    private final Handler mMain = new Handler(Looper.getMainLooper());
 +    private boolean mLoading;
 +
@@ -1974,8 +2138,14 @@ index 0000000000..1ece465361
 +        }
 +        final Display display = current;
 +        new Thread(() -> {
-+            Info info = Info.read(app, display);
-+            sCache = info;
++            NasgorHardwareInfo result;
++            try {
++                result = NasgorHardwareInfo.read(app, display);
++                sCache = result;
++            } catch (RuntimeException ignored) {
++                result = new NasgorHardwareInfo();
++            }
++            final NasgorHardwareInfo info = result;
 +            mMain.post(() -> {
 +                mLoading = false;
 +                show(info);
@@ -1983,18 +2153,14 @@ index 0000000000..1ece465361
 +        }, "NasgorHardwareInfo").start();
 +    }
 +
-+    private void show(Info info) {
++    private void show(NasgorHardwareInfo info) {
 +        removeAll();
 +        Context c = getContext();
 +        String unknown = c.getString(R.string.unknown);
-+        add(c, R.string.nasgor_hw_chipset, info.chipset, unknown);
 +        add(c, R.string.nasgor_hw_cpu, info.cpu, unknown);
 +        add(c, R.string.nasgor_hw_cpu_clock, info.cpuClock, unknown);
 +        add(c, R.string.nasgor_hw_architecture, info.architecture, unknown);
-+        add(c, R.string.nasgor_hw_gpu, info.gpu, unknown);
 +        add(c, R.string.nasgor_hw_gpu_api, info.gpuApi, unknown);
-+        add(c, R.string.nasgor_hw_memory, info.memory, unknown);
-+        add(c, R.string.nasgor_hw_storage, info.storage, unknown);
 +        add(c, R.string.nasgor_hw_display, info.display, unknown);
 +        add(c, R.string.nasgor_hw_battery, info.battery, unknown);
 +    }
@@ -2010,203 +2176,349 @@ index 0000000000..1ece465361
 +        addPreference(preference);
 +    }
 +
-+    private static final class Info {
-+        String chipset, cpu, cpuClock, architecture, gpu, gpuApi, memory, storage, display,
-+                battery;
++}
+diff --git a/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareInfo.java b/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareInfo.java
+new file mode 100644
+index 0000000000..5091f114f2
+--- /dev/null
++++ b/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareInfo.java
+@@ -0,0 +1,337 @@
++/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
++ * SPDX-License-Identifier: Apache-2.0 */
++package com.android.settings.deviceinfo.aboutphone;
 +
-+        static Info read(Context context, Display display) {
-+            Info info = new Info();
-+            info.chipset = chipset();
-+            readCpu(context, info);
-+            readGpu(info);
-+            ActivityManager am = context.getSystemService(ActivityManager.class);
-+            ActivityManager.MemoryInfo mem = new ActivityManager.MemoryInfo();
-+            if (am != null) am.getMemoryInfo(mem);
-+            if (mem.totalMem > 0) info.memory = Formatter.formatShortFileSize(context, mem.totalMem);
-+            try {
-+                StatFs stat = new StatFs(Environment.getDataDirectory().getPath());
-+                info.storage = Formatter.formatShortFileSize(context, stat.getTotalBytes());
-+            } catch (IllegalArgumentException ignored) { }
-+            if (display != null) {
-+                Display.Mode mode = display.getMode();
-+                float max = 0;
-+                for (Display.Mode m : display.getSupportedModes()) {
-+                    max = Math.max(max, m.getRefreshRate());
-+                }
-+                info.display = String.format(Locale.getDefault(), "%d × %d · %.0f Hz",
-+                        mode.getPhysicalWidth(), mode.getPhysicalHeight(), max);
++import android.app.ActivityManager;
++import android.content.Context;
++import android.opengl.EGL14;
++import android.opengl.EGLConfig;
++import android.opengl.EGLContext;
++import android.opengl.EGLDisplay;
++import android.opengl.EGLSurface;
++import android.opengl.GLES20;
++import android.os.Build;
++import android.os.Environment;
++import android.os.StatFs;
++import android.os.SystemProperties;
++import android.system.Os;
++import android.text.format.Formatter;
++import android.view.Display;
++import com.android.internal.os.PowerProfile;
++import com.android.settings.R;
++import java.io.BufferedReader;
++import java.io.File;
++import java.io.FileReader;
++import java.io.IOException;
++import java.util.ArrayList;
++import java.util.Arrays;
++import java.util.LinkedHashMap;
++import java.util.List;
++import java.util.Locale;
++import java.util.Map;
++
++/** One-shot hardware snapshot; callers must read it off the UI thread. */
++final class NasgorHardwareInfo {
++    String chipset, cpu, cpuClock, architecture, gpu, gpuApi, memory, storage, display,
++            battery;
++
++    int cpuCoreCount;
++    long cpuMaxKhz, gpuMaxHz;
++    long memoryTotal, memoryAvailable, storageTotal, storageAvailable;
++    long zramCapacity = -1, zramPhysical = -1;
++    Boolean zramActive;
++    String kernel;
++    private static String sGpu, sGpuApi;
++
++    static NasgorHardwareInfo read(Context context, Display display) {
++        NasgorHardwareInfo info = new NasgorHardwareInfo();
++        info.chipset = chipset();
++        readCpu(context, info);
++        try { readGpu(info); } catch (RuntimeException ignored) { }
++        info.gpuMaxHz = readGpuClock();
++        info.kernel = Os.uname().release;
++        readZram(info);
++        ActivityManager am = context.getSystemService(ActivityManager.class);
++        ActivityManager.MemoryInfo mem = new ActivityManager.MemoryInfo();
++        if (am != null) am.getMemoryInfo(mem);
++        info.memoryTotal = mem.totalMem;
++        info.memoryAvailable = mem.availMem;
++        if (mem.totalMem > 0) info.memory = Formatter.formatShortFileSize(context, mem.totalMem);
++        try {
++            StatFs stat = new StatFs(Environment.getDataDirectory().getPath());
++            info.storageTotal = stat.getTotalBytes();
++            info.storageAvailable = stat.getAvailableBytes();
++            info.storage = Formatter.formatShortFileSize(context, info.storageTotal);
++        } catch (IllegalArgumentException | SecurityException ignored) { }
++        if (display != null) {
++            Display.Mode mode = display.getMode();
++            float max = 0;
++            for (Display.Mode m : display.getSupportedModes()) {
++                max = Math.max(max, m.getRefreshRate());
 +            }
++            info.display = String.format(Locale.getDefault(), "%d × %d · %.0f Hz",
++                    mode.getPhysicalWidth(), mode.getPhysicalHeight(), max);
++        }
++        try {
 +            double capacity = new PowerProfile(context).getBatteryCapacity();
 +            if (capacity > 0) {
 +                info.battery = String.format(Locale.getDefault(), "%.0f mAh", capacity);
 +            }
-+            return info;
-+        }
++        } catch (RuntimeException ignored) { }
++        return info;
++    }
 +
-+        private static String chipset() {
-+            String name = SystemProperties.get("ro.nasgoros.chipset", "");
-+            String model = Build.UNKNOWN.equals(Build.SOC_MODEL) ? "" : Build.SOC_MODEL;
-+            String maker = Build.UNKNOWN.equals(Build.SOC_MANUFACTURER) ? "" : Build.SOC_MANUFACTURER;
-+            String platform = SystemProperties.get("ro.board.platform", Build.HARDWARE);
-+            String code = !model.isEmpty() ? (maker.isEmpty() ? model : maker + " " + model)
-+                    : platform.toUpperCase(Locale.ROOT);
-+            return name.isEmpty() ? code : name + " (" + code + ")";
-+        }
++    private static String chipset() {
++        String name = SystemProperties.get("ro.nasgoros.chipset", "");
++        String model = Build.UNKNOWN.equals(Build.SOC_MODEL) ? "" : Build.SOC_MODEL;
++        String maker = Build.UNKNOWN.equals(Build.SOC_MANUFACTURER) ? "" : Build.SOC_MANUFACTURER;
++        String platform = SystemProperties.get("ro.board.platform", Build.HARDWARE);
++        String code = !model.isEmpty() ? (maker.isEmpty() ? model : maker + " " + model)
++                : platform.toUpperCase(Locale.ROOT);
++        return name.isEmpty() ? code : name + " (" + code + ")";
++    }
 +
-+        /** Groups cores into clusters by CPU part and maximum frequency. */
-+        private static void readCpu(Context context, Info info) {
-+            int cores = Runtime.getRuntime().availableProcessors();
-+            int index = -1;
-+            List<String> corePart = new ArrayList<>();
-+            try (BufferedReader reader = new BufferedReader(new FileReader("/proc/cpuinfo"))) {
-+                String line;
-+                String implementer = "";
-+                while ((line = reader.readLine()) != null) {
-+                    int colon = line.indexOf(':');
-+                    if (colon < 0) continue;
-+                    String key = line.substring(0, colon).trim();
-+                    String value = line.substring(colon + 1).trim();
-+                    if (key.equals("processor")) {
-+                        index++;
-+                        implementer = "";
-+                    } else if (key.equals("CPU implementer")) {
-+                        implementer = value;
-+                    } else if (key.equals("CPU part") && index >= 0) {
-+                        while (corePart.size() < index) corePart.add(null);
-+                        corePart.add(coreName(implementer, value));
-+                    }
-+                }
-+            } catch (IOException ignored) { }
-+
-+            List<String> clusters = new ArrayList<>();
-+            List<String> clocks = new ArrayList<>();
-+            Map<String, Integer> counts = new LinkedHashMap<>();
-+            Map<String, String> clockFor = new LinkedHashMap<>();
-+            for (int i = 0; i < cores; i++) {
-+                long max = readKhz(i, "cpuinfo_max_freq");
-+                long min = readKhz(i, "cpuinfo_min_freq");
-+                String name = i < corePart.size() && corePart.get(i) != null
-+                        ? corePart.get(i) : "";
-+                String key = name + "@" + max;
-+                counts.merge(key, 1, Integer::sum);
-+                clockFor.put(key, max > 0 ? ghz(min) + " – " + ghz(max) + " GHz" : "");
-+            }
-+            for (Map.Entry<String, Integer> e : counts.entrySet()) {
-+                String name = e.getKey().substring(0, e.getKey().indexOf('@'));
-+                String clock = clockFor.get(e.getKey());
-+                String label = e.getValue() + "× " + (name.isEmpty() ? "CPU" : name);
-+                clusters.add(clock.isEmpty() ? label : label + " @ " + maxOnly(clock));
-+                if (!clock.isEmpty()) clocks.add(e.getValue() + "× " + clock);
-+            }
-+            info.cpu = context.getString(R.string.nasgor_hw_cores, cores) + " · "
-+                    + String.join(" + ", clusters);
-+            info.cpuClock = String.join("\n", clocks);
-+            String governor = readLine("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-+            if (!governor.isEmpty() && !info.cpuClock.isEmpty()) {
-+                info.cpuClock += "\n" + context.getString(R.string.nasgor_hw_governor, governor);
-+            }
-+            info.architecture = String.join(", ", Build.SUPPORTED_ABIS);
-+        }
-+
-+        private static String maxOnly(String range) {
-+            int dash = range.indexOf('–');
-+            return dash < 0 ? range : range.substring(dash + 1).trim();
-+        }
-+
-+        private static long readKhz(int cpu, String node) {
-+            String value = readLine("/sys/devices/system/cpu/cpu" + cpu + "/cpufreq/" + node);
-+            try { return value.isEmpty() ? 0 : Long.parseLong(value); }
-+            catch (NumberFormatException e) { return 0; }
-+        }
-+
-+        private static String ghz(long khz) {
-+            return String.format(Locale.ROOT, "%.2f", khz / 1_000_000.0);
-+        }
-+
-+        private static String readLine(String path) {
-+            try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-+                String line = reader.readLine();
-+                return line == null ? "" : line.trim();
-+            } catch (IOException | SecurityException e) {
-+                return "";
-+            }
-+        }
-+
-+        /** ARM and Qualcomm MIDR part numbers to core names. */
-+        private static String coreName(String implementer, String part) {
-+            String p = part.toLowerCase(Locale.ROOT);
-+            if ("0x41".equalsIgnoreCase(implementer)) {
-+                switch (p) {
-+                    case "0xd03": return "Cortex-A53";
-+                    case "0xd04": return "Cortex-A35";
-+                    case "0xd05": return "Cortex-A55";
-+                    case "0xd07": return "Cortex-A57";
-+                    case "0xd08": return "Cortex-A72";
-+                    case "0xd09": return "Cortex-A73";
-+                    case "0xd0a": return "Cortex-A75";
-+                    case "0xd0b": return "Cortex-A76";
-+                    case "0xd0d": return "Cortex-A77";
-+                    case "0xd41": return "Cortex-A78";
-+                    case "0xd44": return "Cortex-X1";
-+                    case "0xd46": return "Cortex-A510";
-+                    case "0xd47": return "Cortex-A710";
-+                    case "0xd48": return "Cortex-X2";
-+                    case "0xd4d": return "Cortex-A715";
-+                    case "0xd4e": return "Cortex-X3";
-+                    case "0xd80": return "Cortex-A520";
-+                    case "0xd81": return "Cortex-A720";
-+                    case "0xd82": return "Cortex-X4";
-+                    default: return "ARM " + part;
++    /** Groups cores into clusters by CPU part and maximum frequency. */
++    private static void readCpu(Context context, NasgorHardwareInfo info) {
++        int[] cpuIds = cpuIds();
++        int cores = cpuIds.length;
++        info.cpuCoreCount = cores;
++        int index = -1;
++        Map<Integer, String> corePart = new LinkedHashMap<>();
++        try (BufferedReader reader = new BufferedReader(new FileReader("/proc/cpuinfo"))) {
++            String line;
++            String implementer = "";
++            while ((line = reader.readLine()) != null) {
++                int colon = line.indexOf(':');
++                if (colon < 0) continue;
++                String key = line.substring(0, colon).trim();
++                String value = line.substring(colon + 1).trim();
++                if (key.equals("processor")) {
++                    try { index = Integer.parseInt(value); }
++                    catch (NumberFormatException ignored) { index = -1; }
++                    implementer = "";
++                } else if (key.equals("CPU implementer")) {
++                    implementer = value;
++                } else if (key.equals("CPU part") && index >= 0) {
++                    corePart.put(index, coreName(implementer, value));
 +                }
 +            }
-+            if ("0x51".equalsIgnoreCase(implementer)) {
-+                switch (p) {
-+                    case "0x801": case "0x803": case "0x805": return "Kryo Silver";
-+                    case "0x800": case "0x802": case "0x804": return "Kryo Gold";
-+                    default: return "Kryo " + part;
-+                }
-+            }
-+            return part;
-+        }
++        } catch (IOException | SecurityException ignored) { }
 +
-+        /** Renderer, vendor and GLES version from a 1×1 offscreen EGL context. */
-+        private static void readGpu(Info info) {
-+            EGLDisplay dpy = EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);
-+            if (dpy == EGL14.EGL_NO_DISPLAY) return;
-+            int[] version = new int[2];
-+            if (!EGL14.eglInitialize(dpy, version, 0, version, 1)) return;
-+            EGLContext ctx = EGL14.EGL_NO_CONTEXT;
-+            EGLSurface surface = EGL14.EGL_NO_SURFACE;
-+            try {
-+                int[] attrs = {EGL14.EGL_RENDERABLE_TYPE, EGL14.EGL_OPENGL_ES2_BIT,
-+                        EGL14.EGL_SURFACE_TYPE, EGL14.EGL_PBUFFER_BIT, EGL14.EGL_NONE};
-+                EGLConfig[] configs = new EGLConfig[1];
-+                int[] count = new int[1];
-+                if (!EGL14.eglChooseConfig(dpy, attrs, 0, configs, 0, 1, count, 0)
-+                        || count[0] == 0) return;
-+                ctx = EGL14.eglCreateContext(dpy, configs[0], EGL14.EGL_NO_CONTEXT,
-+                        new int[] {EGL14.EGL_CONTEXT_CLIENT_VERSION, 2, EGL14.EGL_NONE}, 0);
-+                surface = EGL14.eglCreatePbufferSurface(dpy, configs[0],
-+                        new int[] {EGL14.EGL_WIDTH, 1, EGL14.EGL_HEIGHT, 1, EGL14.EGL_NONE}, 0);
-+                if (ctx == EGL14.EGL_NO_CONTEXT || surface == EGL14.EGL_NO_SURFACE
-+                        || !EGL14.eglMakeCurrent(dpy, surface, surface, ctx)) return;
-+                String renderer = GLES20.glGetString(GLES20.GL_RENDERER);
-+                String vendor = GLES20.glGetString(GLES20.GL_VENDOR);
-+                String gles = GLES20.glGetString(GLES20.GL_VERSION);
-+                if (renderer != null) {
-+                    info.gpu = vendor == null || renderer.startsWith(vendor)
-+                            ? renderer : vendor + " " + renderer;
-+                }
-+                if (gles != null) info.gpuApi = gles;
-+            } finally {
-+                EGL14.eglMakeCurrent(dpy, EGL14.EGL_NO_SURFACE, EGL14.EGL_NO_SURFACE,
-+                        EGL14.EGL_NO_CONTEXT);
-+                if (surface != EGL14.EGL_NO_SURFACE) EGL14.eglDestroySurface(dpy, surface);
-+                if (ctx != EGL14.EGL_NO_CONTEXT) EGL14.eglDestroyContext(dpy, ctx);
-+                EGL14.eglTerminate(dpy);
-+            }
++        List<String> clusters = new ArrayList<>();
++        List<String> clocks = new ArrayList<>();
++        Map<String, Integer> counts = new LinkedHashMap<>();
++        Map<String, String> clockFor = new LinkedHashMap<>();
++        for (int i : cpuIds) {
++            long max = readKhz(i, "cpuinfo_max_freq");
++            long min = readKhz(i, "cpuinfo_min_freq");
++            info.cpuMaxKhz = Math.max(info.cpuMaxKhz, max);
++            String name = corePart.getOrDefault(i, "");
++            String key = name + "@" + max;
++            counts.merge(key, 1, Integer::sum);
++            clockFor.put(key, max > 0 ? (min > 0 ? ghz(min) + " – " : "") + ghz(max) + " GHz" : "");
++        }
++        for (Map.Entry<String, Integer> e : counts.entrySet()) {
++            String name = e.getKey().substring(0, e.getKey().indexOf('@'));
++            String clock = clockFor.get(e.getKey());
++            String label = e.getValue() + "× " + (name.isEmpty() ? "CPU" : name);
++            clusters.add(clock.isEmpty() ? label : label + " @ " + maxOnly(clock));
++            if (!clock.isEmpty()) clocks.add(e.getValue() + "× " + clock);
++        }
++        info.cpu = context.getString(R.string.nasgor_hw_cores, cores) + " · "
++                + String.join(" + ", clusters);
++        info.cpuClock = String.join("\n", clocks);
++        String governor = readLine("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
++        if (!governor.isEmpty() && !info.cpuClock.isEmpty()) {
++            info.cpuClock += "\n" + context.getString(R.string.nasgor_hw_governor, governor);
++        }
++        info.architecture = String.join(", ", Build.SUPPORTED_ABIS);
++    }
++
++    private static String maxOnly(String range) {
++        int dash = range.indexOf('–');
++        return dash < 0 ? range : range.substring(dash + 1).trim();
++    }
++
++    private static long readKhz(int cpu, String node) {
++        String value = readLine("/sys/devices/system/cpu/cpu" + cpu + "/cpufreq/" + node);
++        try { return value.isEmpty() ? 0 : Long.parseLong(value); }
++        catch (NumberFormatException e) { return 0; }
++    }
++
++    private static String ghz(long khz) {
++        return String.format(Locale.ROOT, "%.2f", khz / 1_000_000.0);
++    }
++
++    private static String readLine(String path) {
++        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
++            String line = reader.readLine();
++            return line == null ? "" : line.trim();
++        } catch (IOException | SecurityException e) {
++            return "";
 +        }
 +    }
++
++    /** ARM and Qualcomm MIDR part numbers to core names. */
++    private static String coreName(String implementer, String part) {
++        String p = part.toLowerCase(Locale.ROOT);
++        if ("0x41".equalsIgnoreCase(implementer)) {
++            switch (p) {
++                case "0xd03": return "Cortex-A53";
++                case "0xd04": return "Cortex-A35";
++                case "0xd05": return "Cortex-A55";
++                case "0xd07": return "Cortex-A57";
++                case "0xd08": return "Cortex-A72";
++                case "0xd09": return "Cortex-A73";
++                case "0xd0a": return "Cortex-A75";
++                case "0xd0b": return "Cortex-A76";
++                case "0xd0d": return "Cortex-A77";
++                case "0xd41": return "Cortex-A78";
++                case "0xd44": return "Cortex-X1";
++                case "0xd46": return "Cortex-A510";
++                case "0xd47": return "Cortex-A710";
++                case "0xd48": return "Cortex-X2";
++                case "0xd4d": return "Cortex-A715";
++                case "0xd4e": return "Cortex-X3";
++                case "0xd80": return "Cortex-A520";
++                case "0xd81": return "Cortex-A720";
++                case "0xd82": return "Cortex-X4";
++                default: return "ARM " + part;
++            }
++        }
++        if ("0x51".equalsIgnoreCase(implementer)) {
++            switch (p) {
++                case "0x801": case "0x803": case "0x805": return "Kryo Silver";
++                case "0x800": case "0x802": case "0x804": return "Kryo Gold";
++                default: return "Kryo " + part;
++            }
++        }
++        return part;
++    }
++
++    /** Renderer, vendor and GLES version from a 1×1 offscreen EGL context. */
++    private static synchronized void readGpu(NasgorHardwareInfo info) {
++        if (sGpu != null && !sGpu.isEmpty()) {
++            info.gpu = sGpu;
++            info.gpuApi = sGpuApi;
++            return;
++        }
++        EGLDisplay dpy = EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);
++        if (dpy == EGL14.EGL_NO_DISPLAY) return;
++        int[] version = new int[2];
++        if (!EGL14.eglInitialize(dpy, version, 0, version, 1)) return;
++        EGLContext ctx = EGL14.EGL_NO_CONTEXT;
++        EGLSurface surface = EGL14.EGL_NO_SURFACE;
++        try {
++            int[] attrs = {EGL14.EGL_RENDERABLE_TYPE, EGL14.EGL_OPENGL_ES2_BIT,
++                    EGL14.EGL_SURFACE_TYPE, EGL14.EGL_PBUFFER_BIT, EGL14.EGL_NONE};
++            EGLConfig[] configs = new EGLConfig[1];
++            int[] count = new int[1];
++            if (!EGL14.eglChooseConfig(dpy, attrs, 0, configs, 0, 1, count, 0)
++                    || count[0] == 0) return;
++            ctx = EGL14.eglCreateContext(dpy, configs[0], EGL14.EGL_NO_CONTEXT,
++                    new int[] {EGL14.EGL_CONTEXT_CLIENT_VERSION, 2, EGL14.EGL_NONE}, 0);
++            surface = EGL14.eglCreatePbufferSurface(dpy, configs[0],
++                    new int[] {EGL14.EGL_WIDTH, 1, EGL14.EGL_HEIGHT, 1, EGL14.EGL_NONE}, 0);
++            if (ctx == EGL14.EGL_NO_CONTEXT || surface == EGL14.EGL_NO_SURFACE
++                    || !EGL14.eglMakeCurrent(dpy, surface, surface, ctx)) return;
++            String renderer = GLES20.glGetString(GLES20.GL_RENDERER);
++            String vendor = GLES20.glGetString(GLES20.GL_VENDOR);
++            String gles = GLES20.glGetString(GLES20.GL_VERSION);
++            if (renderer != null) {
++                info.gpu = vendor == null || renderer.startsWith(vendor)
++                        ? renderer : vendor + " " + renderer;
++            }
++            if (gles != null) info.gpuApi = gles;
++            sGpu = info.gpu;
++            sGpuApi = info.gpuApi;
++        } finally {
++            EGL14.eglMakeCurrent(dpy, EGL14.EGL_NO_SURFACE, EGL14.EGL_NO_SURFACE,
++                    EGL14.EGL_NO_CONTEXT);
++            if (surface != EGL14.EGL_NO_SURFACE) EGL14.eglDestroySurface(dpy, surface);
++            if (ctx != EGL14.EGL_NO_CONTEXT) EGL14.eglDestroyContext(dpy, ctx);
++            EGL14.eglTerminate(dpy);
++        }
++    }
++
++    /** Enumerate present CPUs, including ones temporarily offline. */
++    private static int[] cpuIds() {
++        File[] files = listFiles("/sys/devices/system/cpu", "cpu[0-9]+");
++        if (files != null && files.length > 0) {
++            return Arrays.stream(files).mapToInt(f -> Integer.parseInt(
++                    f.getName().substring(3))).sorted().toArray();
++        }
++        // Fall back to the CPUs Android exposes to this process, never a model lookup.
++        int[] ids = new int[Runtime.getRuntime().availableProcessors()];
++        for (int i = 0; i < ids.length; i++) ids[i] = i;
++        return ids;
++    }
++
++    private static File[] listFiles(String path, String pattern) {
++        try {
++            return new File(path).listFiles(f -> f.getName().matches(pattern));
++        } catch (SecurityException ignored) {
++            return null;
++        }
++    }
++
++    private static long nonnegative(String value) {
++        try { return Math.max(-1, Long.parseLong(value)); }
++        catch (NumberFormatException e) { return -1; }
++    }
++
++    /** Standard devfreq and KGSL values are Hz; vendor indices are not frequencies. */
++    private static long readGpuClock() {
++        long max = nonnegative(readLine("/sys/class/kgsl/kgsl-3d0/max_gpuclk"));
++        File[] devices = listFiles("/sys/class/devfreq", ".*");
++        if (devices != null) {
++            for (File device : devices) {
++                String name = device.getName().toLowerCase(Locale.ROOT);
++                if (!name.contains("gpu") && !name.contains("mali") && !name.contains("kgsl")) {
++                    continue;
++                }
++                String frequencies = readLine(new File(device, "available_frequencies").getPath());
++                long deviceMax = -1;
++                for (String frequency : frequencies.split("\\s+")) {
++                    deviceMax = Math.max(deviceMax, nonnegative(frequency));
++                }
++                if (deviceMax <= 0) {
++                    deviceMax = nonnegative(readLine(new File(device, "max_freq").getPath()));
++                }
++                max = Math.max(max, deviceMax);
++            }
++        }
++        return Math.max(0, max);
++    }
++
++    /** zRAM virtual capacity and its physical RAM cost are separate quantities. */
++    private static void readZram(NasgorHardwareInfo info) {
++        File[] devices = listFiles("/sys/block", "zram[0-9]+");
++        if (devices == null) devices = new File[] {new File("/sys/block/zram0")};
++        long capacity = 0, physical = 0;
++        boolean capacityKnown = true, physicalKnown = true;
++        for (File device : devices) {
++            long size = nonnegative(readLine(new File(device, "disksize").getPath()));
++            if (size < 0) capacityKnown = false;
++            else capacity += size;
++            String[] stats = readLine(new File(device, "mm_stat").getPath()).split("\\s+");
++            long used = stats.length > 2 ? nonnegative(stats[2]) : -1;
++            if (used < 0) physicalKnown = false;
++            else physical += used;
++        }
++        info.zramCapacity = capacityKnown ? capacity : -1;
++        info.zramPhysical = physicalKnown ? physical : -1;
++        try (BufferedReader reader = new BufferedReader(new FileReader("/proc/swaps"))) {
++            String line;
++            boolean active = false;
++            while ((line = reader.readLine()) != null) {
++                String[] parts = line.trim().split("\\s+");
++                if (parts.length > 0 && parts[0].matches(".*/zram[0-9]+")) active = true;
++            }
++            info.zramActive = active;
++        } catch (IOException | SecurityException ignored) {
++            // Capacity may still be known; do not infer activity from allocation alone.
++        }
++    }
++
 +}
 diff --git a/src/com/android/settings/deviceinfo/firmwareversion/BuildMaintainerPreference.kt b/src/com/android/settings/deviceinfo/firmwareversion/BuildMaintainerPreference.kt
 index 84ae83928d..4f68b90cc0 100644

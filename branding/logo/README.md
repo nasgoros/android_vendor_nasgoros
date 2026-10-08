@@ -31,7 +31,7 @@ Dari root workspace, gunakan environment dengan dependensi
 ```
 
 Resource Android adalah `res/drawable-nodpi/nasgor_about_mark.png`, ditampilkan
-192×120 dp dengan `fitCenter` oleh `res/layout/nasgor_about_header.xml`. Tidak ada
+104×65 dp dengan `fitCenter` oleh `res/layout/nasgor_about_header.xml`. Tidak ada
 tint atau latar pada gambar. Resource menggantikan ikon vektor huruf n lama.
 Header dipakai bersama oleh About phone, halaman versi OS (XML/Catalyst), dan
 About Nasgor OS di pengaturan crDroid.

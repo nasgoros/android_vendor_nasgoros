@@ -32,26 +32,46 @@ berfungsi. Info GPU saat ini berisi renderer, vendor dan OpenGL ES, bukan beban 
 
 Pilihan terbaru menghapus aplikasi tambahan termasuk Seedvault, AudioFX dan
 Lineage Setup Wizard. Detail dan cara mengembalikannya ada di
-[removed-packages/README.md](removed-packages/README.md). `NasgorProvision` memakai
-AOSP Provision untuk menandai setup selesai lalu menonaktifkan activity-nya.
+[removed-packages/README.md](removed-packages/README.md). AOSP `Provision` asli
+menandai setup selesai lalu menonaktifkan activity-nya. Fork `nasgoros/android_packages_apps_SetupWizard`
+hanya menghapus `overrides: ["Provision"]` dari LineageSetupWizard.
 Periksa ulang perilaku per-user dan override transitif saat ganti base Android.
 Layanan backup inti, kamera, file picker, WebView dan provider crDroid tetap ada.
 
 UI About memakai satu `NasgorAboutHeaderPreference` untuk About phone, versi
-firmware dan tab About NasgorOS. Angka OS/model/chipset/RAM dibaca dari perangkat,
-header menempatkan logo dan nama di tengah, versi di badge, lalu kartu perangkat
-terpisah dan ringkasan Android/RAM. Ringkasan berubah menjadi susunan vertikal
-ketika window kurang dari 360 dp atau font scale minimal 1,3; ukuran teks tidak
+firmware dan tab About NasgorOS. Header ringkas menyandingkan logo dan nama,
+badge versi, model dan chipset. Enam kartu berikon memuat RAM, penyimpanan internal,
+core/clock CPU, nama/clock GPU, zRAM dan Android; kernel mendapat kartu selebar layar.
+RAM/internal punya bar persentase terpakai. Label/detail memakai 12 sp, nilai 18 sp,
+kernel 13 sp. Ringkasan berubah menjadi susunan vertikal
+ketika window kurang dari 320 dp atau font scale minimal 1,3; ukuran teks tidak
 dipaksa mengecil dan nilai panjang dapat membungkus ke baris berikutnya.
 Warna tersedia di `values` serta `values-night`, dan tidak ada polling atau gambar
 bitmap besar. Logo piring memakai PNG transparan 768×480 dari
-`branding/logo/generate.py`, ditampilkan 192×120 dp dengan `fitCenter`; sumbernya
+`branding/logo/generate.py`, ditampilkan 104×65 dp dengan `fitCenter`; sumbernya
 SVG yang sama dengan boot animasi. Pastikan `drawable-nodpi/nasgor_about_mark.png`
 terbawa pada patch, tanpa drawable vektor lama dengan nama yang sama.
 `LogoPreference.kt` menyediakan binding Catalyst agar tampilan baru
 juga dipakai ketika layar firmware tidak lagi membaca XML. Key controller bawaan,
 IMEI, detail keamanan, build-number/developer options dan halaman legal dipertahankan.
 Saat upgrade, uji ukuran font besar, layar kecil, mode malam, dan jalur pencarian.
+
+`NasgorHardwareInfo` menjadi pembaca bersama untuk header dan detail hardware.
+Snapshot header diambil di background saat terpasang; renderer EGL saja di-cache,
+tanpa polling clock/memori. Internal membaca total/tersedia `/data` melalui `StatFs`;
+nilainya dapat lebih kecil dari kapasitas flash yang dipasarkan. RAM membaca
+`ActivityManager.MemoryInfo`. CPU menghitung direktori `cpuN` termasuk core offline
+(fallback `availableProcessors`) dan memakai `cpuinfo_max_freq` dalam kHz.
+GPU memakai renderer EGL, dengan clock Hz dari KGSL `max_gpuclk` atau devfreq
+`available_frequencies` (fallback batas `max_freq`); jangan menganggap indeks OPP
+vendor sebagai Hz. Keduanya menampilkan clock maksimum, bukan clock realtime.
+zRAM menjumlahkan kapasitas virtual `disksize` dan biaya RAM fisik `mm_stat` secara
+terpisah; `/proc/swaps` menentukan status aktif jika terbaca. Jangan menjumlahkan
+zRAM dengan RAM fisik atau menggantinya dengan total swap disk. Kernel membaca
+`Os.uname().release`. Pertahankan fallback tidak diketahui saat node tidak dapat
+dibaca; jangan membuka izin SELinux atau menanam angka berdasarkan model perangkat.
+Saat port A18, periksa ulang API EGL, GridLayout, path/unit sysfs dan akses dari
+proses Settings. Preview HTML hanya data contoh, bukan validasi native Android.
 
 ## Memilih modul
 
