@@ -1,7 +1,9 @@
 # Pilihan aplikasi minimal nasgorOS
 
 Pengguna memilih profil minimal dan meminta **Lineage Setup Wizard dihapus**.
-Daftar paket berada di `Android.mk`; produk mengaktifkannya melalui
+Modul Lineage Setup Wizard diganti menjadi `phony` kosong di fork SetupWizard.
+Entri override-nya tetap menjadi pengaman jika source memakai definisi APK lama.
+Daftar aplikasi lain berada di `Android.mk`; produk mengaktifkannya melalui
 `config/features/minimal-apps.mk`. Ini mengeluarkan aplikasi dari image ROM,
 bukan menghapus repository atau menonaktifkan aplikasi lewat ADB saat boot.
 
@@ -39,16 +41,23 @@ Boot pertama memakai aplikasi **Provision AOSP asli** (modul `Provision` dari
 `DEVICE_PROVISIONED=1` dan `USER_SETUP_COMPLETE=1`, lalu menonaktifkan activity-nya
 untuk pengguna tersebut. Tidak ada service pemantau atau wizard baru.
 
-LineageSetupWizard mendeklarasikan `overrides: ["Provision"]`, yang tetap menyingkirkan
-Provision walaupun wizard itu sendiri di-override. Karena itu
-`nasgoros/android_packages_apps_SetupWizard` (branch `17.0`) adalah fork LineageOS yang
-**hanya menghapus baris override itu**. Salinan berganti nama (`NasgorProvision` dengan
-`stem: "Provision"`) tidak dipakai lagi: Kati menolaknya karena nama modul `Provision` ganda.
+`nasgoros/android_packages_apps_SetupWizard` (branch `17.0`) mendefinisikan
+`LineageSetupWizard` sebagai **modul `phony` tanpa dependensi**, bukan APK.
+Nama modul tetap memenuhi referensi `PRODUCT_PACKAGES` dari base LineageOS,
+namun tidak menghasilkan aplikasi, receiver boot, activity setup/recovery-update,
+partner customization, allowlist privapp, atau RRO setup. Resource branding khusus
+SetupWizard dan target generator-nya juga dihapus. Recovery ROM sendiri tetap ada.
 
-Nama folder harus tetap `Provision`: installer GApps (termasuk LiteGapps) menghapus
-`Provision` berdasarkan nama folder saat memasang setup wizard Google. Dengan nama folder
-lain aplikasi ini tidak terhapus dan Pixel Setup Wizard *force close* (dikonfirmasi user
-2026-10-07).
+AOSP `Provision` tidak di-override. Nama folder tetap `Provision` agar installer
+LiteGapps dapat menghapusnya ketika memasang Google Setup Wizard. Salinan bernama
+`NasgorProvision` tidak dipakai. Pasang GApps sebelum boot pertama untuk menguji
+alur setup bersih; menambahkan GApps setelah provisioning tidak mengulang setup
+secara otomatis. Jangan menghapus data provisioning atau biometric secara paksa.
+
+Penghapusan ini menghilangkan kode setup Lineage dari image berikutnya. Log user
+2026-10-08 juga menunjukkan `MaterialButton` / `Theme.MaterialComponents` pada
+Pixel Setup Wizard; itu belum terbukti berasal dari konflik Lineage. Jangan
+mengklaim crash tema tersebut selesai tanpa clean-flash dan uji paket GApps.
 
 Jangan mengganti mekanisme ini dengan perintah `settings put` yang berjalan pada
 setiap boot, atau menghapus layanan provisioning/backup inti. Saat pengujian nanti,
@@ -63,8 +72,9 @@ juga harus memilih modul itu. Pasangan radio dan backup dikembalikan bersama.
 Tanpa Seedvault, overlay `def_backup_transport` memakai default AOSP
 (`com.android.localtransport/.LocalTransport`), bukan nilai kosong, karena setup
 wizard Google membaca transport aktif saat restore. Jika Seedvault dipulihkan, lepas
-overlay tersebut atau pilih transport melalui pengaturan backup. Jika wizard dipulihkan, kembalikan `overrides: ["Provision"]` di fork SetupWizard
-(atau pakai repo LineageOS lagi); jangan memasang dua pemilik setup.
+overlay tersebut atau pilih transport melalui pengaturan backup. Jika wizard dipulihkan, kembalikan definisi `android_app` beserta
+`overrides: ["Provision"]` di fork SetupWizard (atau pakai repo LineageOS lagi),
+lalu pulihkan target branding jika diperlukan; jangan memasang dua pemilik setup.
 
 Saat pindah Android/ROM, cocokkan ulang nama modul, periksa dependensi `required`
 dan override transitif, lalu periksa kembali implementasi AOSP Provision. Detail
