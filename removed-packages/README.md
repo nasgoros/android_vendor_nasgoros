@@ -33,21 +33,22 @@ AOSP/Android 17 tetap ada. Lihat bagian "Removed crDroid features" di `FEATURES.
 
 ## Boot tanpa wizard
 
-`apps/Provision/Android.bp` mendefinisikan **NasgorProvision** sebagai
-`override_android_app` dari AOSP `Provision`. Kode AOSP menandai
+Boot pertama memakai aplikasi **Provision AOSP asli** (modul `Provision` dari
+`packages/apps/Provision`, dipasang lewat `handheld_system_ext.mk`) di
+`/system_ext/priv-app/Provision/Provision.apk`. Kode AOSP menandai
 `DEVICE_PROVISIONED=1` dan `USER_SETUP_COMPLETE=1`, lalu menonaktifkan activity-nya
-untuk pengguna tersebut. Tidak ditambahkan service pemantau atau wizard baru.
-Konfigurasi memakai package, platform signing dan allowlist AOSP yang sama.
+untuk pengguna tersebut. Tidak ada service pemantau atau wizard baru.
 
-APK-nya dipasang dengan **nama folder bawaan AOSP**: `/system_ext/priv-app/Provision/Provision.apk`
-(`stem: "Provision"`). Installer GApps (termasuk LiteGapps) menghapus `Provision`
-berdasarkan nama folder saat memasang setup wizard Google. Dengan nama folder lain
-(`NasgorProvision/`) aplikasi ini tidak terhapus dan Pixel Setup Wizard *force close*
-(dikonfirmasi user 2026-10-07: wizard berjalan normal setelah folder itu dihapus).
+LineageSetupWizard mendeklarasikan `overrides: ["Provision"]`, yang tetap menyingkirkan
+Provision walaupun wizard itu sendiri di-override. Karena itu
+`nasgoros/android_packages_apps_SetupWizard` (branch `17.0`) adalah fork LineageOS yang
+**hanya menghapus baris override itu**. Salinan berganti nama (`NasgorProvision` dengan
+`stem: "Provision"`) tidak dipakai lagi: Kati menolaknya karena nama modul `Provision` ganda.
 
-Nama modul khusus diperlukan karena LineageSetupWizard mendeklarasikan override
-terhadap `Provision`. Menambahkan `Provision` biasa sambil meng-override wizard
-dapat membuat keduanya tersaring oleh pemilihan modul Android.
+Nama folder harus tetap `Provision`: installer GApps (termasuk LiteGapps) menghapus
+`Provision` berdasarkan nama folder saat memasang setup wizard Google. Dengan nama folder
+lain aplikasi ini tidak terhapus dan Pixel Setup Wizard *force close* (dikonfirmasi user
+2026-10-07).
 
 Jangan mengganti mekanisme ini dengan perintah `settings put` yang berjalan pada
 setiap boot, atau menghapus layanan provisioning/backup inti. Saat pengujian nanti,
@@ -62,8 +63,8 @@ juga harus memilih modul itu. Pasangan radio dan backup dikembalikan bersama.
 Tanpa Seedvault, overlay `def_backup_transport` memakai default AOSP
 (`com.android.localtransport/.LocalTransport`), bukan nilai kosong, karena setup
 wizard Google membaca transport aktif saat restore. Jika Seedvault dipulihkan, lepas
-overlay tersebut atau pilih transport melalui pengaturan backup. Jika wizard dipulihkan, hapus `NasgorProvision` dari
-produk dan dari daftar override yang berlaku; jangan memasang dua pemilik setup.
+overlay tersebut atau pilih transport melalui pengaturan backup. Jika wizard dipulihkan, kembalikan `overrides: ["Provision"]` di fork SetupWizard
+(atau pakai repo LineageOS lagi); jangan memasang dua pemilik setup.
 
 Saat pindah Android/ROM, cocokkan ulang nama modul, periksa dependensi `required`
 dan override transitif, lalu periksa kembali implementasi AOSP Provision. Detail

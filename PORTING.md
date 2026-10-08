@@ -32,8 +32,9 @@ berfungsi. Info GPU saat ini berisi renderer, vendor dan OpenGL ES, bukan beban 
 
 Pilihan terbaru menghapus aplikasi tambahan termasuk Seedvault, AudioFX dan
 Lineage Setup Wizard. Detail dan cara mengembalikannya ada di
-[removed-packages/README.md](removed-packages/README.md). `NasgorProvision` memakai
-AOSP Provision untuk menandai setup selesai lalu menonaktifkan activity-nya.
+[removed-packages/README.md](removed-packages/README.md). AOSP `Provision` asli
+menandai setup selesai lalu menonaktifkan activity-nya. Fork `nasgoros/android_packages_apps_SetupWizard`
+hanya menghapus `overrides: ["Provision"]` dari LineageSetupWizard.
 Periksa ulang perilaku per-user dan override transitif saat ganti base Android.
 Layanan backup inti, kamera, file picker, WebView dan provider crDroid tetap ada.
 

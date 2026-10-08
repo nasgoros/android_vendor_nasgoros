@@ -93,8 +93,9 @@ The minimal selection additionally excludes `Seedvault`, `LocalContactsBackup`,
 and `LineageSetupWizard`. Camera, file manager, PDF printing, WebView and the
 selected crDroid feature providers remain installed. See
 [removed-packages/README.md](removed-packages/README.md) for effects, first-boot
-provisioning, and restoration steps; restoring the wizard requires removing
-`NasgorProvision` as well.
+provisioning, and restoration steps. First boot uses the stock AOSP `Provision`
+app; the `nasgoros/android_packages_apps_SetupWizard` fork only drops
+LineageSetupWizard's `overrides: ["Provision"]` (restore it if the wizard returns).
 
 ## Settings › NasgorOS
 
