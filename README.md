@@ -25,7 +25,7 @@ every LineageOS device tree builds nasgorOS without modification.
 | `overlay/branding/` | Generated overlays renaming LineageOS → NasgorOS |
 | [`removed-packages/`](removed-packages/README.md) | Minimal apps and first boot without Lineage Setup Wizard |
 | `apps/LoraBrowserLite/`, `apps/Zimux/` | Signed browser and file manager/terminal prebuilts, native libraries and update records |
-| `apps/Provision/` | Reuses AOSP one-time provisioning; no welcome UI |
+| AOSP `packages/apps/Provision` | One-time provisioning without a welcome UI; replaced by the GApps installer |
 | `tools/gen-branding-overlay.py` | Regenerates `overlay/branding` from the source tree |
 | `build/tasks/nasgoros.mk` | `mka nasgoros` target producing `NasgorOS-17.0-<date>-<type>-<device>.zip` and `NasgorOS-Recovery-17.0-<date>.img` |
 

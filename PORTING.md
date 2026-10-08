@@ -12,7 +12,7 @@ sudah dibuat atau diuji. Jangan mengubah branch `17.0` untuk mengejar Android 18
 | Wallpaper Senja | `wallpapers/` | `config/features/wallpaper.mk` | Rendah; WallpaperManager, lokasi `/product/etc/wallpapers`, properti `ro.config.wallpaper` |
 | Info FPS/CPU/GPU/RAM dan overlay | repo `android_packages_apps_NasgorSettings`, folder `performance/`, manifest, resource dan allowlist | `config/features/settings.mk` | Sedang; API platform FPS/task/window, SettingsLib, platform signing dan izin privileged |
 | Hub pengaturan sistem tambahan | repo NasgorSettings, `LineagePartsTiles` dan XML hub | modul Settings yang sama | Sedang; membutuhkan `LineageParts` dan `LineagePreferenceLib` |
-| Profil aplikasi minimal + boot tanpa wizard | `removed-packages/`, `apps/Provision/`, `overlay/minimal/` | `config/features/minimal-apps.mk` | Rendah–sedang; override modul AOSP Provision, allowlist, default backup dan penyelesaian setup tiap pengguna |
+| Profil aplikasi minimal + boot tanpa wizard | `removed-packages/`, fork SetupWizard, AOSP Provision, `overlay/minimal/` | `config/features/minimal-apps.mk` | Rendah–sedang; modul phony SetupWizard, AOSP Provision, default backup dan penyelesaian setup tiap pengguna |
 | UI About | Settings `NasgorAboutHeaderPreference`, layout, palette terang/gelap; crDroid `NasgorAbout` | patch Settings dan crDroid Settings | Sedang; periksa XML dan binding Catalyst, jangan menghapus controller/info legal bawaan |
 | Seluruh kustomisasi crDroid Settings | manifest terpisah, `ports/crdroid/sources.lock.json`, `patches/` | `config/crdroid.mk`, `overlay/crdroid/` | Tinggi; versi Settings, framework, SystemUI, SDK, native, sepolicy dan penyedia fitur harus cocok |
 
@@ -34,7 +34,10 @@ Pilihan terbaru menghapus aplikasi tambahan termasuk Seedvault, AudioFX dan
 Lineage Setup Wizard. Detail dan cara mengembalikannya ada di
 [removed-packages/README.md](removed-packages/README.md). AOSP `Provision` asli
 menandai setup selesai lalu menonaktifkan activity-nya. Fork `nasgoros/android_packages_apps_SetupWizard`
-hanya menghapus `overrides: ["Provision"]` dari LineageSetupWizard.
+mengganti `LineageSetupWizard` dengan `phony` kosong tanpa APK/dependensi.
+Saat upgrade base, pastikan modul tetap tanpa `android_app`, resource/allowlist setup
+tidak dihasilkan, dan paket `org.lineageos.setupwizard` tidak ada di target-files.
+AOSP Provision memakai nama folder aslinya agar installer GApps dapat menggantinya.
 Periksa ulang perilaku per-user dan override transitif saat ganti base Android.
 Layanan backup inti, kamera, file picker, WebView dan provider crDroid tetap ada.
 

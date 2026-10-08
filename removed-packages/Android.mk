@@ -8,6 +8,8 @@ LOCAL_PATH := $(call my-dir)
 
 # Placeholder module whose only job is to override (= keep out of the build)
 # LineageOS/AOSP apps that NasgorOS does not ship. See FEATURES.md.
+# Keep LineageSetupWizard here as a fallback for trees with the older APK
+# definition; the current NasgorOS SetupWizard fork supplies only an empty phony.
 include $(CLEAR_VARS)
 LOCAL_MODULE := NasgorRemovePackages
 LOCAL_MODULE_CLASS := APPS
