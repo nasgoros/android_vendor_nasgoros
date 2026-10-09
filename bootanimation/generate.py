@@ -90,14 +90,14 @@ class Renderer:
             draw.line(points, fill=(*blend(CREAM, alpha), 255),
                       width=3 * SCALE, joint="curve")
 
-        # Exact requested wordmark: lowercase, with a real space before os.
-        label = "nasgor os"
+        # Exact requested wordmark, with a real space before OS.
+        label = "Nasgor OS"
         x = 540 - draw.textlength(label, font=self.font) / SCALE / 2
         y = 635 + 18 * (1 - text_t)
-        draw.text(self.point(x, y), "nasgor ", font=self.font, anchor="lt",
+        draw.text(self.point(x, y), "Nasgor ", font=self.font, anchor="lt",
                   fill=(*blend(CREAM, text_t), 255))
-        prefix = draw.textlength("nasgor ", font=self.font) / SCALE
-        draw.text(self.point(x + prefix, y), "os", font=self.font, anchor="lt",
+        prefix = draw.textlength("Nasgor ", font=self.font) / SCALE
+        draw.text(self.point(x + prefix, y), "OS", font=self.font, anchor="lt",
                   fill=(*blend(ORANGE, text_t), 255))
 
         # Indeterminate capsule: all terms are periodic, with no reset flash.
@@ -199,7 +199,7 @@ def write_previews(archive_path, directory):
                    duration=durations, loop=0, optimize=False, disposal=2)
     (directory / "preview.html").write_text('''<!doctype html>
 <html lang="id"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>nasgor os · Boot animation</title>
+<title>Nasgor OS · Boot animation</title>
 <style>
   *{box-sizing:border-box}body{margin:0;min-height:100svh;background:#11110f;color:#fff5e1;
   font:15px system-ui,sans-serif;display:grid;place-items:center;padding:32px 20px}
@@ -211,9 +211,9 @@ def write_previews(archive_path, directory):
   @media(prefers-reduced-motion:reduce){.motion{display:none}}
   @media(prefers-reduced-motion:no-preference){.still{display:none}}
 </style>
-<main><h1>nasgor os</h1><p>Sepiring semangat untuk awal yang baru.</p>
+<main><h1>Nasgor OS</h1><p>Sepiring semangat untuk awal yang baru.</p>
 <div class="screen"><img class="motion" src="preview.gif" alt="Logo nasi goreng, uap bergerak, dan loading oranye">
-<img class="still" src="preview.png" alt="Logo nasi goreng dan tulisan nasgor os"></div>
+<img class="still" src="preview.png" alt="Logo nasi goreng dan tulisan Nasgor OS"></div>
 <footer>Pratinjau boot animation · <a href="../bootanimation.zip" download>Unduh ZIP</a><br>
 Di perangkat, loading berulang sampai boot selesai.</footer></main></html>
 ''', encoding="utf-8")
