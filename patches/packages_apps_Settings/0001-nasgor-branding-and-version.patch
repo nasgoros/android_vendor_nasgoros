@@ -1722,10 +1722,10 @@ index 0000000000..ed69dea779
 +</LinearLayout>
 diff --git a/res/values-in/nasgor_about.xml b/res/values-in/nasgor_about.xml
 new file mode 100644
-index 0000000000..1fbfab2d82
+index 0000000000..f319505c40
 --- /dev/null
 +++ b/res/values-in/nasgor_about.xml
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,36 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-License-Identifier: Apache-2.0 -->
 +<resources>
@@ -1752,6 +1752,10 @@ index 0000000000..1fbfab2d82
 +    <string name="nasgor_about_kernel_label">Kernel</string>
 +    <string name="nasgor_about_available">%1$s tersedia</string>
 +    <string name="nasgor_about_max_clock">Maks. %1$s</string>
++    <string name="nasgor_about_cpu_cluster">%1$d× %2$s</string>
++    <string name="nasgor_about_core_prime">Utama</string>
++    <string name="nasgor_about_core_performance">Performa</string>
++    <string name="nasgor_about_core_efficiency">Efisiensi</string>
 +    <string name="nasgor_about_clock_unavailable">Clock tidak tersedia</string>
 +    <string name="nasgor_about_zram_disabled">Nonaktif</string>
 +    <string name="nasgor_about_zram_configured">Kapasitas swap terkompresi</string>
@@ -1778,10 +1782,10 @@ index 0000000000..cb6f0de4fd
 +</resources>
 diff --git a/res/values/nasgor_about.xml b/res/values/nasgor_about.xml
 new file mode 100644
-index 0000000000..30d50f8246
+index 0000000000..bfc17b0639
 --- /dev/null
 +++ b/res/values/nasgor_about.xml
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,47 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- SPDX-FileCopyrightText: 2026 The nasgorOS Project
 +     SPDX-License-Identifier: Apache-2.0 -->
@@ -1819,6 +1823,10 @@ index 0000000000..30d50f8246
 +    <string name="nasgor_about_kernel_label">Kernel</string>
 +    <string name="nasgor_about_available">%1$s available</string>
 +    <string name="nasgor_about_max_clock">Max. %1$s</string>
++    <string name="nasgor_about_cpu_cluster">%1$d× %2$s</string>
++    <string name="nasgor_about_core_prime">Prime</string>
++    <string name="nasgor_about_core_performance">Performance</string>
++    <string name="nasgor_about_core_efficiency">Efficiency</string>
 +    <string name="nasgor_about_clock_unavailable">Clock unavailable</string>
 +    <string name="nasgor_about_zram_disabled">Inactive</string>
 +    <string name="nasgor_about_zram_configured">Compressed swap capacity</string>
@@ -1904,10 +1912,10 @@ index 2387deb970..5803c0e3f2 100644
          <!--IP address -->
 diff --git a/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java b/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java
 new file mode 100644
-index 0000000000..4d040ee776
+index 0000000000..bc9abc3287
 --- /dev/null
 +++ b/src/com/android/settings/deviceinfo/aboutphone/NasgorAboutHeaderPreference.java
-@@ -0,0 +1,232 @@
+@@ -0,0 +1,266 @@
 +/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
 + * SPDX-License-Identifier: Apache-2.0 */
 +package com.android.settings.deviceinfo.aboutphone;
@@ -2021,7 +2029,8 @@ index 0000000000..4d040ee776
 +                R.string.nasgor_hw_cpu,
 +                info.cpuCoreCount > 0 ? context.getString(R.string.nasgor_hw_cores,
 +                        info.cpuCoreCount) : unavailable,
-+                maxClock(context, info.cpuMaxKhz * 1000), -1);
++                info.cpuClusters.isEmpty() ? maxClock(context, info.cpuMaxKhz * 1000)
++                        : clusters(context, info.cpuClusters), -1);
 +        tile(holder, R.id.nasgor_card_gpu, R.drawable.nasgor_about_ic_gpu,
 +                R.string.nasgor_hw_gpu, value(info.gpu, unavailable),
 +                maxClock(context, info.gpuMaxHz), -1);
@@ -2114,6 +2123,39 @@ index 0000000000..4d040ee776
 +                ? String.format(Locale.getDefault(), "%.2f GHz", hz / 1_000_000_000.0)
 +                : String.format(Locale.getDefault(), "%.0f MHz", hz / 1_000_000.0);
 +        return context.getString(R.string.nasgor_about_max_clock, clock);
++    }
++
++    /** One line per frequency cluster, e.g. "2× 2.0 GHz · Performance". */
++    private static String clusters(Context context, java.util.List<long[]> clusters) {
++        StringBuilder text = new StringBuilder();
++        for (int i = 0; i < clusters.size(); i++) {
++            long[] cluster = clusters.get(i);
++            String line = context.getString(R.string.nasgor_about_cpu_cluster, cluster[0],
++                    ghz(cluster[1]));
++            int role = coreRole(i, clusters.size());
++            if (role != 0) line = line + " · " + context.getString(role);
++            if (text.length() > 0) text.append('\n');
++            text.append(line);
++        }
++        return text.toString();
++    }
++
++    /** Fastest cluster first: one cluster has no role, the slowest is efficiency. */
++    private static int coreRole(int index, int count) {
++        if (count < 2) return 0;
++        if (index == count - 1) return R.string.nasgor_about_core_efficiency;
++        if (count >= 3 && index == 0) return R.string.nasgor_about_core_prime;
++        return R.string.nasgor_about_core_performance;
++    }
++
++    /** 2000000 kHz -> "2.0 GHz", 2050000 kHz -> "2.05 GHz", 850000 kHz -> "850 MHz". */
++    private static String ghz(long khz) {
++        if (khz < 1_000_000) {
++            return String.format(Locale.getDefault(), "%d MHz", Math.round(khz / 1000.0));
++        }
++        String value = String.format(Locale.getDefault(), "%.2f", khz / 1_000_000.0);
++        if (value.endsWith("0")) value = value.substring(0, value.length() - 1);
++        return value + " GHz";
 +    }
 +
 +    private static int usedPercent(long total, long available) {
@@ -2236,10 +2278,10 @@ index 0000000000..67bfdd4cf6
 +}
 diff --git a/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareInfo.java b/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareInfo.java
 new file mode 100644
-index 0000000000..5091f114f2
+index 0000000000..23bad7b652
 --- /dev/null
 +++ b/src/com/android/settings/deviceinfo/aboutphone/NasgorHardwareInfo.java
-@@ -0,0 +1,337 @@
+@@ -0,0 +1,343 @@
 +/* SPDX-FileCopyrightText: 2026 The nasgorOS Project
 + * SPDX-License-Identifier: Apache-2.0 */
 +package com.android.settings.deviceinfo.aboutphone;
@@ -2279,6 +2321,8 @@ index 0000000000..5091f114f2
 +
 +    int cpuCoreCount;
 +    long cpuMaxKhz, gpuMaxHz;
++    /** {core count, max kHz} per frequency cluster, fastest first. */
++    final List<long[]> cpuClusters = new ArrayList<>();
 +    long memoryTotal, memoryAvailable, storageTotal, storageAvailable;
 +    long zramCapacity = -1, zramPhysical = -1;
 +    Boolean zramActive;
@@ -2364,10 +2408,12 @@ index 0000000000..5091f114f2
 +        List<String> clocks = new ArrayList<>();
 +        Map<String, Integer> counts = new LinkedHashMap<>();
 +        Map<String, String> clockFor = new LinkedHashMap<>();
++        Map<Long, Integer> coresAtMax = new LinkedHashMap<>();
 +        for (int i : cpuIds) {
 +            long max = readKhz(i, "cpuinfo_max_freq");
 +            long min = readKhz(i, "cpuinfo_min_freq");
 +            info.cpuMaxKhz = Math.max(info.cpuMaxKhz, max);
++            if (max > 0) coresAtMax.merge(max, 1, Integer::sum);
 +            String name = corePart.getOrDefault(i, "");
 +            String key = name + "@" + max;
 +            counts.merge(key, 1, Integer::sum);
@@ -2380,6 +2426,8 @@ index 0000000000..5091f114f2
 +            clusters.add(clock.isEmpty() ? label : label + " @ " + maxOnly(clock));
 +            if (!clock.isEmpty()) clocks.add(e.getValue() + "× " + clock);
 +        }
++        coresAtMax.forEach((max, count) -> info.cpuClusters.add(new long[] {count, max}));
++        info.cpuClusters.sort((a, b) -> Long.compare(b[1], a[1]));
 +        info.cpu = context.getString(R.string.nasgor_hw_cores, cores) + " · "
 +                + String.join(" + ", clusters);
 +        info.cpuClock = String.join("\n", clocks);
