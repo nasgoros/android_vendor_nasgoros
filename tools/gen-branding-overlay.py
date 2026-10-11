@@ -25,6 +25,10 @@ TARGETS = {
         "lineage_api_level",
         "lineageos_system_label",
     ],
+    "packages/apps/SetupWizard/app/src/main/res": [
+        "os_name",                  # "Welcome to %s"
+        "setup_services",
+    ],
     "packages/apps/LineageParts/res": [
         "lineageparts_title",
         "privacy_settings_category",

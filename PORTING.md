@@ -35,8 +35,10 @@ Lineage Setup Wizard. Detail dan cara mengembalikannya ada di
 [removed-packages/README.md](removed-packages/README.md). AOSP `Provision` asli
 menandai setup selesai lalu menonaktifkan activity-nya. Fork `nasgoros/android_packages_apps_SetupWizard`
 mengganti `LineageSetupWizard` dengan `phony` kosong tanpa APK/dependensi.
-Saat upgrade base, pastikan modul tetap tanpa `android_app`, resource/allowlist setup
+Saat upgrade base, pastikan modul tetap tanpa `android_app`, RRO/allowlist setup
 tidak dihasilkan, dan paket `org.lineageos.setupwizard` tidak ada di target-files.
+Source overlay branding SetupWizard (62 XML) dan target generator tetap tersedia;
+keberadaannya tidak mengaktifkan aplikasi atau menghasilkan RRO dengan modul `phony`.
 AOSP Provision memakai nama folder aslinya agar installer GApps dapat menggantinya.
 Periksa ulang perilaku per-user dan override transitif saat ganti base Android.
 Layanan backup inti, kamera, file picker, WebView dan provider crDroid tetap ada.
