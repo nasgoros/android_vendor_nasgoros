@@ -24,8 +24,8 @@
     "patch": "packages_apps_Settings/0001-nasgor-branding-and-version.patch"
   },
   {
-    "path": "packages/apps/Settings",
-    "patch": "packages_apps_Settings/0002-hide-lineage-contributors-in-about.patch"
+    "path": "packages/apps/LineageParts",
+    "patch": "packages_apps_LineageParts/0001-remove-contributors-cloud.patch"
   },
   {
     "path": "vendor/addons",

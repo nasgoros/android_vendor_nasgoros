@@ -32,8 +32,8 @@ import as Apache-2.0.
 
 ## Sources and integration
 
-- `sources.lock.json`: 24 pinned repositories (21 crDroid dependencies plus the
-  Lineage overlay, wallpaper and Soong sources), source paths and reasons.
+- `sources.lock.json`: 25 pinned repositories (21 crDroid dependencies plus the
+  LineageParts, overlay, wallpaper and Soong sources), source paths and reasons.
 - `config/crdroid.mk`: required feature providers and font/clock/navigation
   resources. It deliberately selects resources without inheriting the whole
   `vendor/addons/config.mk` product.
@@ -64,6 +64,21 @@ build container with the build's JDK 21, and the complete-ROM build was resumed.
 
 Lineage Soong retains its boot JAR package check, with the upstream LMODroid
 namespace allowance for the LMOFreeform AIDL callbacks used by the framework.
+
+LineageParts retains its hardware settings. Its Contributors Cloud feature is
+removed by `packages_apps_LineageParts/0001-remove-contributors-cloud.patch`,
+including the About entry, search provider, database and boot-time extraction.
+The earlier Settings-only visibility filter is retired. Existing checkouts should
+reverse that filter before switching to the new series:
+
+```bash
+git -C vendor/nasgoros show cc6a61e:patches/packages_apps_Settings/0002-hide-lineage-contributors-in-about.patch > /tmp/nasgor-retired-contributors-filter.patch
+git -C packages/apps/Settings apply --reverse --check /tmp/nasgor-retired-contributors-filter.patch
+git -C packages/apps/Settings apply --reverse /tmp/nasgor-retired-contributors-filter.patch
+```
+
+Run this only on a checkout with that filter applied; fresh checkouts do not need
+the migration. A shallow vendor checkout may need to fetch commit `cc6a61e` first.
 
 The upstream addons bootanimation module is excluded by a patch because it
 would duplicate Lineage's module. NasgorOS' existing `TARGET_BOOTANIMATION`

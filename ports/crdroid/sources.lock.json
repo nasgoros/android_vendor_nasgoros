@@ -3,6 +3,14 @@
   "scope": "crDroid Settings, supporting frameworks and feature providers",
   "projects": [
     {
+      "path": "packages/apps/LineageParts",
+      "repository": "LineageOS/android_packages_apps_LineageParts",
+      "revision": "9ca30fbbf4aa0d3cc2afa750ba56eaf65a5e4712",
+      "branch": "lineage-24.0",
+      "local_clone": "android_packages_apps_LineageParts",
+      "reason": "Lineage hardware settings with Contributors Cloud removed by the NasgorOS patch"
+    },
+    {
       "path": "frameworks/av",
       "repository": "crdroidandroid/android_frameworks_av",
       "revision": "9bc64d559bcfb2f7992c68cc93fd41f15fee9936",

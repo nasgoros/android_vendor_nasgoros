@@ -46,11 +46,14 @@ Layanan backup inti, kamera, file picker, WebView dan provider crDroid tetap ada
 UI About memakai satu `NasgorAboutHeaderPreference` untuk About phone, versi
 firmware dan tab About NasgorOS. Header ringkas menyandingkan logo dan nama,
 badge versi, model dan chipset.
-Patch `packages_apps_Settings/0002-hide-lineage-contributors-in-about.patch`
-menyembunyikan entri kontributor Lineage yang disisipkan lewat metadata activity
-LineageParts. Filter `MyDeviceInfoFragment.displayTile()` mencocokkan package dan
-component tersebut; periksa nama alias saat upgrade base. Informasi lisensi dan
-entri About lainnya tetap tersedia. Jalur XML dan Catalyst memakai fragment ini.
+Patch `packages_apps_LineageParts/0001-remove-contributors-cloud.patch` menghapus
+fitur Contributors Cloud: alias activity About, katalog pencarian, kelas Java,
+layout/menu, string terjemahan, ikon khusus, database dan pemuatan saat boot.
+Filter visibilitas Settings yang lama sudah dilepas. LineageParts dipin di manifest
+dan `ports/crdroid/sources.lock.json`; saat upgrade, periksa ulang referensi fitur
+dan terapkan patch sebelum build. Informasi lisensi serta fitur hardware lainnya
+tetap tersedia. Database yang pernah disalin ke data aplikasi pada ROM lama tidak
+dihapus oleh patch source ini, tetapi tidak lagi dibaca atau disertakan dalam APK.
 Nama maintainer tampil sebagai badge berikon di kartu utama, dari properti
 `ro.nasgoros.maintainer` yang diatur lewat `NASGOROS_MAINTAINER` di produk/env
 build (default `wahyu6070`), dengan fallback overlay lalu tidak diketahui.
