@@ -46,13 +46,9 @@ untuk pengguna tersebut. Tidak ada service pemantau atau wizard baru.
 Nama modul tetap memenuhi referensi `PRODUCT_PACKAGES` dari base LineageOS,
 namun tidak menghasilkan aplikasi, receiver boot, activity setup/recovery-update,
 partner customization, allowlist privapp, atau RRO setup. Sebanyak 62 file resource
-branding SetupWizard beserta target generator-nya dipertahankan di source. Isinya
-hanya string `os_name` dan `setup_services`; resource ini tidak menghasilkan APK
-atau RRO selama modul SetupWizard tetap `phony`. Recovery ROM sendiri tetap ada.
-
-Resource branding dipulihkan pada 2026-10-12 atas permintaan user untuk menelusuri
-regresi setup. Pemulihan source ini belum membuktikan perbaikan crash Android Setup
-di halaman Wi-Fi; diperlukan log crash terbaru dan pengujian di perangkat.
+branding SetupWizard beserta target generator-nya dihapus. Recovery ROM sendiri
+tetap ada. Penghapusan resource branding ini bukan perbaikan crash Google Setup
+Wizard; aplikasi dan paket GApps perlu didiagnosis berdasarkan log crash-nya.
 
 AOSP `Provision` tidak di-override. Nama folder tetap `Provision` agar installer
 LiteGapps dapat menghapusnya ketika memasang Google Setup Wizard. Salinan bernama
@@ -80,7 +76,7 @@ Tanpa Seedvault, overlay `def_backup_transport` memakai default AOSP
 wizard Google membaca transport aktif saat restore. Jika Seedvault dipulihkan, lepas
 overlay tersebut atau pilih transport melalui pengaturan backup. Jika wizard dipulihkan, kembalikan definisi `android_app` beserta
 `overrides: ["Provision"]` di fork SetupWizard (atau pakai repo LineageOS lagi),
-target branding sudah tersedia; jangan memasang dua pemilik setup.
+lalu pulihkan target branding jika diperlukan; jangan memasang dua pemilik setup.
 
 Saat pindah Android/ROM, cocokkan ulang nama modul, periksa dependensi `required`
 dan override transitif, lalu periksa kembali implementasi AOSP Provision. Detail

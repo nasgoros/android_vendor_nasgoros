@@ -37,8 +37,8 @@ menandai setup selesai lalu menonaktifkan activity-nya. Fork `nasgoros/android_p
 mengganti `LineageSetupWizard` dengan `phony` kosong tanpa APK/dependensi.
 Saat upgrade base, pastikan modul tetap tanpa `android_app`, RRO/allowlist setup
 tidak dihasilkan, dan paket `org.lineageos.setupwizard` tidak ada di target-files.
-Source overlay branding SetupWizard (62 XML) dan target generator tetap tersedia;
-keberadaannya tidak mengaktifkan aplikasi atau menghasilkan RRO dengan modul `phony`.
+Source overlay branding SetupWizard (62 XML) dan target generator dihapus karena
+aplikasinya tidak disertakan. Jika wizard dipulihkan, evaluasi ulang branding-nya.
 AOSP Provision memakai nama folder aslinya agar installer GApps dapat menggantinya.
 Periksa ulang perilaku per-user dan override transitif saat ganti base Android.
 Layanan backup inti, kamera, file picker, WebView dan provider crDroid tetap ada.
