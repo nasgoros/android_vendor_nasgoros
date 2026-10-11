@@ -24,6 +24,10 @@
     "patch": "packages_apps_Settings/0001-nasgor-branding-and-version.patch"
   },
   {
+    "path": "packages/apps/Settings",
+    "patch": "packages_apps_Settings/0002-hide-lineage-contributors-in-about.patch"
+  },
+  {
     "path": "vendor/addons",
     "patch": "vendor_addons/0001-preserve-nasgor-bootanimation.patch"
   },

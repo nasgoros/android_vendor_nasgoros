@@ -1,0 +1,30 @@
+diff --git a/src/com/android/settings/deviceinfo/aboutphone/MyDeviceInfoFragment.java b/src/com/android/settings/deviceinfo/aboutphone/MyDeviceInfoFragment.java
+index 6da756c313..c43f097d20 100644
+--- a/src/com/android/settings/deviceinfo/aboutphone/MyDeviceInfoFragment.java
++++ b/src/com/android/settings/deviceinfo/aboutphone/MyDeviceInfoFragment.java
+@@ -56,6 +56,7 @@ import com.android.settings.search.BaseSearchIndexProvider;
+ import com.android.settings.widget.EntityHeaderController;
+ import com.android.settingslib.core.AbstractPreferenceController;
+ import com.android.settingslib.core.lifecycle.Lifecycle;
++import com.android.settingslib.drawer.Tile;
+ import com.android.settingslib.search.SearchIndexable;
+ import com.android.settingslib.widget.LayoutPreference;
+ 
+@@ -129,6 +130,17 @@ public class MyDeviceInfoFragment extends DashboardFragment
+         return R.xml.my_device_info;
+     }
+ 
++    @Override
++    protected boolean displayTile(Tile tile) {
++        if (!super.displayTile(tile)) {
++            return false;
++        }
++        // LineageParts injects this entry through activity metadata, not the About XML.
++        return !("org.lineageos.lineageparts".equals(tile.getPackageName())
++                && "org.lineageos.lineageparts.contributors.ContributorsCloudFragment"
++                        .equals(tile.getComponentName()));
++    }
++
+     @Override
+     protected List<AbstractPreferenceController> createPreferenceControllers(Context context) {
+         return buildPreferenceControllers(context, this /* fragment */, getSettingsLifecycle());
