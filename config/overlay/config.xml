@@ -40,6 +40,7 @@
     <overlay package="io.chaldeaprjkt.gamespace.auto_generated_rro_product__" enabled="true" mutable="false" />
     <overlay package="org.lineageos.lineageparts.auto_generated_rro_product__" enabled="true" mutable="false" />
     <overlay package="org.lineageos.lineagesettings.auto_generated_rro_product__" enabled="true" mutable="false" />
+    <overlay package="org.lineageos.settings.auto_generated_rro_product__" enabled="true" mutable="false" />
     <overlay package="org.omnirom.omnistyle.auto_generated_rro_product__" enabled="true" mutable="false" />
     <overlay package="org.protonaosp.deviceconfig.auto_generated_rro_product__" enabled="true" mutable="false" />
     <overlay package="com.android.carrierconfig.overlay.mssi" enabled="true" mutable="false" />
